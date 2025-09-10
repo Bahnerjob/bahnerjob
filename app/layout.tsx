@@ -1,6 +1,10 @@
 import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
+import { Inter, Manrope } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
 
 export const metadata = {
   title: "Bahnerjob",
@@ -9,7 +13,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de">
+    <html lang="de" className={`${inter.variable} ${manrope.variable}`}>
       <body>
         <SiteHeader />
         <main className="container section fade-in">{children}</main>
