@@ -1,0 +1,151 @@
+From 1234567890abcdef1234567890abcdef12345678 Mon Sep 17 00:00:00 2001
+From: Dieter <dieter@example.com>
+Date: Wed, 10 Sep 2025 17:00:00 +0200
+Subject: fix: Bahnerjob Fix Pack 2025-09-10 (Form-Hardening, Pricing, NewsRail, globals.css)
+
+---
+ app/globals.css            | 106 ++++++++++++++++++++++++++++++++++++++++----
+ app/jobs/new/page.tsx      |  17 +++++++
+ app/jobs/new/view.tsx      | 221 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ app/pricing/page.tsx       | 103 +++++++++++++++++++++++++++++++++++++
+ components/NewsRail.tsx    |  37 ++++++++++++++
+ .env.example               |  18 +++++++
+ 6 files changed, 494 insertions(+), 8 deletions(-)
+ create mode 100644 app/jobs/new/page.tsx
+ create mode 100644 app/jobs/new/view.tsx
+ create mode 100644 app/pricing/page.tsx
+ create mode 100644 components/NewsRail.tsx
+ create mode 100644 .env.example
+
+diff --git a/app/globals.css b/app/globals.css
+index e69de29..abc1234 100644
+--- a/app/globals.css
++++ b/app/globals.css
+@@ -0,0 +1,98 @@
++@tailwind base;
++@tailwind components;
++@tailwind utilities;
++
++/* === Global Dark Theme === */
++:root {
++  --color-bg: #0a0a0a;
++  --color-fg: #fafafa;
++  --color-muted: #9ca3af;
++  --color-accent: #f59e0b; /* amber-500 */
++}
++
++html, body {
++  height: 100%;
++  background: var(--color-bg);
++  color: var(--color-fg);
++  font-family: var(--font-inter), sans-serif;
++}
++
++a {
++  color: inherit;
++  text-decoration: none;
++}
++
++h1, h2, h3, h4 {
++  font-family: var(--font-inter), sans-serif;
++  font-weight: 600;
++}
++
++/* === Layout Utilities === */
++.container {
++  max-width: 1280px;
++  margin: 0 auto;
++  padding: 0 1rem;
++}
++
++.btn {
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  border-radius: 0.5rem;
++  font-weight: 500;
++  transition: background 0.15s;
++}
++
++.btn-accent {
++  background: var(--color-accent);
++  color: #000;
++}
++
++.input, .textarea, select {
++  background: #0d0d0d;
++  border: 1px solid #1f1f1f;
++  border-radius: 0.5rem;
++  padding: 0.5rem 0.75rem;
++  color: var(--color-fg);
++}
++
++.input:focus, .textarea:focus, select:focus {
++  outline: none;
++  border-color: var(--color-accent);
++}
++
++.label {
++  font-size: 0.9rem;
++  color: var(--color-muted);
++  font-weight: 500;
++}
++
++.card {
++  border-radius: 0.75rem;
++  border: 1px solid #1f1f1f;
++  background: rgba(15,15,15,0.5);
++  padding: 1rem;
++}
++
++/* === Header/Footer === */
++header {
++  border-bottom: 1px solid #1f1f1f;
++  background: #0d0d0d;
++}
++
++footer {
++  border-top: 1px solid #1f1f1f;
++  background: #0d0d0d;
++  color: var(--color-muted);
++  font-size: 0.85rem;
++  padding: 2rem 1rem;
++  text-align: center;
++}
++
++/* === Bahnerjob Fix Pack 2025-09-10 === */
++.bj-new .form-grid,
++.bj-new .row-2 { align-items: start; }
++.bj-new .label {
++  white-space: nowrap;
++  overflow: hidden;
++  text-overflow: ellipsis;
++  font-size: .92rem;
++}
++.bj-new .input,
++.bj-new select,
++.bj-new .textarea,
++.bj-new .field { min-width: 0; }
++.bj-new .counter { opacity: .8; }
++.bj-new .row-end { margin-top: 6px; }
++.card { will-change: transform; }
++.btn:hover { background: rgba(255, 255, 255, 0.08); }
+diff --git a/.env.example b/.env.example
+new file mode 100644
+--- /dev/null
++++ b/.env.example
+@@ -0,0 +1,18 @@
++# === Bahnerjob Example ENV ===
++
++# Mindestens EINS davon setzen
++NEXT_PUBLIC_PRICE_ID_BASIC=price_...
++NEXT_PUBLIC_PRICE_ID_FEATURED=price_...
++NEXT_PUBLIC_PRICE_ID_BOOST=price_...
++
++# Alternativ nur ein globaler Preis
++NEXT_PUBLIC_STRIPE_PRICE_ID=price_...
++
++NEXT_PUBLIC_SITE_URL=https://bahnerjob.de
++
++STRIPE_SECRET_KEY=sk_live_...
++STRIPE_WEBHOOK_SECRET=whsec_...
