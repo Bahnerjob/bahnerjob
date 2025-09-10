@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -30,7 +30,7 @@ const PACKAGES: { key: "basic" | "featured" | "boost"; label: string; desc: stri
   { key: "boost",    label: "Boost",    desc: "Alles aus Featured + 45 Tage Laufzeit & maximale Prominenz" }
 ];
 
-export default function NewJobView() {
+export default function NewJobPage() {
   const [draft, setDraft] = useState<Draft>(initial);
   const [pkgKey, setPkgKey] = useState<"basic" | "featured" | "boost">("featured");
   const [busy, setBusy] = useState(false);
@@ -47,6 +47,7 @@ export default function NewJobView() {
     e.preventDefault();
     setBusy(true);
     setErr(null);
+
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -88,8 +89,8 @@ export default function NewJobView() {
         {/* Stepper */}
         <nav className="stepper card no-lift p-3" aria-label="Fortschritt">
           <Step number={1} label="Entwurf" active />
-          <Step number={2} label="Paket" />
-          <Step number={3} label="Bezahlen" />
+          <Step number={2} label="Paket" active={false} />
+          <Step number={3} label="Bezahlen" active={false} />
         </nav>
 
         <form onSubmit={onSubmit} className="space-y-8">

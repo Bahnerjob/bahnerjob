@@ -1,99 +1,249 @@
-﻿import Link from "next/link";
+﻿"use client";
 
-export const metadata = {
-  title: "Preise – Bahnerjob",
-  description: "Klare Pakete für Stellenanzeigen im Bahnsektor."
-};
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-type Pkg = {
-  key: "basic" | "featured" | "boost";
+type Draft = {
   title: string;
-  // hier optional: price?: string;  // wenn du später Preise textlich anzeigen willst
-  bullets: string[];
-  note?: string;
+  company: string;
+  location: string;
+  bundesland: string;
+  applyUrl: string;
+  logoUrl: string;
+  description: string;
 };
 
-const PACKAGES: Pkg[] = [
-  {
-    key: "basic",
-    title: "Basic",
-    bullets: [
-      "Laufzeit: 30 Tage",
-      "Sichtbar in Jobliste & Suche",
-      "Inklusive: Logo, Titel, Ort, Bundesland, Bewerbungslink",
-      "1 Kategorie/Schwerpunkt wählbar",
-      "Rechnung per E-Mail, Support per E-Mail"
-    ]
-  },
-  {
-    key: "featured",
-    title: "Featured",
-    bullets: [
-      "Alles aus „Basic“",
-      "Sichtbarkeits-Boost durch priorisierte Platzierung in der Liste",
-      "Kennzeichnung als „Featured“ in der Jobliste",
-      "Bis zu 2 Kategorien/Schwerpunkte",
-      "Erhöhte Aufmerksamkeit in Suchergebnissen"
-    ],
-    note: "Empfohlen für wichtige oder zeitkritische Positionen"
-  },
-  {
-    key: "boost",
-    title: "Boost",
-    bullets: [
-      "Alles aus „Featured“",
-      "Maximale Reichweite durch verstärkte Prominenz in Listings",
-      "Bis zu 3 Kategorien/Schwerpunkte",
-      "Verlängerte Laufzeit: 45 Tage",
-      "Bestens geeignet für schwer zu besetzende Rollen"
-    ]
-  }
+const initial: Draft = {
+  title: "",
+  company: "",
+  location: "",
+  bundesland: "",
+  applyUrl: "",
+  logoUrl: "",
+  description: "",
+};
+
+const PACKAGES: { key: "basic" | "featured" | "boost"; label: string; desc: string }[] = [
+  { key: "basic",    label: "Basic",    desc: "30 Tage Laufzeit, Sichtbar in Jobliste & Suche" },
+  { key: "featured", label: "Featured", desc: "Alles aus Basic + priorisierte Platzierung & Kennzeichnung" },
+  { key: "boost",    label: "Boost",    desc: "Alles aus Featured + 45 Tage Laufzeit & maximale Prominenz" }
 ];
 
-export default function PricingPage() {
+export default function NewJobPage() {
+  const [draft, setDraft] = useState<Draft>(initial);
+  const [pkgKey, setPkgKey] = useState<"basic" | "featured" | "boost">("featured");
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  // Paket per URL vorbelegen: /jobs/new?pkg=basic|featured|boost
+  const sp = useSearchParams();
+  useEffect(() => {
+    const p = sp.get("pkg");
+    if (p === "basic" || p === "featured" || p === "boost") setPkgKey(p);
+  }, [sp]);
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setErr(null);
+
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ package: pkgKey, ad: draft }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data?.url) throw new Error(data?.error || "Checkout konnte nicht gestartet werden.");
+      window.location.href = data.url;
+    } catch (e: any) {
+      setErr(e.message || "Unbekannter Fehler");
+      setBusy(false);
+    }
+  }
+
+  function bind<K extends keyof Draft>(key: K) {
+    return {
+      value: draft[key],
+      onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+        setDraft((d) => ({ ...d, [key]: e.target.value })),
+    };
+  }
+
+  const titleCount = draft.title.length;
+  const descCount = draft.description.length;
+
+  const previewTitle = draft.title || "Jobtitel";
+  const previewMeta = useMemo(() => {
+    const company = draft.company || "Firma";
+    const loc = draft.location || "Ort";
+    const bl = draft.bundesland ? ` (${draft.bundesland})` : "";
+    return `${company} · ${loc}${bl}`;
+  }, [draft.company, draft.location, draft.bundesland]);
+
   return (
-    <div className="space-y-10">
-      <header className="text-center">
-        <div className="badge mb-3">Pakete & Leistungen</div>
-        <h1 className="font-bold tracking-tight">Preise für Stellenanzeigen</h1>
-        <p className="lead mt-3 max-w-2xl mx-auto">
-          Wähle das Paket, das zu deiner Rolle passt. Du entwirfst die Anzeige zuerst
-          und gehst dann in den Bezahlprozess – transparent und ohne Umwege.
-        </p>
-      </header>
+    <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
+      {/* ---------- LINKSSPALTE: FORM ---------- */}
+      <div className="space-y-8">
+        {/* Stepper */}
+        <nav className="stepper card no-lift p-3" aria-label="Fortschritt">
+          <Step number={1} label="Entwurf" active />
+          <Step number={2} label="Paket" active={false} />
+          <Step number={3} label="Bezahlen" active={false} />
+        </nav>
 
-      <section className="grid gap-6 md:grid-cols-3">
-        {PACKAGES.map((p) => (
-          <article key={p.key} className="card p-6 flex flex-col">
-            <div className="badge mb-2">{p.title}</div>
+        <form onSubmit={onSubmit} className="space-y-8">
+          {/* Abschnitt: Anzeige */}
+          <section className="card no-lift p-6">
+            <header className="section-head">
+              <h2>Stellenausschreibung</h2>
+              <p className="section-desc">
+                Kurzer, klarer Titel. Eine prägnante Beschreibung hilft Bewerber:innen, schnell zu verstehen, worum es geht.
+              </p>
+            </header>
 
-            <ul className="text-neutral-300 text-[0.98rem] space-y-2">
-              {p.bullets.map((b, i) => (
-                <li key={i}>• {b}</li>
-              ))}
-            </ul>
+            <div className="form-grid">
+              <div className="field">
+                <label htmlFor="title" className="label">Jobtitel *</label>
+                <input id="title" required maxLength={80} placeholder="z. B. Triebfahrzeugführer (m/w/d)"
+                  className="input" {...bind("title")} aria-describedby="help-title counter-title" />
+                <div className="row-between">
+                  <small id="help-title" className="help">Max. 80 Zeichen</small>
+                  <small id="counter-title" className="counter">{titleCount}/80</small>
+                </div>
+              </div>
 
-            {p.note && (
-              <div className="mt-3 text-xs text-neutral-400">{p.note}</div>
-            )}
+              <div className="row-2">
+                <div className="field">
+                  <label htmlFor="company" className="label">Firma *</label>
+                  <input id="company" required maxLength={80} placeholder="z. B. DB Regio"
+                    className="input" {...bind("company")} />
+                </div>
 
-            <div className="mt-auto pt-5">
-              {/* Nicht direkt kaufen -> in den Entwurf mit vorbelegtem Paket */}
-              <Link href={`/jobs/new?pkg=${p.key}`} className="btn btn-accent w-full text-center">
-                Anzeige entwerfen
-              </Link>
+                <div className="field">
+                  <label htmlFor="bundesland" className="label">Bundesland</label>
+                  <input id="bundesland" maxLength={40} placeholder="z. B. Bayern"
+                    className="input" {...bind("bundesland")} />
+                </div>
+              </div>
+
+              <div className="row-2">
+                <div className="field">
+                  <label htmlFor="location" className="label">Ort *</label>
+                  <input id="location" required maxLength={80} placeholder="z. B. München"
+                    className="input" {...bind("location")} />
+                </div>
+
+                <div className="field">
+                  <label htmlFor="applyUrl" className="label">Bewerbungslink / E-Mail *</label>
+                  <input id="applyUrl" required maxLength={120}
+                    placeholder="https://firma.de/jobs/123 oder mailto:jobs@firma.de"
+                    className="input" {...bind("applyUrl")} />
+                </div>
+              </div>
+
+              <div className="field">
+                <label htmlFor="logoUrl" className="label">Logo-URL</label>
+                <input id="logoUrl" maxLength={120} placeholder="https://…/logo.png"
+                  className="input" {...bind("logoUrl")} />
+                <small className="help">Quadratisches PNG/SVG empfohlen (mind. 96×96 px)</small>
+              </div>
+
+              <div className="field">
+                <label htmlFor="description" className="label">Kurzbeschreibung</label>
+                <textarea id="description" maxLength={400}
+                  placeholder="Worum geht es? Anforderungen, Benefits, Kontakt …"
+                  className="textarea" {...bind("description")}
+                  aria-describedby="counter-desc" />
+                <div className="row-end">
+                  <small id="counter-desc" className="counter">{descCount}/400</small>
+                </div>
+              </div>
             </div>
-          </article>
-        ))}
-      </section>
+          </section>
 
-      <section className="text-center">
-        <div className="inline-flex flex-wrap items-center justify-center gap-2">
-          <span className="badge">Rechnung & Support per E-Mail</span>
-          <span className="badge">Keine Agentur notwendig</span>
-          <span className="badge">Klar & transparent</span>
+          {/* Abschnitt: Paket */}
+          <section className="card no-lift p-6">
+            <header className="section-head">
+              <h2>Paket wählen</h2>
+              <p className="section-desc">Die Preise sind in Stripe hinterlegt. Deine Auswahl steuert die Preis-ID.</p>
+            </header>
+
+            <div className="stack-3">
+              {PACKAGES.map((p) => (
+                <label key={p.key} className={`choice ${pkgKey === p.key ? "choice-active" : ""}`}>
+                  <div className="choice-main">
+                    <span className="choice-title">{p.label}</span>
+                    <span className="choice-desc">{p.desc}</span>
+                  </div>
+                  <input
+                    type="radio"
+                    name="package"
+                    checked={pkgKey === p.key}
+                    onChange={() => setPkgKey(p.key)}
+                    aria-label={p.label}
+                  />
+                </label>
+              ))}
+            </div>
+          </section>
+
+          {/* Aktionen */}
+          <section className="card no-lift p-6">
+            {err && <div className="alert error mb-3">{err}</div>}
+
+            <div className="row-wrap">
+              <button className="btn btn-accent" type="submit" disabled={busy}>
+                {busy ? "Weiter zur Zahlung…" : "Jetzt bezahlen"}
+              </button>
+              <Link className="btn" href="/pricing">Pakete ansehen</Link>
+              <Link className="btn" href="/">Zur Startseite</Link>
+            </div>
+
+            <p className="tiny text-neutral-500 mt-3">
+              Mit „Jetzt bezahlen“ stimmst du der Verarbeitung deiner Angaben zur Anzeigenerstellung zu.
+            </p>
+          </section>
+        </form>
+      </div>
+
+      {/* ---------- RECHTSSPALTE: STICKY VORSCHAU ---------- */}
+      <aside className="sticky-card card no-lift p-6 h-fit">
+        <div className="badge mb-3">Vorschau</div>
+
+        <div className="flex items-start gap-3">
+          {draft.logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={draft.logoUrl} alt="" className="w-12 h-12 rounded-lg object-cover border" />
+          ) : (
+            <div className="w-12 h-12 rounded-lg border bg-neutral-900/40" />
+          )}
+
+          <div>
+            <div className="text-lg font-bold">{previewTitle}</div>
+            <div className="text-neutral-400">{previewMeta}</div>
+          </div>
         </div>
-      </section>
+
+        <p className="mt-3 text-neutral-300 whitespace-pre-wrap">
+          {draft.description || "Kurze Jobbeschreibung …"}
+        </p>
+
+        <div className="mt-4 text-sm text-neutral-400">
+          Bewerbungsweg: {draft.applyUrl || "https://… oder mailto:…"}
+        </div>
+      </aside>
+    </div>
+  );
+}
+
+/* ------- kleine UI-Helfer ------- */
+function Step({ number, label, active }: { number: number; label: string; active?: boolean }) {
+  return (
+    <div className={`step ${active ? "step-active" : ""}`}>
+      <div className="step-num">{number}</div>
+      <div className="step-label">{label}</div>
     </div>
   );
 }
