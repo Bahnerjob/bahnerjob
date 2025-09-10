@@ -83,7 +83,7 @@ export default function NewJobView() {
   }, [draft.company, draft.location, draft.bundesland]);
 
   return (
-    <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
+    <div className="form-layout">
       {/* ---------- LINKSSPALTE: FORM ---------- */}
       <div className="space-y-8">
         {/* Stepper */}
