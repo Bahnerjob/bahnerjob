@@ -23,9 +23,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="de" suppressHydrationWarning>
       <body className={`${inter.variable} ${manrope.variable}`}>
         {children}
-      </body>
+      <footer className="mt-10 border-t border-neutral-800 bg-[#0d0d0d] text-neutral-400">
+  <div className="container py-8 text-sm"> {new Date().getFullYear()} Bahnerjob</div>
+  <div className="container py-2 text-xs site-legal-links">
+    <a href="/impressum" className="underline underline-offset-2 mr-4">Impressum</a>
+    <a href="/datenschutz" className="underline underline-offset-2">Datenschutz</a>
+  </div>
+</footer></body>
     </html>
   );
 }
+
 
 

@@ -280,3 +280,6 @@ h1,h2,h3,h4 {
 /* Logo wirklich groﬂ halten, mobil verkleinern */
 .home-logo { width: 260px !important; height: auto; }
 @media (max-width: 767px){ .home-logo { width: 140px !important; } }
+/* Rechtelinks dezent, aber sichtbar */
+.site-legal-links { display:flex; gap:1rem; align-items:center; }
+.site-legal-links a { color: inherit; text-decoration: underline; }
