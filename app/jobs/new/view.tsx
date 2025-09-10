@@ -39,7 +39,8 @@ export default function View() {
 
   return (
     <div className="bj-new px-4 py-6">
-      <div className="mx-auto max-w-5xl">
+      {/* Breiter, aber nicht zu breit */}
+      <div className="mx-auto max-w-6xl">
         <header className="mb-6">
           <h1 className="text-2xl md:text-3xl font-semibold">Anzeige erstellen</h1>
           <p className="text-neutral-400 mt-2">
@@ -52,38 +53,42 @@ export default function View() {
           )}
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-5 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px] gap-6 items-start">
           {/* FORMULAR */}
-          <form onSubmit={onSubmit} className="form-layout grid gap-4">
+          <form onSubmit={onSubmit} className="form-layout grid gap-5">
             {/* Sektion: Paket */}
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Paket wählen</h2>
-                <p className="section-sub">Du kannst später jederzeit wechseln.</p>
+                <p className="section-sub">Wähle das Modell, das zu deiner Anzeige passt. Du kannst später wechseln.</p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                {(["basic", "featured", "boost"] as Pkg[]).map((p) => (
-                  <button
-                    key={p}
-                    type="button"
-                    onClick={() => setPkg(p)}
-                    className={[
-                      "btn w-full rounded-lg border px-3 py-2 text-left elevate-quiet",
-                      pkg === p
-                        ? "border-amber-500 bg-amber-500/10"
-                        : "border-neutral-800 bg-neutral-900/60 hover:bg-neutral-900",
-                    ].join(" ")}
-                    aria-pressed={pkg === p}
-                  >
-                    <div className="text-sm font-semibold capitalize">{p}</div>
-                    <div className="text-xs text-neutral-400">
-                      {p === "basic" && "30 Tage  Sichtbar in Liste & Suche"}
-                      {p === "featured" && "Priorisiert  Featured-Badge  Mehr Sichtbarkeit"}
-                      {p === "boost" && "Maximale Prominenz  45 Tage"}
-                    </div>
-                  </button>
-                ))}
+              <div className="pkg-grid">
+                {([
+                  {key:"basic", title:"Basic", desc:"30 Tage Laufzeit  gelistet in Suche & Liste"},
+                  {key:"featured", title:"Featured", desc:"Priorisiert in Listen  Featured-Badge"},
+                  {key:"boost", title:"Boost", desc:"Maximale Prominenz  45 Tage Laufzeit"},
+                ] as {key:Pkg; title:string; desc:string}[]).map((opt) => {
+                  const active = pkg === opt.key;
+                  return (
+                    <button
+                      type="button"
+                      key={opt.key}
+                      onClick={() => setPkg(opt.key)}
+                      aria-pressed={active}
+                      className={[
+                        "option-card",
+                        active ? "option-card--active" : "option-card--idle",
+                      ].join(" ")}
+                    >
+                      <div className="option-head">
+                        <span className="option-title">{opt.title}</span>
+                        <span className={["option-dot", active ? "option-dot--on" : "option-dot--off"].join(" ")} aria-hidden="true"></span>
+                      </div>
+                      <div className="option-desc">{opt.desc}</div>
+                    </button>
+                  );
+                })}
               </div>
             </section>
 

@@ -430,3 +430,64 @@ h1, h2, h3, h4 { font-family: inherit !important; letter-spacing: normal !import
 
 /* Divider dezenter */
 .bj-new .divider { height:1px; background: rgba(255,255,255,0.06); margin-top:.25rem; }
+/* === /jobs/new Breite & Struktur ========================================= */
+.bj-new .max-w-6xl { max-width: 72rem !important; } /* 1152px  etwas breiter als zuvor */
+.bj-new .section { display:grid; gap: .85rem; }
+.bj-new .card { position:relative; overflow:hidden; border-radius: 12px; }
+.bj-new .no-overlap { isolation:isolate; z-index:0; }
+
+/* Option-Cards: klar gegliedert, weich, ohne Farbwechsel */
+.pkg-grid {
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: .75rem;
+}
+@media (min-width: 640px){
+  .pkg-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+.option-card {
+  display:block;
+  text-align:left;
+  border: 1px solid #1f1f1f;
+  background: rgba(15,15,15,.6);
+  border-radius: 14px;
+  padding: .9rem .95rem;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
+  will-change: transform;
+}
+.option-card--idle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.28);
+}
+.option-card--active {
+  border-color: #f59e0b; /* nutzt deine Akzentfarbe, keine neue Farbe */
+  background: rgba(245,158,11,.08);
+  box-shadow: 0 8px 22px rgba(0,0,0,.28);
+}
+.option-head { display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
+.option-title { font-weight: 700; }
+.option-desc { color:#9ca3af; font-size:.9rem; margin-top: .2rem; }
+
+/* kleiner aktiver Punkt rechts oben  dezent */
+.option-dot {
+  width: .75rem; height: .75rem; border-radius: 9999px;
+  border: 1px solid #2a2a2a; background: #131313;
+}
+.option-dot--on { border-color: #f59e0b; background: #f59e0b; }
+.option-dot--off { opacity:.7; }
+
+/* Form-Grids robust halten */
+.bj-new .form-grid { display:grid; grid-template-columns:1fr; gap: 1rem; }
+@media (min-width: 768px) {
+  .bj-new .form-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+.bj-new .row-2 { align-items:start; }
+.bj-new .field, .bj-new .input, .bj-new select, .bj-new .textarea { min-width:0; }
+.bj-new .label { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* Divider dezenter */
+.bj-new .divider { height:1px; background: rgba(255,255,255,0.06); margin-top:.25rem; }
+
+/* Hover-Lift für Karten  sanft, ohne Überlappen dank isolation */
+.bj-new .elevate-quiet { transition: transform .15s ease, box-shadow .15s ease; box-shadow: 0 1px 3px rgba(0,0,0,.22); }
+.bj-new .elevate-quiet:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,.28); }
