@@ -17,12 +17,13 @@ export default function HomePage() {
         </p>
 
         <div className="mt-6 flex items-center justify-center gap-3">
-          <Link className="btn btn-accent" href="/pricing">Anzeige schalten</Link>
+          {/* WICHTIG: direkt zum Entwurf */}
+          <Link className="btn btn-accent" href="/jobs/new">Anzeige schalten</Link>
           <Link className="btn" href="/jobs">Jobs durchsuchen</Link>
         </div>
       </section>
 
-      {/* Zwei Wege: Unternehmen / Jobsuchende */}
+      {/* Zwei Wege */}
       <section className="mt-10 md:mt-14 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 fade-in-delayed">
         {/* Für Unternehmen */}
         <div className="card no-lift p-6 flex flex-col">
@@ -35,7 +36,8 @@ export default function HomePage() {
           </ul>
 
           <div className="mt-auto pt-5 flex flex-col sm:flex-row gap-2">
-            <Link href="/pricing" className="btn btn-accent">Anzeige schalten</Link>
+            {/* WICHTIG: hier ebenfalls zum Entwurf */}
+            <Link href="/jobs/new" className="btn btn-accent">Anzeige schalten</Link>
             <Link href="/pricing" className="btn">Preise ansehen</Link>
           </div>
         </div>
@@ -66,7 +68,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Bahn-News (RSS) */}
+      {/* Bahn-News */}
       <NewsRail />
     </div>
   );

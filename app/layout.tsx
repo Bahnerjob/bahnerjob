@@ -23,7 +23,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   );
 }
 
-/* --- Header & Footer --- */
 function SiteHeader() {
   return (
     <header className="border-b" style={{ borderColor: "rgb(var(--border))" }}>
@@ -43,7 +42,8 @@ function SiteHeader() {
           <Link className="hover:text-white" href="/jobs">Jobs</Link>
           <Link className="hover:text-white" href="/pricing">Preise</Link>
           <Link className="hover:text-white" href="/legal/impressum">Impressum</Link>
-          <Link className="btn btn-accent" href="/pricing">Anzeige schalten</Link>
+          {/* WICHTIG: CTA führt auf /jobs/new */}
+          <Link className="btn btn-accent" href="/jobs/new">Anzeige schalten</Link>
         </nav>
       </div>
     </header>

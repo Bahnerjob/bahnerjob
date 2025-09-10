@@ -39,21 +39,14 @@ export default function NewJobPage() {
     e.preventDefault();
     setBusy(true);
     setErr(null);
-
-    // env-Variablen sind im Client NICHT sichtbar – diese werden serverseitig im API-Route gemappt.
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          package: pkgKey,
-          ad: draft,
-        }),
+        body: JSON.stringify({ package: pkgKey, ad: draft }),
       });
       const data = await res.json();
-      if (!res.ok || !data?.url) {
-        throw new Error(data?.error || "Checkout konnte nicht gestartet werden.");
-      }
+      if (!res.ok || !data?.url) throw new Error(data?.error || "Checkout konnte nicht gestartet werden.");
       window.location.href = data.url;
     } catch (e: any) {
       setErr(e.message || "Unbekannter Fehler");
@@ -107,7 +100,7 @@ export default function NewJobPage() {
             <label className="block">
               <div className="text-sm text-neutral-400 mb-1">Bewerbungslink / E-Mail *</div>
               <input className="w-full rounded-xl bg-transparent border px-3 py-2"
-                     required maxLength={120} placeholder="z.B. https://firma.de/jobs/123 oder mailto:jobs@firma.de"
+                     required maxLength={120} placeholder="https://firma.de/jobs/123 oder mailto:jobs@firma.de"
                      {...bind("applyUrl")} />
             </label>
           </div>
@@ -138,12 +131,7 @@ export default function NewJobPage() {
                   <span className="font-semibold">{p.label}</span>
                   <span className="text-sm text-neutral-400">{p.desc}</span>
                 </div>
-                <input
-                  type="radio"
-                  name="package"
-                  checked={pkgKey === p.key}
-                  onChange={() => setPkgKey(p.key)}
-                />
+                <input type="radio" name="package" checked={pkgKey === p.key} onChange={() => setPkgKey(p.key)} />
               </label>
             ))}
           </div>

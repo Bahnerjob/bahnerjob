@@ -31,7 +31,6 @@ export async function POST(req: Request) {
 
   const stripe = new Stripe(secret);
 
-  // Metadaten kurz halten (Stripe: max. ~500 Zeichen pro Feld)
   const metadata: Record<string, string> = {
     ad_title:       clip(ad.title, 80),
     ad_company:     clip(ad.company, 80),
