@@ -243,10 +243,10 @@ export default function View() {
             <section className="card section no-overlap desc-section">
               <div className="section-head">
                 <h2 className="section-title">Stellenbeschreibung</h2>
-                <p className="section-sub">Kurz und klar gegliedert: Aufgaben, Anforderungen, Benefits.</p>
+                
               </div>
 
-              <div className="desc-grid">
+              <div className="desc-stack grid gap-6">
                 <div className="field min-w-0">
                   <label className="label block">Aufgaben</label>
                   <textarea
@@ -383,3 +383,4 @@ export default function View() {
     </div>
   );
 }
+

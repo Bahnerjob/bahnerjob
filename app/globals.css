@@ -679,3 +679,7 @@ a:hover { text-decoration-thickness: 2px; }
 a, a:visited { color: inherit !important; text-decoration: underline; }
 a:hover { text-decoration-thickness: 2px; }
 .bj-new a[href="#"] { pointer-events: none; color: #6b7280 !important; text-decoration: none; }
+/* === Stellenbeschreibung: stacked fields ================================ */
+.desc-stack { grid-template-columns: 1fr !important; }
+.desc-stack .field { min-width:0; }
+.desc-stack textarea { width:100%; min-height:9rem; }
