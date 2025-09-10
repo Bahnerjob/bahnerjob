@@ -792,3 +792,16 @@ a:hover { text-decoration-thickness:2px; }
 .option-dot{ width:.75rem; height:.75rem; border-radius:9999px; border:1px solid #2a2a2a; background:#131313; }
 .option-dot--on{ border-color:#f59e0b; background:#f59e0b; }
 .option-dot--off{ opacity:.7; }
+/* === Job Badges (keine Farbpalette geändert; nutzt vorhandene Töne) ======== */
+.badge {
+  display:inline-flex; align-items:center; gap:.35rem;
+  border:1px solid #1f1f1f; border-radius:9999px;
+  padding:.15rem .5rem; font-size:.75rem;
+}
+.badge-basic { color:#d1d5db; }
+.badge-featured { color:#9bd1ff; border-color:#1f2937; }
+.badge-boost { color:#fbbf24; border-color:#2a210a; }
+
+/* === Filterleiste ========================================================== */
+.job-filters .input, .job-filters .select { height: 2.5rem; }
+.job-card .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
