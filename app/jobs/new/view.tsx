@@ -146,7 +146,7 @@ export default function View() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 form-grid">
+              <div className="form-grid-2">
                 <div className="field min-w-0">
                   <label className="label block">
                     Stellentitel <span className="req">*</span>
@@ -383,4 +383,5 @@ export default function View() {
     </div>
   );
 }
+
 
