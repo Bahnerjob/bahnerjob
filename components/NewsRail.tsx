@@ -15,7 +15,7 @@ export default function NewsRail({ items = [] as NewsItem[] }) {
         <a
           key={n.id}
           href={n.url}
-          className="news-card block rounded-3xl border border-neutral-800 bg-neutral-900/80 p-5 shadow-[0_2px_6px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35)] hover:-translate-y-0.5 transition focus:outline-none focus:ring-1 focus:ring-neutral-700"
+          className="news-card block rounded-3xl p-5 transition focus:outline-none"
           target="_blank"
           rel="noreferrer"
         >
@@ -23,7 +23,7 @@ export default function NewsRail({ items = [] as NewsItem[] }) {
             <div className="news-source text-xs text-neutral-400 truncate">{n.source}</div>
             {n.date && (
               <div className="news-date text-xs text-neutral-500 shrink-0">
-                {new Date(n.date).toLocaleDateString("de-DE")}
+                {new Date(n.date).toLocaleDateString('de-DE')}
               </div>
             )}
           </div>
