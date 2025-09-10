@@ -408,3 +408,25 @@ h1, h2, h3, h4 { font-family: inherit !important; letter-spacing: normal !import
 @media (max-width: 767px){
   .after-hero { margin-top: .75rem; }
 }
+/* === /jobs/new kompakter & robust ======================================== */
+.bj-new .max-w-5xl { max-width: 64rem !important; }  /* 1024px */
+.bj-new .section { display:grid; gap:.75rem; }
+.bj-new .card { position:relative; overflow:hidden; } /* verhindert Überstand */
+.bj-new .no-overlap { isolation:isolate; z-index:0; } /* eigener Stacking-Kontext */
+.bj-new .elevate-quiet { transition: transform .15s ease, box-shadow .15s ease; box-shadow: 0 1px 3px rgba(0,0,0,.22); }
+.bj-new .elevate-quiet:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,.28); }
+
+/* Form-Grids: sichere Spalten, kein Überlaufen */
+.bj-new .form-grid { display:grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 768px) {
+  .bj-new .form-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+.bj-new .row-2 { align-items:start; }
+.bj-new .field, .bj-new .input, .bj-new select, .bj-new .textarea { min-width:0; }
+.bj-new .label { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* Textarea: niemals aus der Box laufen */
+.bj-new .textarea { resize: vertical; max-width: 100%; }
+
+/* Divider dezenter */
+.bj-new .divider { height:1px; background: rgba(255,255,255,0.06); margin-top:.25rem; }
