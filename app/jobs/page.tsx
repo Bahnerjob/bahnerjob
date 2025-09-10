@@ -73,7 +73,7 @@ export default async function JobsPage({
         {jobs.length === 0 ? (
           <div className="card p-6 text-neutral-300">Keine Treffer. Bitte Filter anpassen.</div>
         ) : (
-          jobs.map((j) => <JobCard key={j.slug} j={j} />)
+          jobs.map((j, i) => <JobCard key={`${j.title}-${i}`} j={j} />)
         )}
       </div>
     </div>
