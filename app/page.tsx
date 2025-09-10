@@ -1,22 +1,25 @@
 ﻿import Link from "next/link";
+import NewsRail from "@/components/NewsRail";
 
 export default function HomePage() {
   return (
     <div className="space-y-12">
       {/* Hero */}
       <section className="text-center fade-in">
-        <div className="badge mb-4">
-          Bahn-Jobs · Für Unternehmen & Fachkräfte
-        </div>
+        <div className="badge mb-4">Bahn-Jobs · Für Unternehmen & Fachkräfte</div>
 
         <h1 className="font-bold tracking-tight">
           Bahnerjob – Jobs & Anzeigen im Bahnsektor
         </h1>
 
         <p className="mt-4 lead max-w-2xl mx-auto">
-          Schnell sichtbar für Unternehmen. Schnell fündig für Fachkräfte.
-          Klar, fair, ohne Umwege.
+          Schnell sichtbar für Unternehmen. Schnell fündig für Fachkräfte. Klar, fair, ohne Umwege.
         </p>
+
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <Link className="btn btn-accent" href="/pricing">Anzeige schalten</Link>
+          <Link className="btn" href="/jobs">Jobs durchsuchen</Link>
+        </div>
       </section>
 
       {/* Zwei Wege: Unternehmen / Jobsuchende */}
@@ -32,7 +35,6 @@ export default function HomePage() {
           </ul>
 
           <div className="mt-auto pt-5 flex flex-col sm:flex-row gap-2">
-            {/* Primär-CTA führt zur Preisseite, dort erfolgt der Checkout */}
             <Link href="/pricing" className="btn btn-accent">Anzeige schalten</Link>
             <Link href="/pricing" className="btn">Preise ansehen</Link>
           </div>
@@ -63,6 +65,9 @@ export default function HomePage() {
           <span className="badge">Made for rail people</span>
         </div>
       </section>
+
+      {/* Bahn-News (RSS) */}
+      <NewsRail />
     </div>
   );
 }
