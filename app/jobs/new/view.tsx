@@ -15,6 +15,14 @@ function formatPkg(value: string | null) {
   }
 }
 
+/** Hilfsfunktion: Listentext zu Punkten parsen (trennt an Zeilen mit , -, * oder Zeilenumbruch) */
+function toBullets(text: string): string[] {
+  return text
+    .split(/\r?\n|\u2022|^- |\* /gm)
+    .map(s => s.replace(/^[-*\u2022]\s*/, "").trim())
+    .filter(Boolean);
+}
+
 export default function View() {
   const params = useSearchParams();
   const router = useRouter();
@@ -27,28 +35,46 @@ export default function View() {
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [applyUrl, setApplyUrl] = useState("");
-  const [desc, setDesc] = useState("");
 
-  const descCount = useMemo(() => desc.length, [desc]);
+  // NEU: gegliederte Beschreibung
+  const [tasks, setTasks] = useState("");
+  const [profile, setProfile] = useState("");
+  const [benefits, setBenefits] = useState("");
+
+  const tasksCount = useMemo(() => tasks.length, [tasks]);
+  const profileCount = useMemo(() => profile.length, [profile]);
+  const benefitsCount = useMemo(() => benefits.length, [benefits]);
+
+  const tasksBullets = useMemo(() => toBullets(tasks), [tasks]);
+  const profileBullets = useMemo(() => toBullets(profile), [profile]);
+  const benefitsBullets = useMemo(() => toBullets(benefits), [benefits]);
+
+  function buildCombinedDesc() {
+    const parts: string[] = [];
+    if (tasksBullets.length) parts.push("Aufgaben:\n " + tasksBullets.join("\n "));
+    if (profileBullets.length) parts.push("Profil:\n " + profileBullets.join("\n "));
+    if (benefitsBullets.length) parts.push("Benefits:\n " + benefitsBullets.join("\n "));
+    return parts.join("\n\n");
+  }
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const q = new URLSearchParams({ pkg, title, company, state, city, applyUrl }).toString();
+    const desc = buildCombinedDesc(); // bestehende Pipeline weiter bedienen
+    const q = new URLSearchParams({ pkg, title, company, state, city, applyUrl, desc }).toString();
     router.push(`/pricing?${q}`);
   }
 
   return (
     <div className="bj-new px-4 py-6">
-      {/* Breiter, aber nicht zu breit */}
       <div className="mx-auto max-w-6xl">
         <header className="mb-6">
           <h1 className="text-2xl md:text-3xl font-semibold">Anzeige erstellen</h1>
           <p className="text-neutral-400 mt-2">
-            Kurze, klare Angaben sorgen für mehr Bewerbungen. Sie können dein Paket jederzeit anpassen.
+            Kurze, klare Angaben sorgen für mehr Bewerbungen. Dies kann unten jederzeit geändert werden.
           </p>
           {preselect && (
             <div className="mt-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-amber-300">
-              Vorausgewähltes Paket: <strong>{formatPkg(preselect)}</strong>  Sie können es unten ändern.
+              Vorausgewähltes Paket: <strong>{formatPkg(preselect)}</strong>
             </div>
           )}
         </header>
@@ -60,7 +86,7 @@ export default function View() {
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Paket wählen</h2>
-                <p className="section-sub">Wähle das Modell, das zu deiner Anzeige passt. Sie können später wechseln.</p>
+                <p className="section-sub">Wählen Sie das Modell, das zu der Anzeige passt. Ein späterer Wechsel ist möglich.</p>
               </div>
 
               <div className="pkg-grid">
@@ -76,10 +102,7 @@ export default function View() {
                       key={opt.key}
                       onClick={() => setPkg(opt.key)}
                       aria-pressed={active}
-                      className={[
-                        "option-card",
-                        active ? "option-card--active" : "option-card--idle",
-                      ].join(" ")}
+                      className={["option-card", active ? "option-card--active" : "option-card--idle"].join(" ")}
                     >
                       <div className="option-head">
                         <span className="option-title">{opt.title}</span>
@@ -96,7 +119,7 @@ export default function View() {
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Basisdaten</h2>
-                <p className="section-sub">Titel & Arbeitgeber  damit Bewerbende das Unternehmen sofort erkennen.</p>
+                <p className="section-sub">Stellentitel und Arbeitgeber  damit Bewerbende das Unternehmen sofort erkennen.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 form-grid">
@@ -110,11 +133,11 @@ export default function View() {
                     required
                     aria-required="true"
                   />
-                  <p className="help">Konkreter Titel mit (m/w/d) steigert die Klickrate.</p>
+                  <p className="help">Ein konkreter Titel mit (m/w/d) steigert die Klickrate.</p>
                 </div>
 
                 <div className="field">
-                  <label className="label block">Firma <span className="req">*</span></label>
+                  <label className="label block">Unternehmen <span className="req">*</span></label>
                   <input
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
@@ -123,7 +146,7 @@ export default function View() {
                     required
                     aria-required="true"
                   />
-                  <p className="help">Offizieller Arbeitgebername / Marke.</p>
+                  <p className="help">Offizieller Arbeitgebername oder Marke.</p>
                 </div>
               </div>
             </section>
@@ -132,7 +155,7 @@ export default function View() {
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Standort & Bewerbung</h2>
-                <p className="section-sub">Ort unterstützt die Suche, der Link führt direkt zur Bewerbung.</p>
+                <p className="section-sub">Ort unterstützt die Suche; der Link führt direkt zur Bewerbung.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 row-2">
@@ -144,7 +167,7 @@ export default function View() {
                     placeholder="z. B. Baden-Württemberg"
                     className="input w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
                   />
-                  <p className="help">Optional, verbessert die Filterbarkeit.</p>
+                  <p className="help">Optional; verbessert die Filterbarkeit.</p>
                 </div>
 
                 <div className="field">
@@ -166,29 +189,60 @@ export default function View() {
                     className="input w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
                     inputMode="url"
                   />
-                  <p className="help">Direkter Link zur Bewerbung oder Karriere-Seite.</p>
+                  <p className="help">Direkter Link zur Bewerbung oder Karriereseite.</p>
                 </div>
               </div>
             </section>
 
-            {/* Sektion: Beschreibung */}
+            {/* Sektion: Beschreibung  gegliedert */}
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Stellenbeschreibung</h2>
                 <p className="section-sub">Kurz und klar: Aufgaben, Anforderungen und Vorteile.</p>
               </div>
 
-              <label className="label block sr-only">Stellenbeschreibung</label>
-              <textarea
-                value={desc}
-                onChange={(e) => setDesc(e.target.value)}
-                rows={10}
-                placeholder={"Aufgaben:\n \n\nProfil:\n \n\nBenefits:\n "}
-                className="textarea w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
-                aria-label="Stellenbeschreibung"
-              />
-              <div className="counter text-right text-xs text-neutral-500 mt-1">
-                {descCount} Zeichen
+              <div className="desc-grid">
+                <div className="field">
+                  <label className="label block">Aufgaben</label>
+                  <textarea
+                    value={tasks}
+                    onChange={(e) => setTasks(e.target.value)}
+                    rows={6}
+                    maxLength={2000}
+                    placeholder={" Führen von \n Übernehmen von "}
+                    className="textarea w-full"
+                    aria-label="Aufgaben"
+                  />
+                  <div className="counter">{tasksCount} / 2000</div>
+                </div>
+
+                <div className="field">
+                  <label className="label block">Profil</label>
+                  <textarea
+                    value={profile}
+                    onChange={(e) => setProfile(e.target.value)}
+                    rows={6}
+                    maxLength={2000}
+                    placeholder={" Abgeschlossene Ausbildung \n Erfahrung in "}
+                    className="textarea w-full"
+                    aria-label="Profil"
+                  />
+                  <div className="counter">{profileCount} / 2000</div>
+                </div>
+
+                <div className="field">
+                  <label className="label block">Benefits</label>
+                  <textarea
+                    value={benefits}
+                    onChange={(e) => setBenefits(e.target.value)}
+                    rows={6}
+                    maxLength={2000}
+                    placeholder={" Tarifliche Vergütung \n Zuschläge "}
+                    className="textarea w-full"
+                    aria-label="Benefits"
+                  />
+                  <div className="counter">{benefitsCount} / 2000</div>
+                </div>
               </div>
             </section>
 
@@ -227,14 +281,45 @@ export default function View() {
 
               <h3 className="text-lg font-semibold">
                 {title || "Stellentitel"}
-                <span className="text-neutral-400 font-normal">  {company || "Firma"}</span>
+                <span className="text-neutral-400 font-normal">  {company || "Unternehmen"}</span>
               </h3>
               <div className="text-sm text-neutral-400 mb-3 truncate">
                 {(city || "Ort") + (state ? `, ${state}` : state === "" ? "" : ", Bundesland")}
               </div>
-              <p className="text-sm text-neutral-300 whitespace-pre-wrap min-h-[6rem]">
-                {desc || "Kurze Beschreibung deiner Stelle "}
-              </p>
+
+              {/* Geordnete Vorschau der drei Bereiche */}
+              <div className="preview-list">
+                {tasksBullets.length > 0 && (
+                  <div className="preview-block">
+                    <div className="preview-head">Aufgaben</div>
+                    <ul className="preview-ul">
+                      {tasksBullets.map((it, i) => <li key={"t"+i}>{it}</li>)}
+                    </ul>
+                  </div>
+                )}
+                {profileBullets.length > 0 && (
+                  <div className="preview-block">
+                    <div className="preview-head">Profil</div>
+                    <ul className="preview-ul">
+                      {profileBullets.map((it, i) => <li key={"p"+i}>{it}</li>)}
+                    </ul>
+                  </div>
+                )}
+                {benefitsBullets.length > 0 && (
+                  <div className="preview-block">
+                    <div className="preview-head">Benefits</div>
+                    <ul className="preview-ul">
+                      {benefitsBullets.map((it, i) => <li key={"b"+i}>{it}</li>)}
+                    </ul>
+                  </div>
+                )}
+                {tasksBullets.length + profileBullets.length + benefitsBullets.length === 0 && (
+                  <p className="text-sm text-neutral-300 min-h-[6rem]">
+                    Kurzbeschreibung der Stelle 
+                  </p>
+                )}
+              </div>
+
               <div className="mt-4">
                 <a
                   href={applyUrl || "#"}
@@ -251,4 +336,3 @@ export default function View() {
     </div>
   );
 }
-

@@ -503,3 +503,34 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* Vorschau-Abschnitt: "Jetzt bewerben"-Link nur zeigen, wenn URL vorhanden */
 .bj-new a[href="#"] { pointer-events: none; color: #6b7280 !important; text-decoration: none; }
+/* === Structured description & overflow guards ================================== */
+.bj-new .desc-grid { display:grid; grid-template-columns:1fr; gap: 1rem; }
+@media (min-width: 1024px){ .bj-new .desc-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+
+.bj-new .textarea {
+  background: #0f0f0f;
+  border: 1px solid #1f1f1f;
+  border-radius: 10px;
+  padding: .65rem .75rem;
+  color: #e5e7eb;
+  resize: vertical;
+  min-height: 8rem;
+  max-height: 18rem;   /* verhindert Überlaufen */
+  overflow: auto;      /* scrollt im Feld statt überzulappen */
+}
+.bj-new .counter { text-align: right; font-size: .75rem; color: #9ca3af; margin-top: .25rem; }
+
+.preview-list { display: grid; gap: .75rem; }
+.preview-block { background: rgba(15,15,15,.5); border: 1px solid #1f1f1f; border-radius: 10px; padding: .6rem .7rem; }
+.preview-head { font-weight: 600; margin-bottom: .35rem; }
+.preview-ul { list-style: disc; padding-left: 1.1rem; color: #e5e7eb; }
+.preview-ul li { margin: .15rem 0; }
+
+/* Paketkarten-Schriften hell halten (Sicherheitsnetz) */
+.option-card, .option-card * { color: #e5e7eb !important; }
+.option-desc { color: #9ca3af !important; }
+
+/* Links neutral  kein Standard-Blau */
+a, a:visited { color: inherit !important; text-decoration: underline; }
+a:hover { text-decoration-thickness: 2px; }
+.bj-new a[href="#"] { pointer-events: none; color: #6b7280 !important; text-decoration: none; }
