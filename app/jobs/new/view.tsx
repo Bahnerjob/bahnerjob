@@ -44,11 +44,11 @@ export default function View() {
         <header className="mb-6">
           <h1 className="text-2xl md:text-3xl font-semibold">Anzeige erstellen</h1>
           <p className="text-neutral-400 mt-2">
-            Kurze, klare Angaben sorgen für mehr Bewerbungen. Du kannst dein Paket jederzeit anpassen.
+            Kurze, klare Angaben sorgen für mehr Bewerbungen. Sie können dein Paket jederzeit anpassen.
           </p>
           {preselect && (
             <div className="mt-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-amber-300">
-              Vorausgewähltes Paket: <strong>{formatPkg(preselect)}</strong>  du kannst es unten ändern.
+              Vorausgewähltes Paket: <strong>{formatPkg(preselect)}</strong>  Sie können es unten ändern.
             </div>
           )}
         </header>
@@ -60,7 +60,7 @@ export default function View() {
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Paket wählen</h2>
-                <p className="section-sub">Wähle das Modell, das zu deiner Anzeige passt. Du kannst später wechseln.</p>
+                <p className="section-sub">Wähle das Modell, das zu deiner Anzeige passt. Sie können später wechseln.</p>
               </div>
 
               <div className="pkg-grid">
@@ -96,7 +96,7 @@ export default function View() {
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Basisdaten</h2>
-                <p className="section-sub">Titel & Arbeitgeber  damit Bewerbende dich sofort erkennen.</p>
+                <p className="section-sub">Titel & Arbeitgeber  damit Bewerbende das Unternehmen sofort erkennen.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 form-grid">
@@ -132,7 +132,7 @@ export default function View() {
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Standort & Bewerbung</h2>
-                <p className="section-sub">Ort hilft bei der Suche, Link führt direkt zur Bewerbung.</p>
+                <p className="section-sub">Ort unterstützt die Suche, der Link führt direkt zur Bewerbung.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 row-2">
@@ -175,7 +175,7 @@ export default function View() {
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Stellenbeschreibung</h2>
-                <p className="section-sub">Kurz & klar: Aufgaben, Profil, Benefits.</p>
+                <p className="section-sub">Kurz und klar: Aufgaben, Anforderungen und Vorteile.</p>
               </div>
 
               <label className="label block sr-only">Stellenbeschreibung</label>
@@ -241,7 +241,7 @@ export default function View() {
                   className="inline-block text-sm font-semibold underline underline-offset-4"
                   onClick={(e) => { if (!applyUrl) e.preventDefault(); }}
                 >
-                  {applyUrl ? "Jetzt bewerben" : "Bewerbungslink hinzufügen"}
+                  {applyUrl ? "Jetzt bewerben" : ""}
                 </a>
               </div>
             </div>
@@ -251,3 +251,4 @@ export default function View() {
     </div>
   );
 }
+

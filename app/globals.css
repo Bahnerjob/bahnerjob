@@ -491,3 +491,15 @@ h1, h2, h3, h4 { font-family: inherit !important; letter-spacing: normal !import
 /* Hover-Lift für Karten  sanft, ohne Überlappen dank isolation */
 .bj-new .elevate-quiet { transition: transform .15s ease, box-shadow .15s ease; box-shadow: 0 1px 3px rgba(0,0,0,.22); }
 .bj-new .elevate-quiet:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,.28); }
+/* Paketkarten-Schriften: immer hell, auch im aktiven Zustand */
+.option-card, .option-card * {
+  color: #e5e7eb !important; /* text-neutral-200/300 */
+}
+.option-desc { color: #9ca3af !important; }
+
+/* Links neutralisieren  kein Browser-Blau */
+a, a:visited { color: inherit !important; text-decoration: underline; }
+a:hover { text-decoration-thickness: 2px; }
+
+/* Vorschau-Abschnitt: "Jetzt bewerben"-Link nur zeigen, wenn URL vorhanden */
+.bj-new a[href="#"] { pointer-events: none; color: #6b7280 !important; text-decoration: none; }
