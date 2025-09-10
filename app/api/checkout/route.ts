@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Stripe not configured" }, { status: 500 });
   }
 
-  const stripe = new Stripe(secret, { apiVersion: "2024-06-20" });
+  const stripe = new Stripe(secret);
   const origin = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   const session = await stripe.checkout.sessions.create({
