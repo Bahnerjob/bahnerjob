@@ -1,8 +1,6 @@
 import "./globals.css";
 import Link from "next/link";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+import Image from "next/image";
 
 export const metadata = {
   title: "Bahnerjob",
@@ -12,7 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="de">
-      <body className={inter.className}>
+      <body>
         <SiteHeader />
         <main className="container section fade-in">{children}</main>
         <SiteFooter />
@@ -21,21 +19,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   );
 }
 
-/* --- Inline-Komponenten --- */
+/* --- Header & Footer --- */
 function SiteHeader() {
   return (
     <header className="border-b" style={{ borderColor: "rgb(var(--border))" }}>
       <div className="container header-row">
-        <Link href="/" className="brand">
-          <span className="brand-dot" />
-          Bahnerjob
+        <Link href="/" className="brand" aria-label="Zur Startseite">
+          <Image
+            src="/logo-bahnerjob.svg"
+            alt="Bahnerjob.de"
+            width={170}
+            height={28}
+            priority
+            className="brand-img"
+          />
         </Link>
 
         <nav className="site-nav">
-          <Link href="/jobs">Jobs</Link>
-          <Link href="/pricing">Preise</Link>
-          <Link href="/legal/impressum">Impressum</Link>
-          <Link href="/jobs/new" className="btn btn-accent">Anzeige schalten</Link>
+          <Link className="hover:text-white" href="/jobs">Jobs</Link>
+          <Link className="hover:text-white" href="/pricing">Preise</Link>
+          <Link className="hover:text-white" href="/legal/impressum">Impressum</Link>
+          <Link className="btn btn-accent" href="/pricing">Anzeige schalten</Link>
         </nav>
       </div>
     </header>
@@ -45,11 +49,11 @@ function SiteHeader() {
 function SiteFooter() {
   return (
     <footer className="mt-16 border-t" style={{ borderColor: "rgb(var(--border))" }}>
-      <div className="container footer-row">
-        <div>© Bahnerjob – Made for rail people</div>
+      <div className="container footer-row text-sm text-neutral-400">
+        <div>© {new Date().getFullYear()} Bahnerjob – Made for rail people</div>
         <div className="footer-links">
-          <Link href="/legal/impressum">Impressum</Link>
-          <Link href="/legal/datenschutz">Datenschutz</Link>
+          <Link className="hover:text-white" href="/legal/impressum">Impressum</Link>
+          <Link className="hover:text-white" href="/legal/datenschutz">Datenschutz</Link>
         </div>
       </div>
     </footer>
