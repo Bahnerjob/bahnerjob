@@ -5,34 +5,63 @@ export default function HomePage() {
     <div className="space-y-12">
       {/* Hero */}
       <section className="text-center fade-in">
-        <div className="inline-flex items-center gap-2 badge mb-4">
-          <span className="h-1.5 w-1.5 rounded-full" style={{ background: "rgb(var(--accent))"}} />
-          Bahn-Jobs · Deutschlandweit
+        <div className="badge mb-4">
+          Bahn-Jobs · Für Unternehmen & Fachkräfte
         </div>
+
         <h1 className="font-bold tracking-tight">
-          Finde deinen nächsten <span style={{ color: "rgb(var(--accent))" }}>Bahnerjob</span>
+          Bahnerjob – Jobs & Anzeigen im Bahnsektor
         </h1>
+
         <p className="mt-4 lead max-w-2xl mx-auto">
-          Von Triebfahrzeugführer:in bis Fahrtrainer: moderne Suche, klare Preise, schnelle Veröffentlichung.
+          Schnell sichtbar für Unternehmen. Schnell fündig für Fachkräfte.
+          Klar, fair, ohne Umwege.
         </p>
-        <div className="mt-6 flex items-center justify-center gap-3">
-          <Link className="btn btn-accent" href="/jobs/new">Anzeige schalten</Link>
-          <Link className="btn" href="/jobs">Jobs durchsuchen</Link>
+      </section>
+
+      {/* Zwei Wege: Unternehmen / Jobsuchende */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-4 fade-in-delayed">
+        {/* Für Unternehmen */}
+        <div className="card p-6 flex flex-col">
+          <div className="badge mb-3">Für Unternehmen</div>
+          <h2 className="text-2xl font-bold tracking-tight">In Minuten zur sichtbaren Anzeige</h2>
+          <ul className="mt-3 text-neutral-300 text-[0.98rem] space-y-2">
+            <li>• Veröffentlichung ohne Agentur & ohne Umwege</li>
+            <li>• Pakete: Basic, Featured & Boost – jederzeit erweiterbar</li>
+            <li>• Transparente Preise & Rechnung für die Buchhaltung</li>
+          </ul>
+
+          <div className="mt-auto pt-5 flex flex-col sm:flex-row gap-2">
+            {/* Primär-CTA führt zur Preisseite, dort erfolgt der Checkout */}
+            <Link href="/pricing" className="btn btn-accent">Anzeige schalten</Link>
+            <Link href="/pricing" className="btn">Preise ansehen</Link>
+          </div>
+        </div>
+
+        {/* Für Jobsuchende */}
+        <div className="card p-6 flex flex-col">
+          <div className="badge mb-3">Für Jobsuchende</div>
+          <h2 className="text-2xl font-bold tracking-tight">Finde deinen nächsten Bahnerjob</h2>
+          <ul className="mt-3 text-neutral-300 text-[0.98rem] space-y-2">
+            <li>• Echte Bahn-Rollen – keine generischen Sammelstellen</li>
+            <li>• Schnelle Suche nach Titel, Ort & Bundesland</li>
+            <li>• Kein Account nötig – direkt informieren & bewerben</li>
+          </ul>
+
+          <div className="mt-auto pt-5 flex flex-col sm:flex-row gap-2">
+            <Link href="/jobs" className="btn btn-accent">Jobs durchsuchen</Link>
+            <Link href="/jobs" className="btn">Alle Jobs ansehen</Link>
+          </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 fade-in-delayed">
-        {[
-          ["Schnell live", "Anzeigen in Minuten veröffentlichen – ohne Agentur."],
-          ["Fair & transparent", "Klare Pakete: Basic, Featured & Boost."],
-          ["Für Bahner gemacht", "Texte & Struktur passgenau für den Bahnsektor."]
-        ].map(([title, desc]) => (
-          <div key={title} className="card p-6">
-            <div className="text-sm badge mb-3">{title}</div>
-            <p className="text-neutral-300">{desc}</p>
-          </div>
-        ))}
+      {/* Vertrauensleisten */}
+      <section className="text-center">
+        <div className="inline-flex flex-wrap items-center justify-center gap-2">
+          <span className="badge">In ~5 Min. live</span>
+          <span className="badge">Faire, klare Pakete</span>
+          <span className="badge">Made for rail people</span>
+        </div>
       </section>
     </div>
   );
