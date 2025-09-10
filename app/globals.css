@@ -23,7 +23,7 @@ body {
 }
 
 /* Layout-Helfer */
-.container { @apply max-w-6xl mx-auto px-4; }
+.container { @apply max-w-[72rem] mx-auto px-4; } /* ~ 6xl */
 .section { @apply py-10 md:py-14; }
 
 /* Karten & Buttons */
