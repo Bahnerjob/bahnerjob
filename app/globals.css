@@ -312,3 +312,5 @@ h1, h2, h3, h4 { font-family: inherit !important; letter-spacing: normal !import
 @media (max-width: 767px) {
   .site-header .site-logo { width: 100px !important; }
 }
+/* Sticky-Absicherung (keine Farbänderung) */
+.site-header { position: sticky; top: 0; z-index: 50; }
