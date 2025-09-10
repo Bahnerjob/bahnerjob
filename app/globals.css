@@ -9,44 +9,46 @@
   --border: 38 38 44;      /* #26262c */
   --muted: 160 160 170;    /* #a0a0aa */
   --text: 235 235 240;     /* #ebebf0 */
-  --accent: 220 38 38;     /* Tailwind red-600 als Start: #dc2626 (kannst du auf DB-Rot anpassen) */
+  --accent: 220 38 38;     /* #dc2626 */
 }
 
 /* Basis */
 html, body { height: 100%; }
 body {
   color: rgb(var(--text));
-  background: radial-gradient(1200px 600px at 80% -10%, rgba(220,38,38,0.15), transparent 70%),
-              radial-gradient(800px 400px at 10% 0%, rgba(99,102,241,0.12), transparent 60%),
-              rgb(var(--bg));
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(220,38,38,0.15), transparent 70%),
+    radial-gradient(800px 400px at 10% 0%, rgba(99,102,241,0.12), transparent 60%),
+    rgb(var(--bg));
   background-attachment: fixed;
 }
 
-/* Layout-Helfer */
+/* Layout-Helfer (ohne @apply) */
 .container {
-  max-width: 72rem;      /* ~ 6xl */
+  max-width: 72rem;               /* ~ max-w-6xl */
   margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;    /* px-4 */
-  padding-right: 1rem;   /* px-4 */
+  margin-right: auto;             /* mx-auto */
+  padding-left: 1rem;
+  padding-right: 1rem;            /* px-4 */
 }
-
 .section {
-  padding-top: 2.5rem;   /* py-10 */
-  padding-bottom: 2.5rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;         /* py-10 */
 }
-@media (min-width: 768px) { /* md */
+@media (min-width: 768px) {
   .section {
-    padding-top: 3.5rem; /* py-14 */
-    padding-bottom: 3.5rem;
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;       /* md:py-14 */
   }
 }
 
-/* Karten & Buttons */
+/* Karten & Buttons (ohne @apply) */
 .card {
-  @apply rounded-2xl border shadow-sm transition;
-  border-color: rgb(var(--border));
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)) ,
+  border-radius: 1rem;            /* rounded-2xl */
+  border: 1px solid rgb(var(--border));
+  box-shadow: 0 1px 2px rgba(0,0,0,.05); /* shadow-sm (approx) */
+  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
               rgba(var(--panel) / 0.75);
   backdrop-filter: blur(8px);
 }
@@ -54,23 +56,22 @@ body {
 
 /* Primärer Button */
 .btn {
-  display: inline-flex;                 /* inline-flex */
-  align-items: center;                  /* items-center */
-  justify-content: center;              /* justify-center */
-  border-radius: 0.75rem;               /* rounded-xl */
-  padding: 0.5rem 1rem;                 /* py-2 px-4 */
-  font-size: 0.875rem;                  /* text-sm */
-  font-weight: 500;                     /* font-medium */
-  transition: all 150ms ease;           /* transition */
+  display: inline-flex;           /* inline-flex */
+  align-items: center;            /* items-center */
+  justify-content: center;        /* justify-center */
+  border-radius: 0.75rem;         /* rounded-xl */
+  padding: 0.5rem 1rem;           /* py-2 px-4 */
+  font-size: 0.875rem;            /* text-sm */
+  font-weight: 500;               /* font-medium */
+  transition: all 150ms ease;     /* transition */
   border: 1px solid rgb(var(--border));
   background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
               rgba(255,255,255,0.01);
 }
-.btn:hover {
-  background-color: rgb(38 38 38);      /* ~ bg-neutral-800 */
-}
+.btn:hover { background-color: rgb(38 38 38); } /* bg-neutral-800 */
+
 .btn-accent {
-  color: white;
+  color: #fff;
   border-color: rgba(220,38,38,0.6);
   background: linear-gradient(180deg, rgba(220,38,38,0.18), rgba(220,38,38,0.12));
 }
@@ -78,8 +79,15 @@ body {
 
 /* Kleine Badges */
 .badge {
-  @apply inline-flex items-center gap-1 rounded-full border px-2 py-1 text-[11px] uppercase tracking-wide;
-  border-color: rgb(var(--border));
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;                   /* gap-1 */
+  border-radius: 9999px;          /* rounded-full */
+  border: 1px solid rgb(var(--border));
+  padding: 0.25rem 0.5rem;        /* py-1 px-2 */
+  font-size: 11px;                /* text-[11px] */
+  text-transform: uppercase;
+  letter-spacing: .05em;          /* tracking-wide (approx) */
   color: rgb(var(--muted));
 }
 
