@@ -17,7 +17,7 @@ export default async function NewsRail() {
             <a
               key={i}
               href={n.link}
-              className="card p-4 block hover:bg-neutral-800"
+              className="card p-4 block hover:bg-neutral-800 news-link"
               target="_blank"
               rel="noopener noreferrer"
             >

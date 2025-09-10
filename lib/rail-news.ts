@@ -46,7 +46,12 @@ export async function getRailNewsDE(limitPerFeed = 6): Promise<NewsItem[]> {
                   : it.link?.["@_href"]) || "";
 
           if (title && safeLink) {
-            all.push({ title: String(title).trim(), link: String(safeLink).trim(), date: date ? String(date) : undefined, source: sourceName });
+            all.push({
+              title: String(title).trim(),
+              link: String(safeLink).trim(),
+              date: date ? String(date) : undefined,
+              source: sourceName,
+            });
           }
         }
       } catch {
