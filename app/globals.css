@@ -650,3 +650,32 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* (Schon vorhanden, aber hier nochmal als Netz) */
 .counter { text-align: right; font-size: .75rem; color: #9ca3af; margin-top: .25rem; }
+/* Safety: Inputs/Textareas dunkel & robust */
+.input, .select, .textarea {
+  background: #0f0f0f;
+  border: 1px solid #1f1f1f;
+  border-radius: 10px;
+  padding: .65rem .75rem;
+  color: #e5e7eb;
+  width: 100%;
+  min-width: 0;
+  display: block;
+}
+.textarea { resize: vertical; min-height: 8rem; max-height: 18rem; overflow: auto; }
+.field { min-width: 0; }
+.bj-new .form-grid { display:grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 768px) { .bj-new .form-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+.bj-new .form-grid-4 { display:grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 768px) { .bj-new .form-grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); } }
+
+/* Desc-Sektion höher + Abstand nach unten (dockt optisch an, aber getrennt) */
+.desc-section { min-height: 34rem; padding-bottom: .75rem; margin-bottom: 1.25rem; }
+
+/* Option-Cards: helle Schrift erzwingen */
+.option-card, .option-card * { color: #e5e7eb !important; }
+.option-desc { color: #9ca3af !important; }
+
+/* Links neutral (kein Browser-Blau) und Dummy-Links deaktivieren */
+a, a:visited { color: inherit !important; text-decoration: underline; }
+a:hover { text-decoration-thickness: 2px; }
+.bj-new a[href="#"] { pointer-events: none; color: #6b7280 !important; text-decoration: none; }
