@@ -6,22 +6,30 @@
   date?: string; // ISO
 };
 
-/** D-A-CH Feeds (deutschsprachig) */
+/** D-A-CH Feeds  erweiterbar */
 const FEEDS = [
-  "https://www.tagesschau.de/xml/rss2",              // DE  filtern wir
-  "https://www.spiegel.de/schlagzeilen/index.rss",  // DE  filtern wir
-  "https://www.bahnblogstelle.net/feed/",           // DE
-  "https://www.nzz.ch/reisen/rss",                  // CH  enthält oft Bahn
-  "https://www.derstandard.at/rss/inland",          // AT  filtern wir
-  "https://www.handelsblatt.com/contentexport/feed/schlagzeilen", // DE  filtern
+  // Unternehmensfeeds
+  "https://www.deutschebahn.com/de/presse/rss",     // DB Presse (falls nicht verfügbar, wird still ignoriert)
+  "https://www.oebb.at/de/rss",                     // ÖBB (falls vorhanden)
+  "https://company.sbb.ch/de/medien/rss.xml",       // SBB Medien (falls vorhanden)
+
+  // Bahn-spezifische Portale (DE)
+  "https://www.bahnblogstelle.net/feed/",
+
+  // große DE/AT/CH Medien (filtern wir auf Bahn-Themen)
+  "https://www.tagesschau.de/xml/rss2",
+  "https://www.spiegel.de/schlagzeilen/index.rss",
+  "https://www.derstandard.at/rss/inland",
+  "https://www.nzz.ch/reisen/rss"
 ];
 
-/** Bahn-Keywords (de) */
+/** Bahn-Keywords (deutsch) */
 const KEYWORDS = [
   "bahn","eisenbahn","zug","züge","schienen","schienenverkehr",
   "deutsche bahn","db","s-bahn","u-bahn","regionalbahn","ice","bahnstrecke","bahnhof","fahrplan"
 ];
 
+/** Nur D-A-CH Hosts zulassen (per TLD-Prüfung) */
 const ALLOWED_TLDS = [".de",".at",".ch"];
 
 function timeout<T>(p: Promise<T>, ms=7000): Promise<T> {
@@ -40,7 +48,7 @@ async function fetchFeed(url: string): Promise<string | null> {
   } catch { return null; }
 }
 
-/** sehr einfacher RSS Parser (title/link/pubDate) */
+/** sehr einfacher RSS-Parser (title/link/pubDate) */
 function parseRss(xml: string, sourceHost: string): NewsItem[] {
   const items: NewsItem[] = [];
   const itemRegex = /<item[\s\S]*?<\/item>/gi;
