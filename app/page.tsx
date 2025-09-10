@@ -3,7 +3,7 @@ import NewsRail from "@/components/NewsRail";
 
 export default function HomePage() {
   return (
-    <div className="space-y-12">
+    <div className="space-y-16 md:space-y-20">
       {/* Hero */}
       <section className="text-center fade-in">
         <div className="badge mb-4">Bahn-Jobs · Für Unternehmen & Fachkräfte</div>
@@ -23,9 +23,9 @@ export default function HomePage() {
       </section>
 
       {/* Zwei Wege: Unternehmen / Jobsuchende */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-4 fade-in-delayed">
+      <section className="mt-10 md:mt-14 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 fade-in-delayed">
         {/* Für Unternehmen */}
-        <div className="card p-6 flex flex-col">
+        <div className="card no-lift p-6 flex flex-col">
           <div className="badge mb-3">Für Unternehmen</div>
           <h2 className="text-2xl font-bold tracking-tight">In Minuten zur sichtbaren Anzeige</h2>
           <ul className="mt-3 text-neutral-300 text-[0.98rem] space-y-2">
@@ -41,7 +41,7 @@ export default function HomePage() {
         </div>
 
         {/* Für Jobsuchende */}
-        <div className="card p-6 flex flex-col">
+        <div className="card no-lift p-6 flex flex-col">
           <div className="badge mb-3">Für Jobsuchende</div>
           <h2 className="text-2xl font-bold tracking-tight">Finde deinen nächsten Bahnerjob</h2>
           <ul className="mt-3 text-neutral-300 text-[0.98rem] space-y-2">

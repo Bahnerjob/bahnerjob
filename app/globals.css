@@ -64,9 +64,13 @@ h3{font-size:clamp(1.125rem,1.2vw + .5rem,1.375rem)}
     border-color .15s ease;
   background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)), rgba(var(--panel)/.75);
   backdrop-filter:blur(8px);
-  overflow:hidden; /* nichts ragt über die Rundung hinaus */
+  overflow:hidden;
 }
+/* Standard: leichtes Anheben auf Hover */
 .card:hover{transform:translateY(-1px)}
+
+/* Für Bereiche, die sich NICHT anheben sollen */
+.no-lift:hover{transform:none}
 
 /* Buttons */
 .btn{
@@ -100,20 +104,13 @@ h3{font-size:clamp(1.125rem,1.2vw + .5rem,1.375rem)}
 /* —— Magazin-Styles für News —— */
 .news-grid{display:grid;gap:1rem}
 @media (min-width:768px){.news-grid{grid-template-columns:1fr 1fr}}
-
-/* Mehr Innenabstand, damit Text nicht an der Kante klebt */
 .news-item{position:relative;padding:1.125rem}
-
-/* Hover-Ring AUSSERHALB (statt Border färben) */
 .news-item:hover{
   background-color:rgba(255,255,255,0.02);
-  /* feiner Außenring in Rot, + leichte Shadow */
   box-shadow:
     0 0 0 1px rgba(220,38,38,.42),
     0 1px 2px rgba(0,0,0,.05);
 }
-
-/* Meta-Zeile */
 .news-meta{
   display:flex;align-items:center;gap:.5rem;
   color:rgb(var(--muted));
@@ -121,12 +118,9 @@ h3{font-size:clamp(1.125rem,1.2vw + .5rem,1.375rem)}
 }
 .news-dot{width:4px;height:4px;border-radius:9999px;background:rgba(255,255,255,.35)}
 .news-icon{width:18px;height:18px;opacity:.8;flex:0 0 18px}
-
-/* Titel */
 .news-title{
   font-size:1.1rem;font-weight:650;letter-spacing:-.01em;margin-top:.5rem;line-height:1.35;
 }
-/* 2-Zeilen-Clamp (WebKit) */
 .clamp-2{
   display:-webkit-box;
   -webkit-line-clamp:2;
