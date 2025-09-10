@@ -1,32 +1,44 @@
-﻿type NewsItem = { id: string; title: string; url: string; source?: string; date?: string };
+﻿import Link from "next/link";
+import { getRailNewsDE } from "@/lib/rail-news";
 
-export default function NewsRail({ items = [] as NewsItem[] }) {
-  if (!items?.length) return null;
+export default async function NewsRail() {
+  const items = await getRailNewsDE(); // wirft nie
+  if (!items || items.length === 0) {
+    // Keine News? Seite bleibt sauber – kein Fehler, kein Throw.
+    return null;
+  }
 
   return (
-    <div className="news-rail mt-10">
-      <div className="flex items-center justify-between mb-3">
-        <h2 className="text-xl font-semibold">Branchen-News</h2>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {items.map((n) => (
-          <a
-            key={n.id}
-            href={n.url}
-            className="block rounded-lg border border-neutral-800 bg-neutral-900/50 p-3 hover:bg-neutral-900"
-            target="_blank"
-            rel="noreferrer"
-          >
+    <section className="space-y-4">
+      <header className="section-head">
+        <div className="badge">Branchen-News</div>
+        <h2>Aktuelles aus der Bahnwelt</h2>
+        <p className="section-desc">Ausgewählte Quellen: Zughalt, LOK-Report, Bahnblogstelle.</p>
+      </header>
+
+      <div className="grid gap-3 md:grid-cols-2">
+        {items.map((n, i) => (
+          <article key={i} className="card p-4 hover:translate-y-[-2px] transition-transform">
             <div className="text-xs text-neutral-400 mb-1">{n.source}</div>
-            <div className="text-sm font-medium line-clamp-2">{n.title}</div>
+            <Link
+              href={n.link || "#"}
+              target="_blank"
+              className="block font-medium leading-snug hover:underline"
+            >
+              {n.title}
+            </Link>
             {n.date && (
-              <div className="text-xs text-neutral-500 mt-2">
-                {new Date(n.date).toLocaleDateString("de-DE")}
+              <div className="mt-2 text-xs text-neutral-500">
+                {new Date(n.date).toLocaleDateString("de-DE", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                })}
               </div>
             )}
-          </a>
+          </article>
         ))}
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,17 +1,15 @@
 ﻿import { Suspense } from "react";
-import View from "./view";
+import NewJobView from "./view";
 
 export const metadata = {
-  title: "Anzeige erstellen | Bahnerjob",
-  description: "Erstelle deine Jobanzeige für die Bahnbranche.",
+  title: "Anzeige entwerfen – Bahnerjob",
+  description: "Stellenanzeige erstellen und Paket wählen."
 };
 
-export const dynamic = "force-dynamic";
-
-export default function JobsNewPage() {
+export default function NewJobPage() {
   return (
-    <Suspense>
-      <View />
+    <Suspense fallback={<div className="card p-6">Lädt Formular…</div>}>
+      <NewJobView />
     </Suspense>
   );
 }
