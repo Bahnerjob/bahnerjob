@@ -31,7 +31,16 @@ body {
   padding-right: 1rem;   /* px-4 */
 }
 
-.section { @apply py-10 md:py-14; }
+.section {
+  padding-top: 2.5rem;   /* py-10 */
+  padding-bottom: 2.5rem;
+}
+@media (min-width: 768px) { /* md */
+  .section {
+    padding-top: 3.5rem; /* py-14 */
+    padding-bottom: 3.5rem;
+  }
+}
 
 /* Karten & Buttons */
 .card {
