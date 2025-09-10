@@ -12,7 +12,7 @@ export default async function HomePage() {
   return (
     <div>
       {/* HERO ohne Bild/Logo (Logo ist global im Header) */}
-      <section className="py-10 md:py-14">
+      <section className="py-10 md:py-14 hero-section">
         <div className="container">
           <h1 className="text-3xl md:text-5xl font-semibold leading-tight text-center">
             Jobs für die Bahnbranche  <span className="text-amber-400">einfach finden oder inserieren</span>
@@ -21,7 +21,7 @@ export default async function HomePage() {
             Bahnerjob ist das Jobboard speziell für Eisenbahn-Profis. Erstelle in wenigen Minuten eine Anzeige
             oder finde deinen nächsten Schritt im Schienenverkehr.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3 justify-center text-center">
+          <div className="mt-6 flex flex-wrap gap-3 justify-center text-center hero-ctas">
             <a href="/jobs/new" className="btn btn-accent h-11 px-5 rounded-xl font-semibold">Anzeige schalten</a>
             <a href="/pricing" className="btn h-11 px-5 rounded-xl border border-neutral-800 hover:bg-neutral-900">Preise ansehen</a>
             <a href="/" className="btn h-11 px-5 rounded-xl border border-neutral-800 hover:bg-neutral-900">Jobs durchsuchen</a>
@@ -30,7 +30,7 @@ export default async function HomePage() {
       </section>
 
       {/* FÜR WEN?  zwei Karten */}
-      <section className="py-8">
+      <section className="py-8 after-hero">
         <div className="container grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="card">
             <div className="text-sm text-neutral-400">Für Unternehmen</div>
@@ -81,5 +81,6 @@ export default async function HomePage() {
     </div>
   );
 }
+
 
 

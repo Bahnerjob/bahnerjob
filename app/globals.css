@@ -392,3 +392,19 @@ h1, h2, h3, h4 { font-family: inherit !important; letter-spacing: normal !import
 .news-section { padding-bottom: .5rem; }
 
 /* (Belassen: die Cards selbst sind bereits weich & ohne hellen Rand) */
+/* === Overlap-Fix: Hero-CTAs immer oben, Bereich darunter separat ========= */
+.hero-section { position: relative; isolation: isolate; }  /* eigener Kontext */
+.hero-ctas { position: relative; z-index: 20; }            /* CTAs über allem im Hero */
+.after-hero { position: relative; z-index: 0; margin-top: .5rem; }
+
+/* Karten dürfen nicht "über" die CTAs schweben */
+.after-hero .card { position: relative; z-index: 0; }
+.after-hero .card:hover { z-index: 0; transform: translateY(-1px); } /* Lift ja, aber ohne Überlappung */
+
+/* Für absolute Sicherheit bei sehr hohen Shadows: */
+.hero-section + .after-hero { padding-top: .25rem; }
+
+/* (Optional) etwas mehr "Luft" auf kleinen Screens */
+@media (max-width: 767px){
+  .after-hero { margin-top: .75rem; }
+}
