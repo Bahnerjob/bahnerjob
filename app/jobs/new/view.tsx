@@ -30,7 +30,7 @@ const PACKAGES: { key: "basic" | "featured" | "boost"; label: string; desc: stri
   { key: "boost",    label: "Boost",    desc: "Alles aus Featured + 45 Tage Laufzeit & maximale Prominenz" }
 ];
 
-export default function NewJobPage() {
+export default function NewJobView() {
   const [draft, setDraft] = useState<Draft>(initial);
   const [pkgKey, setPkgKey] = useState<"basic" | "featured" | "boost">("featured");
   const [busy, setBusy] = useState(false);
@@ -89,8 +89,8 @@ export default function NewJobPage() {
         {/* Stepper */}
         <nav className="stepper card no-lift p-3" aria-label="Fortschritt">
           <Step number={1} label="Entwurf" active />
-          <Step number={2} label="Paket" active={false} />
-          <Step number={3} label="Bezahlen" active={false} />
+          <Step number={2} label="Paket" />
+          <Step number={3} label="Bezahlen" />
         </nav>
 
         <form onSubmit={onSubmit} className="space-y-8">

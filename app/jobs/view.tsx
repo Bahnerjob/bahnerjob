@@ -1,248 +1,161 @@
 ﻿"use client";
 
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
-type Draft = {
+type Job = {
+  id: string;
   title: string;
   company: string;
   location: string;
-  bundesland: string;
+  bundesland?: string;
   applyUrl: string;
-  logoUrl: string;
-  description: string;
+  logoUrl?: string;
+  featured?: boolean;
 };
 
-const initial: Draft = {
-  title: "",
-  company: "",
-  location: "",
-  bundesland: "",
-  applyUrl: "",
-  logoUrl: "",
-  description: "",
-};
-
-const PACKAGES: { key: "basic" | "featured" | "boost"; label: string; desc: string }[] = [
-  { key: "basic",    label: "Basic",    desc: "30 Tage Laufzeit, Sichtbar in Jobliste & Suche" },
-  { key: "featured", label: "Featured", desc: "Alles aus Basic + priorisierte Platzierung & Kennzeichnung" },
-  { key: "boost",    label: "Boost",    desc: "Alles aus Featured + 45 Tage Laufzeit & maximale Prominenz" }
+// Beispiel-Daten (ersetzbar durch echte Quelle/API)
+const JOBS: Job[] = [
+  {
+    id: "1",
+    title: "Triebfahrzeugführer (m/w/d)",
+    company: "DB Regio",
+    location: "München",
+    bundesland: "Bayern",
+    applyUrl: "https://www.example.com/apply/1",
+    featured: true
+  },
+  {
+    id: "2",
+    title: "Fahrdienstleiter (m/w/d)",
+    company: "S-Bahn Berlin",
+    location: "Berlin",
+    bundesland: "Berlin",
+    applyUrl: "https://www.example.com/apply/2"
+  },
+  {
+    id: "3",
+    title: "Elektroniker Instandhaltung (m/w/d)",
+    company: "Netz Instand GmbH",
+    location: "Nürnberg",
+    bundesland: "Bayern",
+    applyUrl: "mailto:bewerbung@netz-instand.de"
+  }
 ];
 
-export default function NewJobView() {
-  const [draft, setDraft] = useState<Draft>(initial);
-  const [pkgKey, setPkgKey] = useState<"basic" | "featured" | "boost">("featured");
-  const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState<string | null>(null);
+const BUNDESLAENDER = [
+  "Baden-Württemberg","Bayern","Berlin","Brandenburg","Bremen","Hamburg","Hessen",
+  "Mecklenburg-Vorpommern","Niedersachsen","Nordrhein-Westfalen","Rheinland-Pfalz",
+  "Saarland","Sachsen","Sachsen-Anhalt","Schleswig-Holstein","Thüringen"
+];
 
-  // Paket per URL vorbelegen: /jobs/new?pkg=basic|featured|boost
+export default function JobsView() {
   const sp = useSearchParams();
-  useEffect(() => {
-    const p = sp.get("pkg");
-    if (p === "basic" || p === "featured" || p === "boost") setPkgKey(p);
-  }, [sp]);
+  const q = (sp.get("q") || "").toLowerCase().trim();
+  const bl = sp.get("bl") || "";
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setBusy(true);
-    setErr(null);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ package: pkgKey, ad: draft }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data?.url) throw new Error(data?.error || "Checkout konnte nicht gestartet werden.");
-      window.location.href = data.url;
-    } catch (e: any) {
-      setErr(e.message || "Unbekannter Fehler");
-      setBusy(false);
+  const filtered = useMemo(() => {
+    let rows = JOBS.slice();
+    if (q) {
+      rows = rows.filter(j =>
+        [j.title, j.company, j.location, j.bundesland ?? ""]
+          .join(" ")
+          .toLowerCase()
+          .includes(q)
+      );
     }
-  }
-
-  function bind<K extends keyof Draft>(key: K) {
-    return {
-      value: draft[key],
-      onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-        setDraft((d) => ({ ...d, [key]: e.target.value })),
-    };
-  }
-
-  const titleCount = draft.title.length;
-  const descCount = draft.description.length;
-
-  const previewTitle = draft.title || "Jobtitel";
-  const previewMeta = useMemo(() => {
-    const company = draft.company || "Firma";
-    const loc = draft.location || "Ort";
-    const bl = draft.bundesland ? ` (${draft.bundesland})` : "";
-    return `${company} · ${loc}${bl}`;
-  }, [draft.company, draft.location, draft.bundesland]);
+    if (bl) {
+      rows = rows.filter(j => (j.bundesland || "").toLowerCase() === bl.toLowerCase());
+    }
+    // leichte Priorisierung: featured nach oben
+    rows.sort((a, b) => Number(!!b.featured) - Number(!!a.featured));
+    return rows;
+  }, [q, bl]);
 
   return (
-    <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
-      {/* ---------- LINKSSPALTE: FORM ---------- */}
-      <div className="space-y-8">
-        {/* Stepper */}
-        <nav className="stepper card no-lift p-3" aria-label="Fortschritt">
-          <Step number={1} label="Entwurf" active />
-          <Step number={2} label="Paket" />
-          <Step number={3} label="Bezahlen" />
-        </nav>
+    <div className="space-y-6">
+      <header className="section-head">
+        <div className="badge">Jobangebote</div>
+        <h1>Aktuelle Stellen</h1>
+        <p className="section-desc">Finde Jobs im Bahnsektor – suche nach Titel, Firma oder Ort.</p>
+      </header>
 
-        <form onSubmit={onSubmit} className="space-y-8">
-          {/* Abschnitt: Anzeige */}
-          <section className="card no-lift p-6">
-            <header className="section-head">
-              <h2>Stellenausschreibung</h2>
-              <p className="section-desc">
-                Kurzer, klarer Titel. Eine prägnante Beschreibung hilft Bewerber:innen, schnell zu verstehen, worum es geht.
-              </p>
-            </header>
-
-            <div className="form-grid">
-              <div className="field">
-                <label htmlFor="title" className="label">Jobtitel *</label>
-                <input id="title" required maxLength={80} placeholder="z. B. Triebfahrzeugführer (m/w/d)"
-                  className="input" {...bind("title")} aria-describedby="help-title counter-title" />
-                <div className="row-between">
-                  <small id="help-title" className="help">Max. 80 Zeichen</small>
-                  <small id="counter-title" className="counter">{titleCount}/80</small>
-                </div>
-              </div>
-
-              <div className="row-2">
-                <div className="field">
-                  <label htmlFor="company" className="label">Firma *</label>
-                  <input id="company" required maxLength={80} placeholder="z. B. DB Regio"
-                    className="input" {...bind("company")} />
-                </div>
-
-                <div className="field">
-                  <label htmlFor="bundesland" className="label">Bundesland</label>
-                  <input id="bundesland" maxLength={40} placeholder="z. B. Bayern"
-                    className="input" {...bind("bundesland")} />
-                </div>
-              </div>
-
-              <div className="row-2">
-                <div className="field">
-                  <label htmlFor="location" className="label">Ort *</label>
-                  <input id="location" required maxLength={80} placeholder="z. B. München"
-                    className="input" {...bind("location")} />
-                </div>
-
-                <div className="field">
-                  <label htmlFor="applyUrl" className="label">Bewerbungslink / E-Mail *</label>
-                  <input id="applyUrl" required maxLength={120}
-                    placeholder="https://firma.de/jobs/123 oder mailto:jobs@firma.de"
-                    className="input" {...bind("applyUrl")} />
-                </div>
-              </div>
-
-              <div className="field">
-                <label htmlFor="logoUrl" className="label">Logo-URL</label>
-                <input id="logoUrl" maxLength={120} placeholder="https://…/logo.png"
-                  className="input" {...bind("logoUrl")} />
-                <small className="help">Quadratisches PNG/SVG empfohlen (mind. 96×96 px)</small>
-              </div>
-
-              <div className="field">
-                <label htmlFor="description" className="label">Kurzbeschreibung</label>
-                <textarea id="description" maxLength={400}
-                  placeholder="Worum geht es? Anforderungen, Benefits, Kontakt …"
-                  className="textarea" {...bind("description")}
-                  aria-describedby="counter-desc" />
-                <div className="row-end">
-                  <small id="counter-desc" className="counter">{descCount}/400</small>
-                </div>
-              </div>
+      {/* Filter-UI (Client-side, liest URL-Parameter) */}
+      <div className="card p-4">
+        <form className="form-grid" action="/jobs" method="GET">
+          <div className="field">
+            <label htmlFor="q" className="label">Suche</label>
+            <input
+              id="q"
+              name="q"
+              className="input"
+              placeholder="z. B. Fahrdienstleiter, DB, München…"
+              defaultValue={q}
+            />
+          </div>
+          <div className="row-2">
+            <div className="field">
+              <label htmlFor="bl" className="label">Bundesland</label>
+              <select id="bl" name="bl" className="input" defaultValue={bl}>
+                <option value="">Alle</option>
+                {BUNDESLAENDER.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
             </div>
-          </section>
-
-          {/* Abschnitt: Paket */}
-          <section className="card no-lift p-6">
-            <header className="section-head">
-              <h2>Paket wählen</h2>
-              <p className="section-desc">Die Preise sind in Stripe hinterlegt. Deine Auswahl steuert die Preis-ID.</p>
-            </header>
-
-            <div className="stack-3">
-              {PACKAGES.map((p) => (
-                <label key={p.key} className={`choice ${pkgKey === p.key ? "choice-active" : ""}`}>
-                  <div className="choice-main">
-                    <span className="choice-title">{p.label}</span>
-                    <span className="choice-desc">{p.desc}</span>
-                  </div>
-                  <input
-                    type="radio"
-                    name="package"
-                    checked={pkgKey === p.key}
-                    onChange={() => setPkgKey(p.key)}
-                    aria-label={p.label}
-                  />
-                </label>
-              ))}
+            <div className="field" style={{alignSelf:"end"}}>
+              <button className="btn btn-accent" type="submit">Filtern</button>
             </div>
-          </section>
-
-          {/* Aktionen */}
-          <section className="card no-lift p-6">
-            {err && <div className="alert error mb-3">{err}</div>}
-
-            <div className="row-wrap">
-              <button className="btn btn-accent" type="submit" disabled={busy}>
-                {busy ? "Weiter zur Zahlung…" : "Jetzt bezahlen"}
-              </button>
-              <Link className="btn" href="/pricing">Pakete ansehen</Link>
-              <Link className="btn" href="/">Zur Startseite</Link>
-            </div>
-
-            <p className="tiny text-neutral-500 mt-3">
-              Mit „Jetzt bezahlen“ stimmst du der Verarbeitung deiner Angaben zur Anzeigenerstellung zu.
-            </p>
-          </section>
+          </div>
         </form>
       </div>
 
-      {/* ---------- RECHTSSPALTE: STICKY VORSCHAU ---------- */}
-      <aside className="sticky-card card no-lift p-6 h-fit">
-        <div className="badge mb-3">Vorschau</div>
+      {/* Ergebnis-Info */}
+      <div className="text-sm text-neutral-400">
+        {filtered.length} {filtered.length === 1 ? "Treffer" : "Treffer"}
+      </div>
 
-        <div className="flex items-start gap-3">
-          {draft.logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={draft.logoUrl} alt="" className="w-12 h-12 rounded-lg object-cover border" />
-          ) : (
-            <div className="w-12 h-12 rounded-lg border bg-neutral-900/40" />
-          )}
-
-          <div>
-            <div className="text-lg font-bold">{previewTitle}</div>
-            <div className="text-neutral-400">{previewMeta}</div>
-          </div>
-        </div>
-
-        <p className="mt-3 text-neutral-300 whitespace-pre-wrap">
-          {draft.description || "Kurze Jobbeschreibung …"}
-        </p>
-
-        <div className="mt-4 text-sm text-neutral-400">
-          Bewerbungsweg: {draft.applyUrl || "https://… oder mailto:…"}
-        </div>
-      </aside>
+      {/* Liste */}
+      <div className="grid gap-3">
+        {filtered.length === 0 ? (
+          <div className="card p-6 text-neutral-300">Keine Treffer. Bitte Filter anpassen.</div>
+        ) : (
+          filtered.map(j => <JobCard key={j.id} j={j} />)
+        )}
+      </div>
     </div>
   );
 }
 
-/* ------- kleine UI-Helfer ------- */
-function Step({ number, label, active }: { number: number; label: string; active?: boolean }) {
+function JobCard({ j }: { j: Job }) {
   return (
-    <div className={`step ${active ? "step-active" : ""}`}>
-      <div className="step-num">{number}</div>
-      <div className="step-label">{label}</div>
-    </div>
+    <article className="card p-5">
+      <div className="flex items-start gap-3">
+        {/* Logo/Platzhalter */}
+        {j.logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={j.logoUrl} alt="" className="w-12 h-12 rounded-lg object-cover border" />
+        ) : (
+          <div className="w-12 h-12 rounded-lg border bg-neutral-900/40" />
+        )}
+
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            {j.featured && <span className="badge">Featured</span>}
+            <h3 className="text-lg font-bold">{j.title}</h3>
+          </div>
+          <div className="text-neutral-400">
+            {j.company} · {j.location}{j.bundesland ? ` (${j.bundesland})` : ""}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Link href={j.applyUrl} className="btn btn-accent" target={j.applyUrl.startsWith("http") ? "_blank" : undefined}>
+            Jetzt bewerben
+          </Link>
+        </div>
+      </div>
+    </article>
   );
 }
