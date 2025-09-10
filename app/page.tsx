@@ -23,7 +23,7 @@ export default async function HomePage() {
                 width={260}
                 height={260}
                 priority
-                className="home-logo"
+                className="home-logo home-logo--hero"
               />
             </div>
             <div>
@@ -95,3 +95,4 @@ export default async function HomePage() {
     </div>
   );
 }
+
