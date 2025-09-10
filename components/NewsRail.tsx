@@ -1,77 +1,44 @@
-﻿import { getRailNewsDE } from "@/lib/rail-news";
+﻿import Link from "next/link";
+import { getRailNewsDE } from "@/lib/rail-news";
 
-/**
- * Magazin-Widget: Deutsche Bahn-News (RSS)
- * - Hover-Ring außerhalb (kein Text-Border-„Zusammenstoß“)
- * - größere Titel
- * - schlanke Meta-Zeile mit Quelle & Datum
- * - kleines Icon
- */
 export default async function NewsRail() {
-  const items = await getRailNewsDE(6);
-  if (!items || items.length === 0) return null;
+  const items = await getRailNewsDE(); // wirft nie
+  if (!items || items.length === 0) {
+    // Keine News? Seite bleibt sauber – kein Fehler, kein Throw.
+    return null;
+  }
 
   return (
-    <section className="section fade-in">
-      <div className="container">
-        <div className="mb-4 flex items-baseline justify-between">
-          <h2 className="text-xl font-semibold">Aktuelle Bahn-News (DE)</h2>
-          <span className="badge">Auto-Update ~15 Min.</span>
-        </div>
+    <section className="space-y-4">
+      <header className="section-head">
+        <div className="badge">Branchen-News</div>
+        <h2>Aktuelles aus der Bahnwelt</h2>
+        <p className="section-desc">Ausgewählte Quellen: Zughalt, LOK-Report, Bahnblogstelle.</p>
+      </header>
 
-        <div className="news-grid">
-          {items.map((n, i) => (
-            <a
-              key={i}
-              href={n.link}
-              className="card news-item block news-link"
+      <div className="grid gap-3 md:grid-cols-2">
+        {items.map((n, i) => (
+          <article key={i} className="card p-4 hover:translate-y-[-2px] transition-transform">
+            <div className="text-xs text-neutral-400 mb-1">{n.source}</div>
+            <Link
+              href={n.link || "#"}
               target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${n.title} — ${n.source}`}
+              className="block font-medium leading-snug hover:underline"
             >
-              <div className="news-meta">
-                <NewsIcon />
-                <span className="badge">{n.source}</span>
-                {n.date ? (
-                  <>
-                    <span className="news-dot" />
-                    <time>{formatDateDE(n.date)}</time>
-                  </>
-                ) : null}
+              {n.title}
+            </Link>
+            {n.date && (
+              <div className="mt-2 text-xs text-neutral-500">
+                {new Date(n.date).toLocaleDateString("de-DE", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                })}
               </div>
-
-              <div className="news-title clamp-2">{n.title}</div>
-            </a>
-          ))}
-        </div>
+            )}
+          </article>
+        ))}
       </div>
     </section>
-  );
-}
-
-function formatDateDE(d: string) {
-  const t = Date.parse(d);
-  if (Number.isNaN(t)) return "";
-  return new Date(t).toLocaleDateString("de-DE", {
-    day: "2-digit",
-    month: "short",
-  });
-}
-
-function NewsIcon() {
-  return (
-    <svg
-      className="news-icon"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      fill="none"
-      strokeWidth="1.6"
-      aria-hidden="true"
-    >
-      <rect x="3" y="5" width="18" height="14" rx="2" />
-      <line x1="7" y1="9" x2="17" y2="9" />
-      <line x1="7" y1="12" x2="17" y2="12" />
-      <line x1="7" y1="15" x2="13" y2="15" />
-    </svg>
   );
 }

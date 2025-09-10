@@ -1,68 +1,95 @@
 ﻿import { XMLParser } from "fast-xml-parser";
 
-type NewsItem = {
+export type NewsItem = {
   title: string;
   link: string;
   date?: string;
   source: string;
 };
 
-const FEEDS: string[] = [
-  "https://www.zughalt.de/feed/",
-  "https://bahnblogstelle.com/feed/",
-  "https://www.lok-report.de/news/deutschland.html?format=feed&type=rss",
+const FEEDS = [
+  { url: "https://www.zughalt.de/feed/", source: "Zughalt.de" },
+  { url: "https://www.lok-report.de/news.rss", source: "LOK-Report" },
+  { url: "https://bahnblogstelle.net/feed/", source: "Bahnblogstelle" },
 ];
 
-export async function getRailNewsDE(limitPerFeed = 6): Promise<NewsItem[]> {
-  const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "@_" });
-  const all: NewsItem[] = [];
+// Hilfsfunktionen
+async function safeFetch(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url, {
+      // Build soll nicht hängen – bei Fehler später einfach leer rendern
+      next: { revalidate: 1800 },
+      headers: { "user-agent": "bahnerjob-news-fetcher" },
+    });
+    if (!res.ok) return null;
+    return await res.text();
+  } catch {
+    return null;
+  }
+}
 
-  await Promise.all(
-    FEEDS.map(async (url) => {
-      try {
-        const res = await fetch(url, {
-          headers: { "User-Agent": "bahnerjob-newsbot/1.0 (+https://bahnerjob.de)" },
-          next: { revalidate: 600 }, // 10 Minuten Cache
-        });
-        if (!res.ok) return;
+function parseXmlToItems(xml: string | null, source: string): NewsItem[] {
+  if (!xml) return [];
+  try {
+    const parser = new XMLParser({
+      ignoreAttributes: false,
+      attributeNamePrefix: "",
+      parseTagValue: true,
+      trimValues: true,
+    });
+    const data = parser.parse(xml);
 
-        const xml = await res.text();
-        const j = parser.parse(xml);
+    // RSS 2.0: rss.channel.item[]
+    if (data?.rss?.channel?.item) {
+      const items = Array.isArray(data.rss.channel.item)
+        ? data.rss.channel.item
+        : [data.rss.channel.item];
+      return items.slice(0, 8).map((it: any) => ({
+        title: it.title ?? "(ohne Titel)",
+        link: it.link ?? "#",
+        date: it.pubDate ?? it.date ?? undefined,
+        source,
+      }));
+    }
 
-        const ch = j.rss?.channel ?? j.feed;
-        const items: any[] = ch?.item ?? ch?.entry ?? [];
-        const sourceName = ch?.title?.toString?.() ?? new URL(url).hostname.replace(/^www\./, "");
+    // Atom: feed.entry[]
+    if (data?.feed?.entry) {
+      const entries = Array.isArray(data.feed.entry)
+        ? data.feed.entry
+        : [data.feed.entry];
+      return entries.slice(0, 8).map((e: any) => ({
+        title: e.title ?? "(ohne Titel)",
+        link:
+          (Array.isArray(e.link) ? e.link.find((l: any) => l.rel !== "self")?.href : e.link?.href) ??
+          e.id ??
+          "#",
+        date: e.updated ?? e.published ?? undefined,
+        source,
+      }));
+    }
 
-        for (const it of items.slice(0, limitPerFeed)) {
-          const title = it.title?._cdata || it.title || it["title#text"] || "";
-          const rawLink = it.link?.href || it.link?._text || it.link || it.guid || "";
-          const date = it.pubDate || it.published || it.updated || undefined;
+    return [];
+  } catch {
+    return [];
+  }
+}
 
-          const safeLink =
-            typeof rawLink === "string"
-              ? rawLink
-              : (Array.isArray(it.link)
-                  ? it.link.find((l: any) => l?.["@_rel"] !== "self")?.["@_href"]
-                  : it.link?.["@_href"]) || "";
-
-          if (title && safeLink) {
-            all.push({
-              title: String(title).trim(),
-              link: String(safeLink).trim(),
-              date: date ? String(date) : undefined,
-              source: sourceName,
-            });
-          }
-        }
-      } catch {
-        // Feed überspringen
-      }
-    })
-  );
-
-  return all.sort((a, b) => {
-    const da = a.date ? Date.parse(a.date) : 0;
-    const db = b.date ? Date.parse(b.date) : 0;
-    return db - da;
-  });
+export async function getRailNewsDE(): Promise<NewsItem[]> {
+  try {
+    const pages = await Promise.all(
+      FEEDS.map(async (f) => parseXmlToItems(await safeFetch(f.url), f.source))
+    );
+    // flatten + sort (neuste oben)
+    const all = pages.flat();
+    all.sort((a, b) => {
+      const da = a.date ? Date.parse(a.date) : 0;
+      const db = b.date ? Date.parse(b.date) : 0;
+      return db - da;
+    });
+    // maximal 12 anzeigen
+    return all.slice(0, 12);
+  } catch {
+    // niemals throwen -> Build/Runtime darf nicht scheitern
+    return [];
+  }
 }

@@ -1,74 +1,55 @@
-﻿import Link from "next/link";
-import NewsRail from "@/components/NewsRail";
+﻿import NewsRail from "@/components/NewsRail";
+import Link from "next/link";
+
+export const metadata = {
+  title: "Bahnerjob – Jobs & Stellenanzeigen im Bahnsektor",
+  description:
+    "Bahnerjob: Stellen finden oder Anzeigen schalten. Klare Pakete, schnelle Veröffentlichung, faire Reichweite.",
+};
 
 export default function HomePage() {
   return (
-    <div className="space-y-16 md:space-y-20">
-      {/* Hero */}
-      <section className="text-center fade-in">
-        <div className="badge mb-4">Bahn-Jobs · Für Unternehmen & Fachkräfte</div>
-
-        <h1 className="font-bold tracking-tight">
-          Bahnerjob – Jobs & Anzeigen im Bahnsektor
-        </h1>
-
-        <p className="mt-4 lead max-w-2xl mx-auto">
-          Schnell sichtbar für Unternehmen. Schnell fündig für Fachkräfte. Klar, fair, ohne Umwege.
+    <div className="space-y-12">
+      {/* HERO */}
+      <header className="text-center">
+        <div className="badge mb-3">Bahnerjob</div>
+        <h1 className="font-bold tracking-tight">Stellen finden. Anzeigen schalten.</h1>
+        <p className="lead mt-3 max-w-2xl mx-auto">
+          Für Unternehmen und Jobsuchende im Bahnsektor – klar, schnell, ohne Umwege.
         </p>
-
-        <div className="mt-6 flex items-center justify-center gap-3">
-          {/* WICHTIG: direkt zum Entwurf */}
-          <Link className="btn btn-accent" href="/jobs/new">Anzeige schalten</Link>
+        <div className="mt-6 flex items-center justify-center gap-3 flex-wrap">
+          <Link className="btn btn-accent" href="/jobs/new">Anzeige entwerfen</Link>
           <Link className="btn" href="/jobs">Jobs durchsuchen</Link>
+          <Link className="btn" href="/pricing">Preise ansehen</Link>
         </div>
-      </section>
+      </header>
 
-      {/* Zwei Wege */}
-      <section className="mt-10 md:mt-14 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 fade-in-delayed">
-        {/* Für Unternehmen */}
-        <div className="card no-lift p-6 flex flex-col">
-          <div className="badge mb-3">Für Unternehmen</div>
-          <h2 className="text-2xl font-bold tracking-tight">In Minuten zur sichtbaren Anzeige</h2>
-          <ul className="mt-3 text-neutral-300 text-[0.98rem] space-y-2">
-            <li>• Veröffentlichung ohne Agentur & ohne Umwege</li>
-            <li>• Pakete: Basic, Featured & Boost – jederzeit erweiterbar</li>
-            <li>• Transparente Preise & Rechnung für die Buchhaltung</li>
-          </ul>
-
-          <div className="mt-auto pt-5 flex flex-col sm:flex-row gap-2">
-            {/* WICHTIG: hier ebenfalls zum Entwurf */}
-            <Link href="/jobs/new" className="btn btn-accent">Anzeige schalten</Link>
-            <Link href="/pricing" className="btn">Preise ansehen</Link>
+      {/* TEASER-ZWEI-SPALTIG */}
+      <section className="grid gap-6 md:grid-cols-2">
+        <div className="card p-6">
+          <div className="badge mb-2">Für Unternehmen</div>
+          <h2 className="text-xl font-semibold">Schnell zur passenden Anzeige</h2>
+          <p className="text-neutral-300 mt-2">
+            Vorlage ausfüllen, Paket wählen, bezahlen – fertig. Deine Anzeige ist im Handumdrehen live.
+          </p>
+          <div className="mt-4">
+            <Link className="btn btn-accent" href="/jobs/new">Anzeige entwerfen</Link>
           </div>
         </div>
 
-        {/* Für Jobsuchende */}
-        <div className="card no-lift p-6 flex flex-col">
-          <div className="badge mb-3">Für Jobsuchende</div>
-          <h2 className="text-2xl font-bold tracking-tight">Finde deinen nächsten Bahnerjob</h2>
-          <ul className="mt-3 text-neutral-300 text-[0.98rem] space-y-2">
-            <li>• Echte Bahn-Rollen – keine generischen Sammelstellen</li>
-            <li>• Schnelle Suche nach Titel, Ort & Bundesland</li>
-            <li>• Kein Account nötig – direkt informieren & bewerben</li>
-          </ul>
-
-          <div className="mt-auto pt-5 flex flex-col sm:flex-row gap-2">
-            <Link href="/jobs" className="btn btn-accent">Jobs durchsuchen</Link>
-            <Link href="/jobs" className="btn">Alle Jobs ansehen</Link>
+        <div className="card p-6">
+          <div className="badge mb-2">Für Jobsuchende</div>
+          <h2 className="text-xl font-semibold">Gezielt suchen & direkt bewerben</h2>
+          <p className="text-neutral-300 mt-2">
+            Filter nach Ort & Bundesland. Bewirb dich über den angegebenen Link oder per E-Mail.
+          </p>
+          <div className="mt-4">
+            <Link className="btn" href="/jobs">Jobs durchsuchen</Link>
           </div>
         </div>
       </section>
 
-      {/* Vertrauensleisten */}
-      <section className="text-center">
-        <div className="inline-flex flex-wrap items-center justify-center gap-2">
-          <span className="badge">In ~5 Min. live</span>
-          <span className="badge">Faire, klare Pakete</span>
-          <span className="badge">Made for rail people</span>
-        </div>
-      </section>
-
-      {/* Bahn-News */}
+      {/* NEWS (fehlerresistent – rendert einfach nichts, wenn leer) */}
       <NewsRail />
     </div>
   );
