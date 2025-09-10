@@ -2,6 +2,7 @@
 
 /**
  * Magazin-Widget: Deutsche Bahn-News (RSS)
+ * - Hover-Ring außerhalb (kein Text-Border-„Zusammenstoß“)
  * - größere Titel
  * - schlanke Meta-Zeile mit Quelle & Datum
  * - kleines Icon
@@ -23,7 +24,7 @@ export default async function NewsRail() {
             <a
               key={i}
               href={n.link}
-              className="card news-item p-4 block news-link"
+              className="card news-item block news-link"
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${n.title} — ${n.source}`}
@@ -67,7 +68,6 @@ function NewsIcon() {
       strokeWidth="1.6"
       aria-hidden="true"
     >
-      {/* kleine Zeitung */}
       <rect x="3" y="5" width="18" height="14" rx="2" />
       <line x1="7" y1="9" x2="17" y2="9" />
       <line x1="7" y1="12" x2="17" y2="12" />

@@ -16,14 +16,11 @@
 html,body{height:100%}
 body{
   color:rgb(var(--text));
-  /* nur Rot-Ton, kein Blau/Lila-Schimmer */
   background:
     radial-gradient(1100px 520px at 75% -10%, rgba(220,38,38,0.14), transparent 70%),
     linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
     rgb(var(--bg));
   background-attachment:fixed;
-
-  /* moderne Typo */
   font-size:17px;
   line-height:1.65;
   letter-spacing:.01em;
@@ -41,7 +38,7 @@ h3{font-size:clamp(1.125rem,1.2vw + .5rem,1.375rem)}
 .section{padding:2.75rem 0}
 @media (min-width:768px){.section{padding:3.75rem 0}}
 
-/* Header/Footer Reihen + Nav/Links (fixe Abstände) */
+/* Header/Footer */
 .header-row{display:flex;align-items:center;justify-content:space-between;padding:1rem 0}
 .brand{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;letter-spacing:-.01em}
 .brand-dot{display:inline-block;width:.625rem;height:.625rem;border-radius:9999px;background:rgb(var(--accent))}
@@ -60,9 +57,14 @@ h3{font-size:clamp(1.125rem,1.2vw + .5rem,1.375rem)}
   border-radius:1.25rem;
   border:1px solid rgb(var(--border));
   box-shadow:0 1px 2px rgba(0,0,0,.05);
-  transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease, border-color .15s ease;
+  transition:
+    transform .15s ease,
+    box-shadow .15s ease,
+    background-color .15s ease,
+    border-color .15s ease;
   background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)), rgba(var(--panel)/.75);
   backdrop-filter:blur(8px);
+  overflow:hidden; /* nichts ragt über die Rundung hinaus */
 }
 .card:hover{transform:translateY(-1px)}
 
@@ -87,42 +89,42 @@ h3{font-size:clamp(1.125rem,1.2vw + .5rem,1.375rem)}
   color:rgb(var(--muted));
 }
 
-/* ——— Link-Fix: keine blauen/lila Links in Cards/News ——— */
+/* —— Link-Fix: keine blauen/lila Links —— */
 .card a,
-.news-link{
-  color:inherit;
-  text-decoration:none;
-}
+.news-link{color:inherit;text-decoration:none}
 .card a:visited,
-.news-link:visited{
-  color:inherit;
-}
+.news-link:visited{color:inherit}
 .card a:hover,
-.news-link:hover{
-  color:#fff; /* leichte Aufhellung beim Hover */
-}
+.news-link:hover{color:#fff}
 
-/* ——— Magazin-Styles für News ——— */
+/* —— Magazin-Styles für News —— */
 .news-grid{display:grid;gap:1rem}
 @media (min-width:768px){.news-grid{grid-template-columns:1fr 1fr}}
-.news-item{position:relative}
+
+/* Mehr Innenabstand, damit Text nicht an der Kante klebt */
+.news-item{position:relative;padding:1.125rem}
+
+/* Hover-Ring AUSSERHALB (statt Border färben) */
 .news-item:hover{
   background-color:rgba(255,255,255,0.02);
-  border-color:rgba(220,38,38,.35);
+  /* feiner Außenring in Rot, + leichte Shadow */
+  box-shadow:
+    0 0 0 1px rgba(220,38,38,.42),
+    0 1px 2px rgba(0,0,0,.05);
 }
+
+/* Meta-Zeile */
 .news-meta{
   display:flex;align-items:center;gap:.5rem;
   color:rgb(var(--muted));
   font-size:.78rem;
 }
-.news-dot{
-  width:4px;height:4px;border-radius:9999px;background:rgba(255,255,255,.35);
-}
-.news-icon{
-  width:18px;height:18px;opacity:.8;flex:0 0 18px;
-}
+.news-dot{width:4px;height:4px;border-radius:9999px;background:rgba(255,255,255,.35)}
+.news-icon{width:18px;height:18px;opacity:.8;flex:0 0 18px}
+
+/* Titel */
 .news-title{
-  font-size:1.08rem;font-weight:650;letter-spacing:-.01em;margin-top:.45rem;line-height:1.35;
+  font-size:1.1rem;font-weight:650;letter-spacing:-.01em;margin-top:.5rem;line-height:1.35;
 }
 /* 2-Zeilen-Clamp (WebKit) */
 .clamp-2{
