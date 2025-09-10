@@ -534,3 +534,73 @@ a:hover { text-decoration-thickness: 2px; }
 a, a:visited { color: inherit !important; text-decoration: underline; }
 a:hover { text-decoration-thickness: 2px; }
 .bj-new a[href="#"] { pointer-events: none; color: #6b7280 !important; text-decoration: none; }
+/* === Robuste Inputs (keine Überlappungen) ================================== */
+.input, .select, .textarea {
+  background: #0f0f0f;
+  border: 1px solid #1f1f1f;
+  border-radius: 10px;
+  padding: .65rem .75rem;
+  color: #e5e7eb;
+  width: 100%;
+  min-width: 0; /* Verhindert Überlauf in Grid-Spalten */
+  display: block;
+}
+.label { margin-bottom: .3rem; }
+.field { min-width: 0; } /* wichtig in Grids */
+
+/* 2-Spalten-Formgrid sicher */
+.bj-new .form-grid { display:grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 768px) {
+  .bj-new .form-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+/* 4-Spalten-Grid für Standort/Bewerbung  bricht sauber um */
+.bj-new .form-grid-4 { display:grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 768px) {
+  .bj-new .form-grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+}
+
+/* Strukturierte Beschreibung */
+.bj-new .desc-grid { display:grid; grid-template-columns:1fr; gap: 1rem; }
+@media (min-width: 1024px){ .bj-new .desc-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+.textarea { resize: vertical; min-height: 8rem; max-height: 18rem; overflow: auto; }
+.counter { text-align: right; font-size: .75rem; color: #9ca3af; margin-top: .25rem; }
+
+/* Vorschau-Blöcke */
+.preview-list { display: grid; gap: .75rem; }
+.preview-block { background: rgba(15,15,15,.5); border: 1px solid #1f1f1f; border-radius: 10px; padding: .6rem .7rem; }
+.preview-head { font-weight: 600; margin-bottom: .35rem; }
+.preview-ul { list-style: disc; padding-left: 1.1rem; color: #e5e7eb; }
+.preview-ul li { margin: .15rem 0; }
+
+/* Paketkarten  Schrift hell halten */
+.option-card, .option-card * { color: #e5e7eb !important; }
+.option-desc { color: #9ca3af !important; }
+
+/* Option-Cards Layout (weich, klar getrennt) */
+.pkg-grid { display:grid; grid-template-columns: 1fr; gap: .75rem; }
+@media (min-width: 640px){ .pkg-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+.option-card {
+  display:block; text-align:left; min-width:0;
+  border: 1px solid #1f1f1f; background: rgba(15,15,15,.6);
+  border-radius: 14px; padding: .9rem .95rem;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
+}
+.option-card--idle:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0,0,0,.28); }
+.option-card--active { border-color: #f59e0b; background: rgba(245,158,11,.08); box-shadow: 0 8px 22px rgba(0,0,0,.28); }
+.option-head { display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
+.option-title { font-weight: 700; }
+.option-desc { font-size:.9rem; margin-top: .2rem; }
+.option-dot { width: .75rem; height: .75rem; border-radius: 9999px; border: 1px solid #2a2a2a; background: #131313; }
+.option-dot--on { border-color: #f59e0b; background: #f59e0b; }
+.option-dot--off { opacity:.7; }
+
+/* Allgemeine Karten/Abschnitte */
+.bj-new .section { display:grid; gap:.85rem; }
+.bj-new .card { position:relative; overflow:hidden; border-radius: 12px; }
+.bj-new .no-overlap { isolation:isolate; z-index:0; }
+
+/* Link-Styles neutral (kein Blau), Dummy-Links deaktivieren */
+a, a:visited { color: inherit !important; text-decoration: underline; }
+a:hover { text-decoration-thickness: 2px; }
+.bj-new a[href="#"] { pointer-events: none; color: #6b7280 !important; text-decoration: none; }

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 type Pkg = "basic" | "featured" | "boost";
+type Country = "DE" | "AT" | "CH" | "INTL";
 
 function formatPkg(value: string | null) {
   if (!value) return "";
@@ -15,11 +16,11 @@ function formatPkg(value: string | null) {
   }
 }
 
-/** Hilfsfunktion: Listentext zu Punkten parsen (trennt an Zeilen mit , -, * oder Zeilenumbruch) */
+/** Zeilen/Listenpunkte robust parsen */
 function toBullets(text: string): string[] {
   return text
-    .split(/\r?\n|\u2022|^- |\* /gm)
-    .map(s => s.replace(/^[-*\u2022]\s*/, "").trim())
+    .split(/\r?\n/)
+    .map(s => s.replace(/^\s*(?:[-*]\s*)?/, "").trim())
     .filter(Boolean);
 }
 
@@ -29,38 +30,55 @@ export default function View() {
 
   const preselect = (params.get("pkg") as Pkg | null) ?? null;
 
+  // Meta
   const [pkg, setPkg] = useState<Pkg>(preselect ?? "basic");
+
+  // Basisdaten
   const [title, setTitle] = useState("");
   const [company, setCompany] = useState("");
+
+  // Standort & Bewerbung
+  const [country, setCountry] = useState<Country>("DE");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [applyUrl, setApplyUrl] = useState("");
 
-  // NEU: gegliederte Beschreibung
+  // Beschreibung (strukturiert)
   const [tasks, setTasks] = useState("");
   const [profile, setProfile] = useState("");
   const [benefits, setBenefits] = useState("");
-
-  const tasksCount = useMemo(() => tasks.length, [tasks]);
-  const profileCount = useMemo(() => profile.length, [profile]);
-  const benefitsCount = useMemo(() => benefits.length, [benefits]);
 
   const tasksBullets = useMemo(() => toBullets(tasks), [tasks]);
   const profileBullets = useMemo(() => toBullets(profile), [profile]);
   const benefitsBullets = useMemo(() => toBullets(benefits), [benefits]);
 
+  const tasksCount = tasks.length;
+  const profileCount = profile.length;
+  const benefitsCount = benefits.length;
+
   function buildCombinedDesc() {
     const parts: string[] = [];
     if (tasksBullets.length) parts.push("Aufgaben:\n " + tasksBullets.join("\n "));
-    if (profileBullets.length) parts.push("Profil:\n " + profileBullets.join("\n "));
+    if (profileBullets.length) parts.push("Anforderungen:\n " + profileBullets.join("\n "));
     if (benefitsBullets.length) parts.push("Benefits:\n " + benefitsBullets.join("\n "));
     return parts.join("\n\n");
   }
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const desc = buildCombinedDesc(); // bestehende Pipeline weiter bedienen
-    const q = new URLSearchParams({ pkg, title, company, state, city, applyUrl, desc }).toString();
+    const desc = buildCombinedDesc();
+
+    const q = new URLSearchParams({
+      pkg,
+      title,
+      company,
+      country,
+      state,
+      city,
+      applyUrl,
+      desc,
+    }).toString();
+
     router.push(`/pricing?${q}`);
   }
 
@@ -70,7 +88,7 @@ export default function View() {
         <header className="mb-6">
           <h1 className="text-2xl md:text-3xl font-semibold">Anzeige erstellen</h1>
           <p className="text-neutral-400 mt-2">
-            Kurze, klare Angaben sorgen für mehr Bewerbungen. Dies kann unten jederzeit geändert werden.
+            Präzise Angaben erhöhen die Reichweite und die Qualität der Bewerbungen.
           </p>
           {preselect && (
             <div className="mt-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-amber-300">
@@ -82,7 +100,7 @@ export default function View() {
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px] gap-6 items-start">
           {/* FORMULAR */}
           <form onSubmit={onSubmit} className="form-layout grid gap-5">
-            {/* Sektion: Paket */}
+            {/* Paket wählen */}
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Paket wählen</h2>
@@ -115,11 +133,11 @@ export default function View() {
               </div>
             </section>
 
-            {/* Sektion: Basisdaten */}
+            {/* Basisdaten */}
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Basisdaten</h2>
-                <p className="section-sub">Stellentitel und Arbeitgeber  damit Bewerbende das Unternehmen sofort erkennen.</p>
+                <p className="section-sub">Stellentitel und Unternehmen  damit Bewerbende die Anzeige eindeutig zuordnen.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 form-grid">
@@ -129,11 +147,11 @@ export default function View() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="z. B. Triebfahrzeugführer (m/w/d)"
-                    className="input w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
+                    className="input w-full"
                     required
                     aria-required="true"
                   />
-                  <p className="help">Ein konkreter Titel mit (m/w/d) steigert die Klickrate.</p>
+                  <p className="help">Konkreter Titel mit (m/w/d) steigert die Klickrate.</p>
                 </div>
 
                 <div className="field">
@@ -142,7 +160,7 @@ export default function View() {
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
                     placeholder="z. B. DB Regio AG"
-                    className="input w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
+                    className="input w-full"
                     required
                     aria-required="true"
                   />
@@ -151,23 +169,38 @@ export default function View() {
               </div>
             </section>
 
-            {/* Sektion: Standort & Bewerbung */}
+            {/* Standort & Bewerbung */}
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Standort & Bewerbung</h2>
-                <p className="section-sub">Ort unterstützt die Suche; der Link führt direkt zur Bewerbung.</p>
+                <p className="section-sub">Land und Ort unterstützen die Suche; der Link führt direkt zur Bewerbung.</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 row-2">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 form-grid-4">
                 <div className="field">
-                  <label className="label block">Bundesland</label>
+                  <label className="label block">Land</label>
+                  <select
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value as Country)}
+                    className="select w-full"
+                    aria-label="Land"
+                  >
+                    <option value="DE">Deutschland</option>
+                    <option value="AT">Österreich</option>
+                    <option value="CH">Schweiz</option>
+                    <option value="INTL">Ausland (international)</option>
+                  </select>
+                  <p className="help">Erlaubt späteres Filtern (D/AT/CH/Ausland).</p>
+                </div>
+
+                <div className="field">
+                  <label className="label block">Bundesland/Kanton</label>
                   <input
                     value={state}
                     onChange={(e) => setState(e.target.value)}
                     placeholder="z. B. Baden-Württemberg"
-                    className="input w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
+                    className="input w-full"
                   />
-                  <p className="help">Optional; verbessert die Filterbarkeit.</p>
                 </div>
 
                 <div className="field">
@@ -176,7 +209,7 @@ export default function View() {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     placeholder="z. B. Friedrichshafen"
-                    className="input w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
+                    className="input w-full"
                   />
                 </div>
 
@@ -186,7 +219,7 @@ export default function View() {
                     value={applyUrl}
                     onChange={(e) => setApplyUrl(e.target.value)}
                     placeholder="https://"
-                    className="input w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
+                    className="input w-full"
                     inputMode="url"
                   />
                   <p className="help">Direkter Link zur Bewerbung oder Karriereseite.</p>
@@ -194,11 +227,11 @@ export default function View() {
               </div>
             </section>
 
-            {/* Sektion: Beschreibung  gegliedert */}
+            {/* Beschreibung  strukturiert & professionell */}
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Stellenbeschreibung</h2>
-                <p className="section-sub">Kurz und klar: Aufgaben, Anforderungen und Vorteile.</p>
+                <p className="section-sub">Kurz und klar gegliedert: Aufgaben, Anforderungen, Benefits.</p>
               </div>
 
               <div className="desc-grid">
@@ -209,7 +242,7 @@ export default function View() {
                     onChange={(e) => setTasks(e.target.value)}
                     rows={6}
                     maxLength={2000}
-                    placeholder={" Führen von \n Übernehmen von "}
+                    placeholder={" Führen von Zügen im Regel- und Störbetrieb\n Durchführung der Abfahrts- und Bremsproben\n Kommunikation mit Leitstelle und Werkstatt"}
                     className="textarea w-full"
                     aria-label="Aufgaben"
                   />
@@ -217,15 +250,15 @@ export default function View() {
                 </div>
 
                 <div className="field">
-                  <label className="label block">Profil</label>
+                  <label className="label block">Anforderungen</label>
                   <textarea
                     value={profile}
                     onChange={(e) => setProfile(e.target.value)}
                     rows={6}
                     maxLength={2000}
-                    placeholder={" Abgeschlossene Ausbildung \n Erfahrung in "}
+                    placeholder={" Abgeschlossene Ausbildung nach TfV / EIB\n Erfahrung im Strecken- oder Rangierdienst\n Bereitschaft zu Schicht- und Wochenendarbeit"}
                     className="textarea w-full"
-                    aria-label="Profil"
+                    aria-label="Anforderungen"
                   />
                   <div className="counter">{profileCount} / 2000</div>
                 </div>
@@ -237,7 +270,7 @@ export default function View() {
                     onChange={(e) => setBenefits(e.target.value)}
                     rows={6}
                     maxLength={2000}
-                    placeholder={" Tarifliche Vergütung \n Zuschläge "}
+                    placeholder={" Tarifliche Vergütung inkl. Zuschläge\n 30 Tage Urlaub, Jobticket\n Weiterbildungs- und Aufstiegsmöglichkeiten"}
                     className="textarea w-full"
                     aria-label="Benefits"
                   />
@@ -246,7 +279,7 @@ export default function View() {
               </div>
             </section>
 
-            {/* Actions */}
+            {/* Aktionen */}
             <div className="card section no-overlap flex items-center gap-3">
               <button type="submit" className="btn btn-accent rounded-lg px-4 py-2 font-semibold">
                 Weiter zur Auswahl/Checkout
@@ -275,7 +308,7 @@ export default function View() {
                       : "border-neutral-700 text-neutral-300",
                   ].join(" ")}
                 >
-                  {formatPkg(pkg)}
+                  {formatPkg(preselect ?? pkg)}
                 </div>
               </div>
 
@@ -284,10 +317,9 @@ export default function View() {
                 <span className="text-neutral-400 font-normal">  {company || "Unternehmen"}</span>
               </h3>
               <div className="text-sm text-neutral-400 mb-3 truncate">
-                {(city || "Ort") + (state ? `, ${state}` : state === "" ? "" : ", Bundesland")}
+                {(city || "Ort")}{(state ? `, ${state}` : "")}{country ? `  ${country}` : ""}
               </div>
 
-              {/* Geordnete Vorschau der drei Bereiche */}
               <div className="preview-list">
                 {tasksBullets.length > 0 && (
                   <div className="preview-block">
@@ -299,7 +331,7 @@ export default function View() {
                 )}
                 {profileBullets.length > 0 && (
                   <div className="preview-block">
-                    <div className="preview-head">Profil</div>
+                    <div className="preview-head">Anforderungen</div>
                     <ul className="preview-ul">
                       {profileBullets.map((it, i) => <li key={"p"+i}>{it}</li>)}
                     </ul>
@@ -315,19 +347,20 @@ export default function View() {
                 )}
                 {tasksBullets.length + profileBullets.length + benefitsBullets.length === 0 && (
                   <p className="text-sm text-neutral-300 min-h-[6rem]">
-                    Kurzbeschreibung der Stelle 
+                    Die Kurzbeschreibung erscheint hier.
                   </p>
                 )}
               </div>
 
               <div className="mt-4">
-                <a
-                  href={applyUrl || "#"}
-                  className="inline-block text-sm font-semibold underline underline-offset-4"
-                  onClick={(e) => { if (!applyUrl) e.preventDefault(); }}
-                >
-                  {applyUrl ? "Jetzt bewerben" : ""}
-                </a>
+                {applyUrl && (
+                  <a
+                    href={applyUrl}
+                    className="inline-block text-sm font-semibold underline underline-offset-4"
+                  >
+                    Jetzt bewerben
+                  </a>
+                )}
               </div>
             </div>
           </aside>
