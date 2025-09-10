@@ -203,3 +203,7 @@ h2 { font-size: 1.25rem; line-height: 1.25; margin: 0; }
 
 .bj-new .row-wrap { display:flex; flex-wrap: wrap; gap: 8px; }
 .bj-new .sticky-card { position: sticky; top: 84px; }
+/* === Safe Hardeners (no theme changes) === */
+.bj-new .form-grid, .bj-new .row-2 { align-items: start; }
+.bj-new .label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bj-new .input, .bj-new select, .bj-new .textarea, .bj-new .field { min-width: 0; }
