@@ -304,3 +304,6 @@ h1,h2,h3,h4 {
 .site-legal-links a { color: inherit; text-decoration: underline; }
 /* Hero-CTAs: Buttons und Texte mittig ausrichten */
 .home-hero-ctas { justify-content: center; text-align: center; }
+/* === Font-Reset: zurück auf System-Fonts (ohne Farben zu ändern) ========== */
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif !important; }
+h1, h2, h3, h4 { font-family: inherit !important; letter-spacing: normal !important; }
