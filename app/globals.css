@@ -329,3 +329,14 @@ h1, h2, h3, h4 { font-family: inherit !important; letter-spacing: normal !import
 
 /* (Falls deine Tailwind-Version kein line-clamp Plugin hat) */
 .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+/* === Header-Logo: deutlich größer anzeigen (ohne Farbwechsel) ============= */
+.site-header .site-logo { width: 280px !important; height: auto !important; display:block; }
+@media (max-width: 767px){ .site-header .site-logo { width: 160px !important; } }
+
+/* === News: klare Trennung & neutrale Links ================================ */
+.news-grid a, .news-grid a:visited, .news-grid a:hover { color: inherit; text-decoration: none; }
+.news-card { box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+.news-sep { height: 1px; background: rgba(255,255,255,0.08); margin: 10px 0 8px; }
+
+/* Falls dein Tailwind kein line-clamp plugin hat */
+.line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
