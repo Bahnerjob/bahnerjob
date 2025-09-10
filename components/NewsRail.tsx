@@ -10,12 +10,12 @@ export default function NewsRail({ items = [] as NewsItem[] }) {
   if (!items?.length) return null;
 
   return (
-    <div className="news-grid grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div className="news-grid grid grid-cols-1 md:grid-cols-3 gap-6">
       {items.map((n) => (
         <a
           key={n.id}
           href={n.url}
-          className="news-card block rounded-2xl border border-neutral-700 bg-neutral-900/60 p-4 shadow-[0_1px_2px_rgba(0,0,0,0.2)] hover:shadow-[0_10px_28px_rgba(0,0,0,0.28)] hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-neutral-700"
+          className="news-card block rounded-3xl border border-neutral-800 bg-neutral-900/80 p-5 shadow-[0_2px_6px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.35)] hover:-translate-y-0.5 transition focus:outline-none focus:ring-1 focus:ring-neutral-700"
           target="_blank"
           rel="noreferrer"
         >

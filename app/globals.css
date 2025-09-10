@@ -348,3 +348,6 @@ h1, h2, h3, h4 { font-family: inherit !important; letter-spacing: normal !import
 
 /* Fallback für line-clamp, falls Plugin fehlt */
 .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+/* Softer News-Karten Look */
+.news-sep { height: 1px; background: rgba(255,255,255,0.04); margin: 12px 0 10px; }
+.news-grid a, .news-grid a:visited, .news-grid a:hover { color: inherit; text-decoration: none; }
