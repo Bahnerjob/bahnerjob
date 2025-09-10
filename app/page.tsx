@@ -1,18 +1,6 @@
 ﻿import Image from "next/image";
 import NewsRail from "@/components/NewsRail";
-
-type NewsItem = { id: string; title: string; url: string; source?: string; date?: string };
-
-async function loadNews(): Promise<NewsItem[]> {
-  try {
-    const mod: any = await import("@/lib/news").catch(() => null);
-    if (mod?.getNews) {
-      const items = await mod.getNews();
-      if (Array.isArray(items)) return items;
-    }
-  } catch {}
-  return [];
-}
+import { getNews, type NewsItem } from "@/lib/news";
 
 export const metadata = {
   title: "Bahnerjob  Bahnbranche Jobs",
@@ -20,16 +8,23 @@ export const metadata = {
 };
 
 export default async function HomePage() {
-  const news = await loadNews();
+  const news: NewsItem[] = await getNews().catch(() => []);
 
   return (
     <div>
-      {/* HERO: 2-Spalten, großes Logo, keine harten Linien */}
+      {/* HERO: 2-Spalten, großes Logo (200px Desktop / 120px mobil) */}
       <section className="py-10 md:py-14">
         <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-6 md:gap-8 items-start home-hero">
-            <div className="home-logo">
-              <Image src="/logo-bahnerjob.svg" alt="Bahnerjob" width={140} height={140} priority />
+          <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 md:gap-8 items-start">
+            <div className="shrink-0 flex md:block items-start justify-center md:justify-start">
+              <Image
+                src="/logo-bahnerjob.svg"
+                alt="Bahnerjob"
+                width={200}
+                height={200}
+                priority
+                className="home-logo"
+              />
             </div>
             <div>
               <h1 className="text-3xl md:text-5xl font-semibold leading-tight">
@@ -47,7 +42,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Vorteile: 3-Spalten, klar, ohne Würste/Pillenlook */}
+          {/* Vorteile: 3 saubere Kacheln */}
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="home-tile">
               <div className="home-tile-kicker">Schnell & einfach</div>
@@ -65,7 +60,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* NEWS: nur zeigen, wenn wirklich Inhalte vorhanden sind */}
+      {/* NEWS: wird angezeigt, wenn es Treffer gibt */}
       {news.length > 0 && (
         <section className="py-10">
           <div className="container">
