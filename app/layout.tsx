@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="de" suppressHydrationWarning>
-      <body>
-        <header className="site-header sticky top-0 z-50 border-b border-neutral-800 bg-[#0d0d0d]">
+      <body className="min-h-screen flex flex-col">
+        <header className="site-header sticky top-0 z-50 sticky top-0 z-50 border-b border-neutral-800 bg-[#0d0d0d]">
           <div className="container h-20 md:h-24 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3" aria-label="Zur Startseite">
               <Image src="/logo-bahnerjob.svg" alt="Bahnerjob" width={160} height={160} priority className="site-logo" />
@@ -24,9 +24,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
 
-        <main className="min-h-[calc(100dvh-6rem)]">{children}</main>
+        <main className="flex-1">{children}</main>
 
-        <footer className="mt-10 border-t border-neutral-800 bg-[#0d0d0d] text-neutral-400">
+        <footer className="site-footer sticky bottom-0 z-40 " className="mt-10 border-t border-neutral-800 bg-[#0d0d0d] text-neutral-400">
           <div className="container py-8 text-sm"> {new Date().getFullYear()} Bahnerjob</div>
           <div className="container py-2 text-xs site-legal-links">
             <a href="/impressum" className="underline underline-offset-2 mr-4">Impressum</a>
@@ -37,5 +37,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+
 
 

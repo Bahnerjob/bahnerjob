@@ -15,7 +15,7 @@ export default function NewsRail({ items = [] as NewsItem[] }) {
         <a
           key={n.id}
           href={n.url}
-          className="news-card block rounded-lg border border-neutral-800 bg-neutral-900/50 p-3 hover:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-700"
+          className="news-card block rounded-xl bg-neutral-900/60 p-4 shadow-[0_1px_3px_rgba(0,0,0,0.25)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.28)] hover:translate-y-[-1px] transition"
           target="_blank"
           rel="noreferrer"
         >
@@ -27,7 +27,7 @@ export default function NewsRail({ items = [] as NewsItem[] }) {
               </div>
             )}
           </div>
-          <div className="news-title text-sm font-medium leading-5 clamp-3">{n.title}</div>
+          <div className="news-title text-sm font-medium leading-5 line-clamp-3">{n.title}</div>
         </a>
       ))}
     </div>
