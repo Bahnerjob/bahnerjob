@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="site-header border-b border-neutral-800 bg-[#0d0d0d]">
           <div className="container h-20 md:h-24 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3" aria-label="Zur Startseite">
-              <Image src="/logo-bahnerjob.svg" alt="Bahnerjob" width={80} height={80} priority className="site-logo" />
+              <Image src="/logo-bahnerjob.svg" alt="Bahnerjob" width={160} height={160} priority className="site-logo" />
             </a>
             <nav className="flex items-center gap-2">
               <a href="/" className="btn h-9 px-3 border border-neutral-800 hover:bg-neutral-900 rounded-lg">Jobs durchsuchen</a>
@@ -37,3 +37,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+
