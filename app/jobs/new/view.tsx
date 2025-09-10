@@ -16,7 +16,7 @@ function formatPkg(value: string | null) {
   }
 }
 
-/** Listentext robust in Bullet-Punkte umwandeln */
+/** Hilfsfunktion: Listentext in Bullet-Punkte wandeln */
 function toBullets(text: string): string[] {
   return text
     .split(/\r?\n/)
@@ -41,18 +41,9 @@ export default function View() {
   const [country, setCountry] = useState<Country>("DE");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
-  
-  $matches[0] + @"
-  const regionLabel = country === "CH"
-    ? "Kanton"
-    : (country === "INTL" ? "Region/Province/State" : "Bundesland");
-  const regionPlaceholder = country === "CH"
-    ? "z. B. Zürich"
-    : (country === "AT"
-        ? "z. B. Steiermark"
-        : (country === "DE" ? "z. B. Baden-Württemberg" : "z. B. Ontario"));
-"@
-// Beschreibung (gegliedert)
+  const [applyUrl, setApplyUrl] = useState("");
+
+  // Beschreibung (gegliedert, stacked)
   const [tasks, setTasks] = useState("");
   const [profile, setProfile] = useState("");
   const [benefits, setBenefits] = useState("");
@@ -61,9 +52,16 @@ export default function View() {
   const profileBullets = useMemo(() => toBullets(profile), [profile]);
   const benefitsBullets = useMemo(() => toBullets(benefits), [benefits]);
 
-  const tasksCount = tasks.length;
-  const profileCount = profile.length;
-  const benefitsCount = benefits.length;
+  const regionLabel =
+    country === "CH" ? "Kanton" :
+    country === "INTL" ? "Region/Province/State" :
+    "Bundesland";
+
+  const regionPlaceholder =
+    country === "CH" ? "z. B. Zürich" :
+    country === "AT" ? "z. B. Steiermark" :
+    country === "DE" ? "z. B. Baden-Württemberg" :
+    "z. B. Ontario";
 
   function buildCombinedDesc() {
     const parts: string[] = [];
@@ -91,7 +89,6 @@ export default function View() {
 
   return (
     <div className="bj-new px-4 py-6">
-      {/* Breiter Container */}
       <div className="mx-auto max-w-7xl">
         <header className="mb-6">
           <h1 className="text-2xl md:text-3xl font-semibold">Anzeige erstellen</h1>
@@ -112,9 +109,6 @@ export default function View() {
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Paket wählen</h2>
-                <p className="section-sub">
-                  Wählen Sie das Modell, das zu der Anzeige passt. Ein späterer Wechsel ist möglich.
-                </p>
               </div>
 
               <div className="pkg-grid">
@@ -134,10 +128,7 @@ export default function View() {
                     >
                       <div className="option-head">
                         <span className="option-title">{opt.title}</span>
-                        <span
-                          className={["option-dot", active ? "option-dot--on" : "option-dot--off"].join(" ")}
-                          aria-hidden="true"
-                        ></span>
+                        <span className={["option-dot", active ? "option-dot--on" : "option-dot--off"].join(" ")} aria-hidden="true" />
                       </div>
                       <div className="option-desc">{opt.desc}</div>
                     </button>
@@ -150,16 +141,11 @@ export default function View() {
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Basisdaten</h2>
-                <p className="section-sub">
-                  Stellentitel und Unternehmen  damit Bewerbende die Anzeige eindeutig zuordnen.
-                </p>
               </div>
 
               <div className="form-grid-2">
                 <div className="field min-w-0">
-                  <label className="label block">
-                    Stellentitel <span className="req">*</span>
-                  </label>
+                  <label className="label block">Stellentitel <span className="req">*</span></label>
                   <input
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
@@ -171,9 +157,7 @@ export default function View() {
                 </div>
 
                 <div className="field min-w-0">
-                  <label className="label block">
-                    Unternehmen <span className="req">*</span>
-                  </label>
+                  <label className="label block">Unternehmen <span className="req">*</span></label>
                   <input
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
@@ -186,14 +170,13 @@ export default function View() {
               </div>
             </section>
 
-            {/* Standort & Bewerbung */}
+            {/* Standort & Bewerbung (gestapelt) */}
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Standort & Bewerbung</h2>
-                
               </div>
 
-              <div className="grid grid-cols-1 gap-4 form-grid-4">
+              <div className="form-grid-4">
                 <div className="field min-w-0">
                   <label className="label block">Land</label>
                   <select
@@ -243,11 +226,10 @@ export default function View() {
               </div>
             </section>
 
-            {/* Stellenbeschreibung  gegliedert & professionell */}
+            {/* Stellenbeschreibung  ein Block, Felder untereinander */}
             <section className="card section no-overlap desc-section">
               <div className="section-head">
                 <h2 className="section-title">Stellenbeschreibung</h2>
-                
               </div>
 
               <div className="desc-stack grid gap-6">
@@ -262,7 +244,7 @@ export default function View() {
                     className="textarea w-full"
                     aria-label="Aufgaben"
                   />
-                  <div className="counter">{tasksCount} / 2000</div>
+                  <div className="counter">{tasks.length} / 2000</div>
                 </div>
 
                 <div className="field min-w-0">
@@ -276,7 +258,7 @@ export default function View() {
                     className="textarea w-full"
                     aria-label="Anforderungen"
                   />
-                  <div className="counter">{profileCount} / 2000</div>
+                  <div className="counter">{profile.length} / 2000</div>
                 </div>
 
                 <div className="field min-w-0">
@@ -290,7 +272,7 @@ export default function View() {
                     className="textarea w-full"
                     aria-label="Benefits"
                   />
-                  <div className="counter">{benefitsCount} / 2000</div>
+                  <div className="counter">{benefits.length} / 2000</div>
                 </div>
               </div>
             </section>
@@ -336,15 +318,12 @@ export default function View() {
                 {(city || "Ort")}{state ? `, ${state}` : ""}{country ? `  ${country}` : ""}
               </div>
 
-              {/* Vorschau: drei Blöcke */}
               <div className="preview-list">
                 {tasksBullets.length > 0 && (
                   <div className="preview-block">
                     <div className="preview-head">Aufgaben</div>
                     <ul className="preview-ul">
-                      {tasksBullets.map((it, i) => (
-                        <li key={"t" + i}>{it}</li>
-                      ))}
+                      {tasksBullets.map((it, i) => <li key={"t"+i}>{it}</li>)}
                     </ul>
                   </div>
                 )}
@@ -352,9 +331,7 @@ export default function View() {
                   <div className="preview-block">
                     <div className="preview-head">Anforderungen</div>
                     <ul className="preview-ul">
-                      {profileBullets.map((it, i) => (
-                        <li key={"p" + i}>{it}</li>
-                      ))}
+                      {profileBullets.map((it, i) => <li key={"p"+i}>{it}</li>)}
                     </ul>
                   </div>
                 )}
@@ -362,14 +339,14 @@ export default function View() {
                   <div className="preview-block">
                     <div className="preview-head">Benefits</div>
                     <ul className="preview-ul">
-                      {benefitsBullets.map((it, i) => (
-                        <li key={"b" + i}>{it}</li>
-                      ))}
+                      {benefitsBullets.map((it, i) => <li key={"b"+i}>{it}</li>)}
                     </ul>
                   </div>
                 )}
                 {tasksBullets.length + profileBullets.length + benefitsBullets.length === 0 && (
-                  <p className="text-sm text-neutral-300 min-h-[6rem]">Die Kurzbeschreibung erscheint hier.</p>
+                  <p className="text-sm text-neutral-300 min-h-[6rem]">
+                    Die Kurzbeschreibung erscheint hier.
+                  </p>
                 )}
               </div>
 
@@ -387,7 +364,3 @@ export default function View() {
     </div>
   );
 }
-
-
-
-
