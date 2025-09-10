@@ -226,3 +226,19 @@ h1,h2,h3,h4 {
   font-weight: 600;
   letter-spacing: -0.01em;
 }
+/* === Home Quick-Fix Helpers (keine Farbänderung) ========================== */
+.home-hero { align-items: center; }
+.home-logo img { display: block; }
+
+.home-tile {
+  border: 1px solid #1f1f1f;
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: rgba(15,15,15,.5);
+}
+.home-tile-kicker { font-size: .9rem; color: #9ca3af; }
+.home-tile-title { margin-top: 4px; font-weight: 600; }
+
+@media (max-width: 767px) {
+  .home-hero { text-align: left; }
+}
