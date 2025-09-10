@@ -1,107 +1,119 @@
-﻿"use client";
+import Link from "next/link";
+import { JOBS, BUNDESLAENDER, type Job } from "@/lib/job";
 
-import { useMemo, useEffect, useState } from "react";
-import { JOBS, BUNDESLAENDER } from "../../lib/jobs";
+// In Next 15 kann searchParams ein Promise sein → async + await
+export default async function JobsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = (await searchParams) ?? {};
 
-function inputCls() { return "w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"; }
+  const qRaw = Array.isArray(sp.q) ? sp.q[0] : sp.q;
+  const blRaw = Array.isArray(sp.bl) ? sp.bl[0] : sp.bl;
 
-type Params = { q: string; land: string; ort: string };
+  const q = (qRaw ?? "").toLowerCase().trim();
+  const bl = (blRaw ?? "").toLowerCase().trim();
 
-function useQueryParams(): Params {
-  const [p, setP] = useState<Params>({ q: "", land: "Alle", ort: "" });
+  const jobs = filterJobs(JOBS, q, bl);
 
-  useEffect(() => {
-    const sp = new URLSearchParams(window.location.search);
-    setP({
-      q: (sp.get("q") || "").trim(),
-      land: sp.get("land") || "Alle",
-      ort: (sp.get("ort") || "").trim(),
-    });
-  }, []);
-
-  return p;
-}
-
-function JobCard({ j }: { j: typeof JOBS[number] }) {
   return (
-    <div className="border border-neutral-800 rounded-xl p-4 bg-neutral-900/50">
-      <div className="flex items-center justify-between gap-3">
-        <h3 className="text-lg font-semibold">
-          {j.title} <span className="text-neutral-400 font-normal">  {j.company}</span>
-        </h3>
-        {j.featured && (
-          <span className="px-2 py-1 text-xs rounded bg-amber-500/20 text-amber-300 border border-amber-700">
-            FEATURED
-          </span>
+    <div className="space-y-8">
+      {/* Header */}
+      <header className="text-center">
+        <div className="badge mb-3">Aktuelle Stellen</div>
+        <h1 className="text-3xl font-bold tracking-tight">Jobs im Bahnsektor</h1>
+        <p className="mt-3 text-neutral-300">
+          Suche nach Titel, Firma oder Ort – oder filtere nach Bundesland.
+        </p>
+      </header>
+
+      {/* Filter */}
+      <form className="card p-4" action="/jobs" method="get">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div>
+            <label className="block text-sm mb-1">Suche</label>
+            <input
+              name="q"
+              defaultValue={qRaw ?? ""}
+              placeholder="z. B. Triebfahrzeugführer, Hamburg…"
+              className="w-full rounded-xl border px-3 py-2 bg-transparent"
+              style={{ borderColor: "rgb(var(--border))" }}
+            />
+          </div>
+          <div>
+            <label className="block text-sm mb-1">Bundesland</label>
+            <select
+              name="bl"
+              defaultValue={blRaw ?? ""}
+              className="w-full rounded-xl border px-3 py-2 bg-transparent"
+              style={{ borderColor: "rgb(var(--border))" }}
+            >
+              <option value="">Alle Bundesländer</option>
+              {BUNDESLAENDER.map((x) => (
+                <option key={x} value={x}>
+                  {x}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex items-end gap-2">
+            <button type="submit" className="btn w-full md:w-auto">
+              Filtern
+            </button>
+            <Link href="/jobs" className="btn w-full md:w-auto">
+              Zurücksetzen
+            </Link>
+          </div>
+        </div>
+      </form>
+
+      {/* Liste */}
+      <div className="grid grid-cols-1 gap-4">
+        {jobs.length === 0 ? (
+          <div className="card p-6 text-neutral-300">Keine Treffer. Bitte Filter anpassen.</div>
+        ) : (
+          jobs.map((j) => <JobCard key={j.slug} j={j} />)
         )}
       </div>
-      <p className="text-sm text-neutral-300 mt-1">
-        {j.place} ({j.bundesland})  {j.salary ?? "Gehalt n/a"}
-      </p>
-      {j.description && (
-        <p className="text-sm text-neutral-400 mt-2">{j.description}</p>
-      )}
     </div>
   );
 }
 
-export default function JobsPage() {
-  const { q, land, ort } = useQueryParams();
+function filterJobs(all: Job[], q: string, bl: string) {
+  return all.filter((j) => {
+    const hay = `${j.title} ${j.company} ${j.ort} ${j.bundesland} ${j.beschreibung}`.toLowerCase();
+    const okQ = q ? hay.includes(q) : true;
+    const okBl = bl ? j.bundesland.toLowerCase() === bl : true;
+    return okQ && okBl;
+  });
+}
 
-  const filtered = useMemo(() => {
-    const qLower = q.toLowerCase();
-    const ortLower = ort.toLowerCase();
-
-    return JOBS.filter(j => {
-      const matchesText =
-        !qLower ||
-        j.title.toLowerCase().includes(qLower) ||
-        j.company.toLowerCase().includes(qLower);
-
-      const matchesLand = land === "Alle" || j.bundesland === land;
-      const matchesOrt  = !ortLower || j.place.toLowerCase().includes(ortLower);
-
-      return matchesText && matchesLand && matchesOrt;
-    });
-  }, [q, land, ort]);
-
+function JobCard({ j }: { j: Job }) {
   return (
-    <main className="max-w-5xl mx-auto px-4 py-8 space-y-6">
-      <h1 className="text-3xl font-extrabold">Jobs finden</h1>
-
-      <form action="/jobs" method="GET" className="grid md:grid-cols-4 gap-3 items-end">
-        <label className="grid gap-1 md:col-span-2">
-          <span className="text-sm">Suche (Titel oder Unternehmen)</span>
-          <input name="q" defaultValue={q} placeholder="z. B. Lokführer, DB, Mechatroniker" className={inputCls()} />
-        </label>
-
-        <label className="grid gap-1">
-          <span className="text-sm">Bundesland</span>
-          <select name="land" defaultValue={land} className={inputCls()}>
-            {BUNDESLAENDER.map(b => <option key={b} value={b}>{b}</option>)}
-          </select>
-        </label>
-
-        <label className="grid gap-1">
-          <span className="text-sm">Ort (optional)</span>
-          <input name="ort" defaultValue={ort} placeholder="z. B. Bremen, München" className={inputCls()} />
-        </label>
-
-        <div className="md:col-span-4">
-          <button className="px-4 py-2 rounded-md bg-emerald-500 text-neutral-900 font-semibold">
-            Filtern
-          </button>
+    <div className="card p-5 hover:shadow">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div>
+          <h3 className="text-lg font-semibold tracking-tight">{j.title}</h3>
+          <p className="text-sm text-neutral-400 mt-0.5">
+            {j.company} • {j.ort} · {j.bundesland}
+          </p>
         </div>
-      </form>
-
-      <p className="text-sm text-neutral-400">Ergebnisse: {filtered.length}</p>
-
-      <section className="grid gap-4">
-        {filtered.map(j => <JobCard key={j.id} j={j} />)}
-        {filtered.length === 0 && (
-          <div className="text-neutral-400">Keine Treffer. Bitte Filter anpassen.</div>
-        )}
-      </section>
-    </main>
+        <div className="flex items-center gap-2">
+          {j.featured && (
+            <span
+              className="badge"
+              style={{ borderColor: "rgba(220,38,38,0.4)", color: "white" }}
+            >
+              Featured
+            </span>
+          )}
+          <Link href="/pricing" className="btn btn-accent">
+            Anzeige buchen
+          </Link>
+        </div>
+      </div>
+      <p className="text-neutral-300 mt-3">{j.beschreibung}</p>
+    </div>
   );
 }
