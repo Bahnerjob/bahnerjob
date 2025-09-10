@@ -6,21 +6,25 @@
   date?: string; // ISO
 };
 
-/** Bahn/Eisenbahn bezogene Feeds (anpassbar) */
+/** D-A-CH Feeds (deutschsprachig) */
 const FEEDS = [
-  "https://www.railjournal.com/feed/",          // International Railway Journal
-  "https://www.railwaygazette.com/rss",         // Railway Gazette
-  "https://bahnblogstelle.net/feed/",           // Bahnblogstelle (DE)
-  "https://www.tagesschau.de/xml/rss2",         // Tagesschau gesamt (wir filtern auf Bahn/Zug)
+  "https://www.tagesschau.de/xml/rss2",              // DE  filtern wir
+  "https://www.spiegel.de/schlagzeilen/index.rss",  // DE  filtern wir
+  "https://www.bahnblogstelle.net/feed/",           // DE
+  "https://www.nzz.ch/reisen/rss",                  // CH  enthält oft Bahn
+  "https://www.derstandard.at/rss/inland",          // AT  filtern wir
+  "https://www.handelsblatt.com/contentexport/feed/schlagzeilen", // DE  filtern
 ];
 
-/** Keywords zum Filtern */
+/** Bahn-Keywords (de) */
 const KEYWORDS = [
-  "bahn","eisenbahn","zug","züge","deutsche bahn","db",
-  "rail","railway","train","ICE","S-Bahn","Regionalbahn"
+  "bahn","eisenbahn","zug","züge","schienen","schienenverkehr",
+  "deutsche bahn","db","s-bahn","u-bahn","regionalbahn","ice","bahnstrecke","bahnhof","fahrplan"
 ];
 
-function timeout<T>(p: Promise<T>, ms=6000): Promise<T> {
+const ALLOWED_TLDS = [".de",".at",".ch"];
+
+function timeout<T>(p: Promise<T>, ms=7000): Promise<T> {
   return new Promise((resolve, reject) => {
     const t = setTimeout(() => reject(new Error("timeout")), ms);
     p.then(v => { clearTimeout(t); resolve(v); })
@@ -30,25 +34,24 @@ function timeout<T>(p: Promise<T>, ms=6000): Promise<T> {
 
 async function fetchFeed(url: string): Promise<string | null> {
   try {
-    const res = await timeout(fetch(url, { next: { revalidate: 1800 } }), 8000);
+    const res = await timeout(fetch(url, { next: { revalidate: 1800 } }), 9000);
     if (!res.ok) return null;
     return await res.text();
   } catch { return null; }
 }
 
-/** super-simple XML-Parsing ohne Lib  holt <item> title/link/pubDate */
-function parseRss(xml: string, source?: string): NewsItem[] {
+/** sehr einfacher RSS Parser (title/link/pubDate) */
+function parseRss(xml: string, sourceHost: string): NewsItem[] {
   const items: NewsItem[] = [];
   const itemRegex = /<item[\s\S]*?<\/item>/gi;
   const titleRx = /<title>\s*<!\[CDATA\[(.*?)\]\]>\s*<\/title>|<title>(.*?)<\/title>/i;
   const linkRx  = /<link>(.*?)<\/link>/i;
   const dateRx  = /<pubDate>(.*?)<\/pubDate>/i;
 
-  const blocks = xml.match(itemRegex) ?? [];
-  for (const b of blocks) {
-    const t = b.match(titleRx);
-    const l = b.match(linkRx);
-    const d = b.match(dateRx);
+  for (const block of xml.match(itemRegex) ?? []) {
+    const t = block.match(titleRx);
+    const l = block.match(linkRx);
+    const d = block.match(dateRx);
     const title = (t?.[1] ?? t?.[2] ?? "").trim();
     const url = (l?.[1] ?? "").trim();
     if (!title || !url) continue;
@@ -56,42 +59,53 @@ function parseRss(xml: string, source?: string): NewsItem[] {
       id: url,
       title,
       url,
-      source,
+      source: sourceHost,
       date: d?.[1] ? new Date(d[1]).toISOString() : undefined,
     });
   }
   return items;
 }
 
+function isDACH(url: string): boolean {
+  try {
+    const host = new URL(url).host.toLowerCase();
+    return ALLOWED_TLDS.some(tld => host.endsWith(tld));
+  } catch { return false; }
+}
+
 function looksRelevant(title: string): boolean {
   const low = title.toLowerCase();
-  return KEYWORDS.some(k => low.includes(k.toLowerCase()));
+  return KEYWORDS.some(k => low.includes(k));
 }
 
 export async function getNews(limit = 9): Promise<NewsItem[]> {
-  const results: NewsItem[] = [];
-  const feeds = await Promise.all(FEEDS.map(async (u) => {
+  const all: NewsItem[] = [];
+
+  const perFeed = await Promise.all(FEEDS.map(async (u) => {
     const xml = await fetchFeed(u);
     if (!xml) return [];
-    const host = (() => { try { return new URL(u).host.replace("www.",""); } catch { return u; }})();
+    const host = (() => { try { return new URL(u).host.replace(/^www\./,""); } catch { return u; }})();
     return parseRss(xml, host);
   }));
 
-  for (const arr of feeds) results.push(...arr);
+  for (const arr of perFeed) all.push(...arr);
 
-  // filtern auf Bahn-Themen + de-dupe per URL
-  const dedup = new Map<string,NewsItem>();
-  for (const it of results) {
-    if (!looksRelevant(it.title)) continue;
-    if (!dedup.has(it.id)) dedup.set(it.id, it);
-  }
+  // Nur D-A-CH Links, nur Bahn-relevante Titel, de-dupe
+  const seen = new Set<string>();
+  const filtered = all.filter(it => {
+    if (!looksRelevant(it.title)) return false;
+    if (!isDACH(it.url)) return false;
+    if (seen.has(it.id)) return false;
+    seen.add(it.id);
+    return true;
+  });
 
-  // nach Datum absteigend, wenn vorhanden
-  const sorted = Array.from(dedup.values()).sort((a,b) => {
+  // Neueste zuerst
+  filtered.sort((a,b) => {
     const ad = a.date ? Date.parse(a.date) : 0;
     const bd = b.date ? Date.parse(b.date) : 0;
     return bd - ad;
   });
 
-  return sorted.slice(0, limit);
+  return filtered.slice(0, limit);
 }
