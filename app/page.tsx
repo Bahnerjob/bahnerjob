@@ -66,12 +66,14 @@ export default async function HomePage() {
 
       {/* NEWS (DACH Eisenbahn)  nur wenn vorhanden */}
       {news.length > 0 && (
-        <section className="py-10">
+        <section className="news-section py-10">
           <div className="container">
-            <div className="mb-4 flex items-end justify-between">
-              <h2 className="text-xl font-semibold">Branchen-News (DACH, Eisenbahn)</h2>
-              <div className="text-xs text-neutral-500">automatisch aktualisiert</div>
-            </div>
+            <div className="section-head">
+        <div className="section-eyebrow">Aktuelles</div>
+        <h2 className="section-title">Branchen-News</h2>
+        <div className="section-sub">Eisenbahn im DACH-Raum  automatisch aktualisiert</div>
+        <div className="section-sep" aria-hidden="true"></div>
+      </div>
             <NewsRail items={news} />
           </div>
         </section>
@@ -79,4 +81,5 @@ export default async function HomePage() {
     </div>
   );
 }
+
 

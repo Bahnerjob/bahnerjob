@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
 
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 pb-16 md:pb-24">{children}</main>
 
         <footer className="site-footer border-t border-neutral-800 bg-[#0d0d0d] text-neutral-400">
           <div className="container py-8 text-sm"> {new Date().getFullYear()} Bahnerjob</div>
@@ -45,3 +45,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+

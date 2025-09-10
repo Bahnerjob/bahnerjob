@@ -376,3 +376,19 @@ h1, h2, h3, h4 { font-family: inherit !important; letter-spacing: normal !import
 
 /* Fallback für line-clamp */
 .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient: vertical; overflow: hidden; }
+/* === Footer nicht sticky (verhindert Überdeckung) ======================== */
+.site-footer { position: static; }
+
+/* === News-Section Head (sichtbar abgesetzt, ohne neue Farben) ============ */
+.news-section { position: relative; }
+.section-head { display:grid; gap:.25rem; margin-bottom:.75rem; }
+.section-eyebrow { font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; color:#9ca3af; }
+.section-title { font-size: clamp(1.375rem, 1.05rem + .9vw, 1.85rem); font-weight:700; line-height:1.2; }
+.section-sub { color:#9ca3af; font-size:.92rem; }
+.section-sep { height:1px; background: rgba(255,255,255,0.08); margin-top:.5rem; }
+
+/* Sicherheit: News-Grid nicht beschneiden, Karten haben Luft */
+.news-section .news-grid { overflow: visible; }
+.news-section { padding-bottom: .5rem; }
+
+/* (Belassen: die Cards selbst sind bereits weich & ohne hellen Rand) */
