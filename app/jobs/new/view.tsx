@@ -41,9 +41,18 @@ export default function View() {
   const [country, setCountry] = useState<Country>("DE");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
-  const [applyUrl, setApplyUrl] = useState("");
-
-  // Beschreibung (gegliedert)
+  
+  $matches[0] + @"
+  const regionLabel = country === "CH"
+    ? "Kanton"
+    : (country === "INTL" ? "Region/Province/State" : "Bundesland");
+  const regionPlaceholder = country === "CH"
+    ? "z. B. Zürich"
+    : (country === "AT"
+        ? "z. B. Steiermark"
+        : (country === "DE" ? "z. B. Baden-Württemberg" : "z. B. Ontario"));
+"@
+// Beschreibung (gegliedert)
   const [tasks, setTasks] = useState("");
   const [profile, setProfile] = useState("");
   const [benefits, setBenefits] = useState("");
@@ -159,7 +168,6 @@ export default function View() {
                     required
                     aria-required="true"
                   />
-                  <p className="help">Konkreter Titel mit (m/w/d) steigert die Klickrate.</p>
                 </div>
 
                 <div className="field min-w-0">
@@ -174,7 +182,6 @@ export default function View() {
                     required
                     aria-required="true"
                   />
-                  <p className="help">Offizieller Arbeitgebername oder Marke.</p>
                 </div>
               </div>
             </section>
@@ -203,11 +210,11 @@ export default function View() {
                 </div>
 
                 <div className="field min-w-0">
-                  <label className="label block">Bundesland/Kanton</label>
+                  <label className="label block">{regionLabel}</label>
                   <input
                     value={state}
                     onChange={(e) => setState(e.target.value)}
-                    placeholder="z. B. Baden-Württemberg"
+                    placeholder={regionPlaceholder}
                     className="input w-full"
                   />
                 </div>
@@ -380,6 +387,7 @@ export default function View() {
     </div>
   );
 }
+
 
 
 
