@@ -15,9 +15,16 @@ export default async function HomePage() {
       {/* HERO */}
       <section className="py-10 md:py-14">
         <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 md:gap-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6 md:gap-10 items-start">
             <div className="shrink-0 flex md:block items-start justify-center md:justify-start">
-              <Image src="/logo-bahnerjob.svg" alt="Bahnerjob" width={200} height={200} priority />
+              <Image
+                src="/logo-bahnerjob.svg"
+                alt="Bahnerjob"
+                width={260}
+                height={260}
+                priority
+                className="home-logo"
+              />
             </div>
             <div>
               <h1 className="text-3xl md:text-5xl font-semibold leading-tight">
@@ -68,17 +75,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* sanfte Trennung zwischen Zielgruppen & News */}
+      {/* sanfte Trennung */}
       <section className="section-divider" aria-hidden="true">
         <div className="container"><div className="divider-line"></div></div>
       </section>
 
-      {/* NEWS (D-A-CH)  nur wenn vorhanden */}
+      {/* NEWS (nur wenn vorhanden) */}
       {news.length > 0 && (
         <section className="py-10">
           <div className="container">
             <div className="mb-4 flex items-end justify-between">
-              <h2 className="text-xl font-semibold">Branchen-News (DACH)</h2>
+              <h2 className="text-xl font-semibold">Branchen-News (DACH, Eisenbahn)</h2>
               <div className="text-xs text-neutral-500">automatisch aktualisiert</div>
             </div>
             <NewsRail items={news} />
