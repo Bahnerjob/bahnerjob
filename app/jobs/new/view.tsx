@@ -1,249 +1,246 @@
-"use client";
+﻿"use client";
 
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useMemo, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 
-type Draft = {
-  title: string;
-  company: string;
-  location: string;
-  bundesland: string;
-  applyUrl: string;
-  logoUrl: string;
-  description: string;
-};
+type Pkg = "basic" | "featured" | "boost";
 
-const initial: Draft = {
-  title: "",
-  company: "",
-  location: "",
-  bundesland: "",
-  applyUrl: "",
-  logoUrl: "",
-  description: "",
-};
+function formatPkg(value: string | null) {
+  if (!value) return "";
+  switch (value) {
+    case "basic": return "Basic";
+    case "featured": return "Featured";
+    case "boost": return "Boost";
+    default: return value;
+  }
+}
 
-const PACKAGES: { key: "basic" | "featured" | "boost"; label: string; desc: string }[] = [
-  { key: "basic",    label: "Basic",    desc: "30 Tage Laufzeit, Sichtbar in Jobliste & Suche" },
-  { key: "featured", label: "Featured", desc: "Alles aus Basic + priorisierte Platzierung & Kennzeichnung" },
-  { key: "boost",    label: "Boost",    desc: "Alles aus Featured + 45 Tage Laufzeit & maximale Prominenz" }
-];
+export default function View() {
+  const params = useSearchParams();
+  const router = useRouter();
 
-export default function NewJobView() {
-  const [draft, setDraft] = useState<Draft>(initial);
-  const [pkgKey, setPkgKey] = useState<"basic" | "featured" | "boost">("featured");
-  const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState<string | null>(null);
+  const preselect = (params.get("pkg") as Pkg | null) ?? null;
 
-  // Paket per URL vorbelegen: /jobs/new?pkg=basic|featured|boost
-  const sp = useSearchParams();
-  useEffect(() => {
-    const p = sp.get("pkg");
-    if (p === "basic" || p === "featured" || p === "boost") setPkgKey(p);
-  }, [sp]);
+  const [pkg, setPkg] = useState<Pkg>(preselect ?? "basic");
+  const [title, setTitle] = useState("");
+  const [company, setCompany] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+  const [applyUrl, setApplyUrl] = useState("");
+  const [desc, setDesc] = useState("");
 
-  async function onSubmit(e: React.FormEvent) {
+  const descCount = useMemo(() => desc.length, [desc]);
+
+  function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setBusy(true);
-    setErr(null);
-
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ package: pkgKey, ad: draft }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data?.url) throw new Error(data?.error || "Checkout konnte nicht gestartet werden.");
-      window.location.href = data.url;
-    } catch (e: any) {
-      setErr(e.message || "Unbekannter Fehler");
-      setBusy(false);
-    }
+    const q = new URLSearchParams({ pkg, title, company, state, city, applyUrl }).toString();
+    router.push(`/pricing?${q}`);
   }
-
-  function bind<K extends keyof Draft>(key: K) {
-    return {
-      value: draft[key],
-      onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-        setDraft((d) => ({ ...d, [key]: e.target.value })),
-    };
-  }
-
-  const titleCount = draft.title.length;
-  const descCount = draft.description.length;
-
-  const previewTitle = draft.title || "Jobtitel";
-  const previewMeta = useMemo(() => {
-    const company = draft.company || "Firma";
-    const loc = draft.location || "Ort";
-    const bl = draft.bundesland ? ` (${draft.bundesland})` : "";
-    return `${company} · ${loc}${bl}`;
-  }, [draft.company, draft.location, draft.bundesland]);
 
   return (
-    <div className="bj-new form-layout">
-      {/* ---------- LINKSSPALTE: FORM ---------- */}
-      <div className="space-y-8">
-        {/* Stepper */}
-        <nav className="stepper card no-lift p-3" aria-label="Fortschritt">
-          <Step number={1} label="Entwurf" active />
-          <Step number={2} label="Paket" />
-          <Step number={3} label="Bezahlen" />
-        </nav>
+    <div className="bj-new mx-auto max-w-6xl px-4 py-8">
+      <header className="mb-6">
+        <h1 className="text-2xl md:text-3xl font-semibold">Anzeige erstellen</h1>
+        <p className="text-neutral-400 mt-2">
+          Kurze, klare Angaben sorgen für mehr Bewerbungen. Du kannst dein Paket jederzeit anpassen.
+        </p>
+        {preselect && (
+          <div className="mt-4 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-amber-300">
+            Vorausgewähltes Paket: <strong>{formatPkg(preselect)}</strong>  du kannst es unten ändern.
+          </div>
+        )}
+      </header>
 
-        <form onSubmit={onSubmit} className="space-y-8">
-          {/* Abschnitt: Anzeige */}
-          <section className="card no-lift p-6">
-            <header className="section-head">
-              <h2>Stellenausschreibung</h2>
-              <p className="section-desc">
-                Kurzer, klarer Titel. Eine prägnante Beschreibung hilft Bewerber:innen, schnell zu verstehen, worum es geht.
-              </p>
-            </header>
-
-            <div className="form-grid">
-              <div className="field">
-                <label htmlFor="title" className="label">Jobtitel *</label>
-                <input id="title" required maxLength={80} placeholder="z. B. Triebfahrzeugführer (m/w/d)"
-                  className="input" {...bind("title")} aria-describedby="help-title counter-title" />
-                <div className="row-between">
-                  <small id="help-title" className="help">Max. 80 Zeichen</small>
-                  <small id="counter-title" className="counter">{titleCount}/80</small>
-                </div>
-              </div>
-
-              <div className="row-2">
-                <div className="field">
-                  <label htmlFor="company" className="label">Firma *</label>
-                  <input id="company" required maxLength={80} placeholder="z. B. DB Regio"
-                    className="input" {...bind("company")} />
-                </div>
-
-                <div className="field">
-                  <label htmlFor="bundesland" className="label">Bundesland</label>
-                  <input id="bundesland" maxLength={40} placeholder="z. B. Bayern"
-                    className="input" {...bind("bundesland")} />
-                </div>
-              </div>
-
-              <div className="row-2">
-                <div className="field">
-                  <label htmlFor="location" className="label">Ort *</label>
-                  <input id="location" required maxLength={80} placeholder="z. B. München"
-                    className="input" {...bind("location")} />
-                </div>
-
-                <div className="field">
-                  <label htmlFor="applyUrl" className="label">Bewerbungslink / E-Mail *</label>
-                  <input id="applyUrl" required maxLength={120}
-                    placeholder="https://firma.de/jobs/123 oder mailto:jobs@firma.de"
-                    className="input" {...bind("applyUrl")} />
-                </div>
-              </div>
-
-              <div className="field">
-                <label htmlFor="logoUrl" className="label">Logo-URL</label>
-                <input id="logoUrl" maxLength={120} placeholder="https://…/logo.png"
-                  className="input" {...bind("logoUrl")} />
-                <small className="help">Quadratisches PNG/SVG empfohlen (mind. 96×96 px)</small>
-              </div>
-
-              <div className="field">
-                <label htmlFor="description" className="label">Kurzbeschreibung</label>
-                <textarea id="description" maxLength={400}
-                  placeholder="Worum geht es? Anforderungen, Benefits, Kontakt …"
-                  className="textarea" {...bind("description")}
-                  aria-describedby="counter-desc" />
-                <div className="row-end">
-                  <small id="counter-desc" className="counter">{descCount}/400</small>
-                </div>
-              </div>
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6">
+        {/* FORMULAR */}
+        <form onSubmit={onSubmit} className="form-layout">
+          {/* Sektion: Paket */}
+          <section className="card section">
+            <div className="section-head">
+              <h2 className="section-title">Paket wählen</h2>
+              <p className="section-sub">Du kannst später jederzeit wechseln.</p>
             </div>
-          </section>
 
-          {/* Abschnitt: Paket */}
-          <section className="card no-lift p-6">
-            <header className="section-head">
-              <h2>Paket wählen</h2>
-              <p className="section-desc">Die Preise sind in Stripe hinterlegt. Deine Auswahl steuert die Preis-ID.</p>
-            </header>
-
-            <div className="stack-3">
-              {PACKAGES.map((p) => (
-                <label key={p.key} className={`choice ${pkgKey === p.key ? "choice-active" : ""}`}>
-                  <div className="choice-main">
-                    <span className="choice-title">{p.label}</span>
-                    <span className="choice-desc">{p.desc}</span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {(["basic", "featured", "boost"] as Pkg[]).map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => setPkg(p)}
+                  className={[
+                    "btn w-full rounded-lg border px-3 py-2 text-left elevate",
+                    pkg === p
+                      ? "border-amber-500 bg-amber-500/10"
+                      : "border-neutral-800 bg-neutral-900/50 hover:bg-neutral-900",
+                  ].join(" ")}
+                  aria-pressed={pkg === p}
+                >
+                  <div className="text-sm font-semibold capitalize">{p}</div>
+                  <div className="text-xs text-neutral-400">
+                    {p === "basic" && "30 Tage  Sichtbar in Liste & Suche"}
+                    {p === "featured" && "Priorisiert  Featured-Badge  Mehr Sichtbarkeit"}
+                    {p === "boost" && "Maximale Prominenz  45 Tage"}
                   </div>
-                  <input
-                    type="radio"
-                    name="package"
-                    checked={pkgKey === p.key}
-                    onChange={() => setPkgKey(p.key)}
-                    aria-label={p.label}
-                  />
-                </label>
+                </button>
               ))}
             </div>
           </section>
 
-          {/* Aktionen */}
-          <section className="card no-lift p-6">
-            {err && <div className="alert error mb-3">{err}</div>}
-
-            <div className="row-wrap">
-              <button className="btn btn-accent" type="submit" disabled={busy}>
-                {busy ? "Weiter zur Zahlung…" : "Jetzt bezahlen"}
-              </button>
-              <Link className="btn" href="/pricing">Pakete ansehen</Link>
-              <Link className="btn" href="/">Zur Startseite</Link>
+          {/* Sektion: Basisdaten */}
+          <section className="card section">
+            <div className="section-head">
+              <h2 className="section-title">Basisdaten</h2>
+              <p className="section-sub">Titel & Arbeitgeber  damit Bewerbende dich sofort erkennen.</p>
             </div>
 
-            <p className="tiny text-neutral-500 mt-3">
-              Mit „Jetzt bezahlen“ stimmst du der Verarbeitung deiner Angaben zur Anzeigenerstellung zu.
-            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 form-grid">
+              <div className="field">
+                <label className="label block">Stellentitel <span className="req">*</span></label>
+                <input
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="z. B. Triebfahrzeugführer (m/w/d)"
+                  className="input w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
+                  required
+                  aria-required="true"
+                />
+                <p className="help">Konkreter Titel mit (m/w/d) steigert die Klickrate.</p>
+              </div>
+
+              <div className="field">
+                <label className="label block">Firma <span className="req">*</span></label>
+                <input
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  placeholder="z. B. DB Regio AG"
+                  className="input w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
+                  required
+                  aria-required="true"
+                />
+                <p className="help">Offizieller Arbeitgebername / Marke.</p>
+              </div>
+            </div>
           </section>
-        </form>
-      </div>
 
-      {/* ---------- RECHTSSPALTE: STICKY VORSCHAU ---------- */}
-      <aside className="sticky-card card no-lift p-6 h-fit">
-        <div className="badge mb-3">Vorschau</div>
+          {/* Sektion: Standort & Bewerbung */}
+          <section className="card section">
+            <div className="section-head">
+              <h2 className="section-title">Standort & Bewerbung</h2>
+              <p className="section-sub">Ort hilft bei der Suche, Link führt direkt zur Bewerbung.</p>
+            </div>
 
-        <div className="flex items-start gap-3">
-          {draft.logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={draft.logoUrl} alt="" className="w-12 h-12 rounded-lg object-cover border" />
-          ) : (
-            <div className="w-12 h-12 rounded-lg border bg-neutral-900/40" />
-          )}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 row-2">
+              <div className="field">
+                <label className="label block">Bundesland</label>
+                <input
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                  placeholder="z. B. Baden-Württemberg"
+                  className="input w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
+                />
+                <p className="help">Optional, verbessert die Filterbarkeit.</p>
+              </div>
 
-          <div>
-            <div className="text-lg font-bold">{previewTitle}</div>
-            <div className="text-neutral-400">{previewMeta}</div>
+              <div className="field">
+                <label className="label block">Ort</label>
+                <input
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="z. B. Friedrichshafen"
+                  className="input w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
+                />
+              </div>
+
+              <div className="field">
+                <label className="label block">Bewerbungslink</label>
+                <input
+                  value={applyUrl}
+                  onChange={(e) => setApplyUrl(e.target.value)}
+                  placeholder="https://"
+                  className="input w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
+                  inputMode="url"
+                />
+                <p className="help">Direkter Link zur Bewerbung oder Karriere-Seite.</p>
+              </div>
+            </div>
+          </section>
+
+          {/* Sektion: Beschreibung */}
+          <section className="card section">
+            <div className="section-head">
+              <h2 className="section-title">Stellenbeschreibung</h2>
+              <p className="section-sub">Kurz & klar: Aufgaben, Profil, Benefits.</p>
+            </div>
+
+            <label className="label block sr-only">Stellenbeschreibung</label>
+            <textarea
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+              rows={10}
+              placeholder={"Aufgaben:\n \n\nProfil:\n \n\nBenefits:\n "}
+              className="textarea w-full bg-neutral-900 border border-neutral-800 rounded px-3 py-2"
+              aria-label="Stellenbeschreibung"
+            />
+            <div className="counter text-right text-xs text-neutral-500 mt-1">
+              {descCount} Zeichen
+            </div>
+          </section>
+
+          {/* Actions */}
+          <div className="card section flex items-center gap-3">
+            <button type="submit" className="btn btn-accent rounded-lg px-4 py-2 font-semibold">
+              Weiter zur Auswahl/Checkout
+            </button>
+            <a href="/pricing" className="btn rounded-lg px-4 py-2 border border-neutral-800">
+              Preise ansehen
+            </a>
           </div>
-        </div>
+        </form>
 
-        <p className="mt-3 text-neutral-300 whitespace-pre-wrap">
-          {draft.description || "Kurze Jobbeschreibung …"}
-        </p>
+        {/* VORSCHAU */}
+        <aside className="sticky top-6 h-max">
+          <div className="card elevate-m section">
+            <div className="section-head row gap-2 items-baseline justify-between">
+              <div>
+                <div className="text-sm text-neutral-400">Vorschau</div>
+                <div className="divider"></div>
+              </div>
+              <div
+                className={[
+                  "text-xs px-2 py-1 rounded border",
+                  pkg === "boost"
+                    ? "border-amber-500 text-amber-300"
+                    : pkg === "featured"
+                    ? "border-sky-500 text-sky-300"
+                    : "border-neutral-700 text-neutral-300",
+                ].join(" ")}
+              >
+                {formatPkg(pkg)}
+              </div>
+            </div>
 
-        <div className="mt-4 text-sm text-neutral-400">
-          Bewerbungsweg: {draft.applyUrl || "https://… oder mailto:…"}
-        </div>
-      </aside>
-    </div>
-  );
-}
-
-/* ------- kleine UI-Helfer ------- */
-function Step({ number, label, active }: { number: number; label: string; active?: boolean }) {
-  return (
-    <div className={`step ${active ? "step-active" : ""}`}>
-      <div className="step-num">{number}</div>
-      <div className="step-label">{label}</div>
+            <h3 className="text-lg font-semibold">
+              {title || "Stellentitel"}
+              <span className="text-neutral-400 font-normal">  {company || "Firma"}</span>
+            </h3>
+            <div className="text-sm text-neutral-400 mb-3">
+              {(city || "Ort") + (state ? `, ${state}` : state === "" ? "" : ", Bundesland")}
+            </div>
+            <p className="text-sm text-neutral-300 whitespace-pre-wrap min-h-[6rem]">
+              {desc || "Kurze Beschreibung deiner Stelle "}
+            </p>
+            <div className="mt-4">
+              <a
+                href={applyUrl || "#"}
+                className="inline-block text-sm font-semibold underline underline-offset-4"
+                onClick={(e) => { if (!applyUrl) e.preventDefault(); }}
+              >
+                {applyUrl ? "Jetzt bewerben" : "Bewerbungslink hinzufügen"}
+              </a>
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   );
 }
