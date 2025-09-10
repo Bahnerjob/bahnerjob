@@ -1,4 +1,6 @@
-﻿export default function HomePage() {
+﻿import Link from "next/link";
+
+export default function HomePage() {
   return (
     <div className="space-y-12">
       {/* Hero */}
@@ -14,8 +16,8 @@
           Von Triebfahrzeugführer:in bis Fahrtrainer: moderne Suche, klare Preise, schnelle Veröffentlichung.
         </p>
         <div className="mt-6 flex items-center justify-center gap-3">
-          <a className="btn btn-accent" href="/jobs/new">Anzeige schalten</a>
-          <a className="btn" href="/jobs">Jobs durchsuchen</a>
+          <Link className="btn btn-accent" href="/jobs/new">Anzeige schalten</Link>
+          <Link className="btn" href="/jobs">Jobs durchsuchen</Link>
         </div>
       </section>
 
