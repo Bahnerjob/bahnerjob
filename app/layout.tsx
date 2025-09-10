@@ -46,7 +46,7 @@ function SiteFooter() {
   return (
     <footer className="mt-16 border-t" style={{ borderColor: "rgb(var(--border))" }}>
       <div className="container footer-row">
-        <div>© {new Date().getFullYear()} Bahnerjob – Made for rail people</div>
+        <div>© Bahnerjob – Made for rail people</div>
         <div className="footer-links">
           <Link href="/legal/impressum">Impressum</Link>
           <Link href="/legal/datenschutz">Datenschutz</Link>
