@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 type Draft = {
   title: string;
@@ -24,9 +25,9 @@ const initial: Draft = {
 };
 
 const PACKAGES: { key: "basic" | "featured" | "boost"; label: string; desc: string }[] = [
-  { key: "basic",    label: "Basic",    desc: "Standard-Laufzeit, normale Sichtbarkeit" },
-  { key: "featured", label: "Featured", desc: "Hervorgehoben auf der Startseite" },
-  { key: "boost",    label: "Boost",    desc: "Max. Reichweite & prominente Platzierung" },
+  { key: "basic",    label: "Basic",    desc: "30 Tage Laufzeit, Sichtbar in Jobliste & Suche" },
+  { key: "featured", label: "Featured", desc: "Alles aus Basic + priorisierte Platzierung & Kennzeichnung" },
+  { key: "boost",    label: "Boost",    desc: "Alles aus Featured + 45 Tage Laufzeit & maximale Prominenz" }
 ];
 
 export default function NewJobPage() {
@@ -34,6 +35,13 @@ export default function NewJobPage() {
   const [pkgKey, setPkgKey] = useState<"basic" | "featured" | "boost">("featured");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+
+  // Paket per URL vorbelegen: /jobs/new?pkg=basic|featured|boost
+  const sp = useSearchParams();
+  useEffect(() => {
+    const p = sp.get("pkg");
+    if (p === "basic" || p === "featured" || p === "boost") setPkgKey(p);
+  }, [sp]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -231,7 +239,6 @@ export default function NewJobPage() {
 }
 
 /* ------- kleine UI-Helfer ------- */
-
 function Step({ number, label, active }: { number: number; label: string; active?: boolean }) {
   return (
     <div className={`step ${active ? "step-active" : ""}`}>

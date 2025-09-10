@@ -1,67 +1,99 @@
 ﻿import Link from "next/link";
-import BuyButton from "@/components/BuyButton";
+
+export const metadata = {
+  title: "Preise – Bahnerjob",
+  description: "Klare Pakete für Stellenanzeigen im Bahnsektor."
+};
+
+type Pkg = {
+  key: "basic" | "featured" | "boost";
+  title: string;
+  // hier optional: price?: string;  // wenn du später Preise textlich anzeigen willst
+  bullets: string[];
+  note?: string;
+};
+
+const PACKAGES: Pkg[] = [
+  {
+    key: "basic",
+    title: "Basic",
+    bullets: [
+      "Laufzeit: 30 Tage",
+      "Sichtbar in Jobliste & Suche",
+      "Inklusive: Logo, Titel, Ort, Bundesland, Bewerbungslink",
+      "1 Kategorie/Schwerpunkt wählbar",
+      "Rechnung per E-Mail, Support per E-Mail"
+    ]
+  },
+  {
+    key: "featured",
+    title: "Featured",
+    bullets: [
+      "Alles aus „Basic“",
+      "Sichtbarkeits-Boost durch priorisierte Platzierung in der Liste",
+      "Kennzeichnung als „Featured“ in der Jobliste",
+      "Bis zu 2 Kategorien/Schwerpunkte",
+      "Erhöhte Aufmerksamkeit in Suchergebnissen"
+    ],
+    note: "Empfohlen für wichtige oder zeitkritische Positionen"
+  },
+  {
+    key: "boost",
+    title: "Boost",
+    bullets: [
+      "Alles aus „Featured“",
+      "Maximale Reichweite durch verstärkte Prominenz in Listings",
+      "Bis zu 3 Kategorien/Schwerpunkte",
+      "Verlängerte Laufzeit: 45 Tage",
+      "Bestens geeignet für schwer zu besetzende Rollen"
+    ]
+  }
+];
 
 export default function PricingPage() {
-  const basic = process.env.NEXT_PUBLIC_PRICE_ID_BASIC;
-  const featured = process.env.NEXT_PUBLIC_PRICE_ID_FEATURED;
-  const boost = process.env.NEXT_PUBLIC_PRICE_ID_BOOST;
-
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <div className="badge mb-3">Klare Pakete</div>
-        <h1 className="font-bold tracking-tight">Preise für Jobanzeigen</h1>
-        <p className="mt-3 lead">Wähle dein Paket – jederzeit erweiterbar mit Boost.</p>
-      </div>
+    <div className="space-y-10">
+      <header className="text-center">
+        <div className="badge mb-3">Pakete & Leistungen</div>
+        <h1 className="font-bold tracking-tight">Preise für Stellenanzeigen</h1>
+        <p className="lead mt-3 max-w-2xl mx-auto">
+          Wähle das Paket, das zu deiner Rolle passt. Du entwirfst die Anzeige zuerst
+          und gehst dann in den Bezahlprozess – transparent und ohne Umwege.
+        </p>
+      </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Basic */}
-        <div className="card p-6 flex flex-col">
-          <div className="badge mb-2">Basic</div>
-          <div className="text-3xl font-bold">59 €</div>
-          <p className="mt-2 text-neutral-300">Standardplatzierung – ideal für reguläre Rollen.</p>
-          <ul className="mt-4 text-sm text-neutral-300 space-y-2">
-            <li>• Sichtbar in der Liste</li>
-            <li>• Laufzeit 30 Tage</li>
-          </ul>
-          <div className="mt-auto pt-5">
-            <BuyButton label="Jetzt kaufen – 59 €" priceId={basic} />
-          </div>
+      <section className="grid gap-6 md:grid-cols-3">
+        {PACKAGES.map((p) => (
+          <article key={p.key} className="card p-6 flex flex-col">
+            <div className="badge mb-2">{p.title}</div>
+
+            <ul className="text-neutral-300 text-[0.98rem] space-y-2">
+              {p.bullets.map((b, i) => (
+                <li key={i}>• {b}</li>
+              ))}
+            </ul>
+
+            {p.note && (
+              <div className="mt-3 text-xs text-neutral-400">{p.note}</div>
+            )}
+
+            <div className="mt-auto pt-5">
+              {/* Nicht direkt kaufen -> in den Entwurf mit vorbelegtem Paket */}
+              <Link href={`/jobs/new?pkg=${p.key}`} className="btn btn-accent w-full text-center">
+                Anzeige entwerfen
+              </Link>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section className="text-center">
+        <div className="inline-flex flex-wrap items-center justify-center gap-2">
+          <span className="badge">Rechnung & Support per E-Mail</span>
+          <span className="badge">Keine Agentur notwendig</span>
+          <span className="badge">Klar & transparent</span>
         </div>
-
-        {/* Featured */}
-        <div className="card p-6 flex flex-col" style={{ borderColor: "rgba(220,38,38,.4)" }}>
-          <div className="badge mb-2" style={{color:"white", borderColor:"rgba(220,38,38,0.4)"}}>Meist gewählt</div>
-          <div className="text-3xl font-bold">149 €</div>
-          <p className="mt-2 text-neutral-300">Hervorgehobene Platzierung mit mehr Reichweite.</p>
-          <ul className="mt-4 text-sm text-neutral-300 space-y-2">
-            <li>• Top der Liste</li>
-            <li>• Badge “Featured”</li>
-            <li>• Laufzeit 30 Tage</li>
-          </ul>
-          <div className="mt-auto pt-5">
-            <BuyButton label="Jetzt kaufen – 149 €" priceId={featured} />
-          </div>
-        </div>
-
-        {/* Boost */}
-        <div className="card p-6 flex flex-col">
-          <div className="badge mb-2">Boost</div>
-          <div className="text-3xl font-bold">39 €</div>
-          <p className="mt-2 text-neutral-300">Zusätzliche Sichtbarkeit für bestehende Anzeigen.</p>
-          <ul className="mt-4 text-sm text-neutral-300 space-y-2">
-            <li>• Listing-Boost 7 Tage</li>
-            <li>• Zusätzliche Markierung</li>
-          </ul>
-          <div className="mt-auto pt-5">
-            <BuyButton label="Jetzt kaufen – 39 €" priceId={boost} />
-          </div>
-        </div>
-      </div>
-
-      <div className="text-center text-neutral-400">
-        <p>Du hast Fragen? <Link className="underline" href="/legal/impressum">Kontakt</Link></p>
-      </div>
+      </section>
     </div>
   );
 }
