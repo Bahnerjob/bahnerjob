@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 
 type Draft = {
@@ -23,10 +23,10 @@ const initial: Draft = {
   description: "",
 };
 
-const PACKAGES: { key: "basic" | "featured" | "boost"; label: string; desc: string; env: string }[] = [
-  { key: "basic",    label: "Basic",    desc: "Standard-Laufzeit, normale Sichtbarkeit",  env: "NEXT_PUBLIC_PRICE_ID_BASIC" },
-  { key: "featured", label: "Featured", desc: "Hervorgehoben auf der Startseite",         env: "NEXT_PUBLIC_PRICE_ID_FEATURED" },
-  { key: "boost",    label: "Boost",    desc: "Max. Reichweite & prominente Platzierung", env: "NEXT_PUBLIC_PRICE_ID_BOOST" },
+const PACKAGES: { key: "basic" | "featured" | "boost"; label: string; desc: string }[] = [
+  { key: "basic",    label: "Basic",    desc: "Standard-Laufzeit, normale Sichtbarkeit" },
+  { key: "featured", label: "Featured", desc: "Hervorgehoben auf der Startseite" },
+  { key: "boost",    label: "Boost",    desc: "Max. Reichweite & prominente Platzierung" },
 ];
 
 export default function NewJobPage() {
@@ -39,6 +39,7 @@ export default function NewJobPage() {
     e.preventDefault();
     setBusy(true);
     setErr(null);
+
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -62,97 +63,147 @@ export default function NewJobPage() {
     };
   }
 
+  const titleCount = draft.title.length;
+  const descCount = draft.description.length;
+
+  const previewTitle = draft.title || "Jobtitel";
+  const previewMeta = useMemo(() => {
+    const company = draft.company || "Firma";
+    const loc = draft.location || "Ort";
+    const bl = draft.bundesland ? ` (${draft.bundesland})` : "";
+    return `${company} · ${loc}${bl}`;
+  }, [draft.company, draft.location, draft.bundesland]);
+
   return (
-    <div className="grid gap-6 md:grid-cols-2">
-      {/* Formular */}
-      <form onSubmit={onSubmit} className="card p-6 flex flex-col gap-4 no-lift">
-        <div className="badge">Anzeige entwerfen</div>
-        <div className="grid gap-3">
-          <label className="block">
-            <div className="text-sm text-neutral-400 mb-1">Jobtitel *</div>
-            <input className="w-full rounded-xl bg-transparent border px-3 py-2"
-                   required maxLength={80} placeholder="z.B. Triebfahrzeugführer (m/w/d)"
-                   {...bind("title")} />
-          </label>
+    <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
+      {/* ---------- LINKSSPALTE: FORM ---------- */}
+      <div className="space-y-8">
+        {/* Stepper */}
+        <nav className="stepper card no-lift p-3" aria-label="Fortschritt">
+          <Step number={1} label="Entwurf" active />
+          <Step number={2} label="Paket" active={false} />
+          <Step number={3} label="Bezahlen" active={false} />
+        </nav>
 
-          <div className="grid md:grid-cols-2 gap-3">
-            <label className="block">
-              <div className="text-sm text-neutral-400 mb-1">Firma *</div>
-              <input className="w-full rounded-xl bg-transparent border px-3 py-2"
-                     required maxLength={80} placeholder="z.B. DB Regio"
-                     {...bind("company")} />
-            </label>
-            <label className="block">
-              <div className="text-sm text-neutral-400 mb-1">Bundesland</div>
-              <input className="w-full rounded-xl bg-transparent border px-3 py-2"
-                     maxLength={40} placeholder="z.B. Bayern"
-                     {...bind("bundesland")} />
-            </label>
-          </div>
+        <form onSubmit={onSubmit} className="space-y-8">
+          {/* Abschnitt: Anzeige */}
+          <section className="card no-lift p-6">
+            <header className="section-head">
+              <h2>Stellenausschreibung</h2>
+              <p className="section-desc">
+                Kurzer, klarer Titel. Eine prägnante Beschreibung hilft Bewerber:innen, schnell zu verstehen, worum es geht.
+              </p>
+            </header>
 
-          <div className="grid md:grid-cols-2 gap-3">
-            <label className="block">
-              <div className="text-sm text-neutral-400 mb-1">Ort *</div>
-              <input className="w-full rounded-xl bg-transparent border px-3 py-2"
-                     required maxLength={80} placeholder="z.B. München"
-                     {...bind("location")} />
-            </label>
-            <label className="block">
-              <div className="text-sm text-neutral-400 mb-1">Bewerbungslink / E-Mail *</div>
-              <input className="w-full rounded-xl bg-transparent border px-3 py-2"
-                     required maxLength={120} placeholder="https://firma.de/jobs/123 oder mailto:jobs@firma.de"
-                     {...bind("applyUrl")} />
-            </label>
-          </div>
-
-          <label className="block">
-            <div className="text-sm text-neutral-400 mb-1">Logo-URL</div>
-            <input className="w-full rounded-xl bg-transparent border px-3 py-2"
-                   maxLength={120} placeholder="https://…/logo.png"
-                   {...bind("logoUrl")} />
-          </label>
-
-          <label className="block">
-            <div className="text-sm text-neutral-400 mb-1">Kurzbeschreibung (max. 400 Zeichen)</div>
-            <textarea className="w-full rounded-xl bg-transparent border px-3 py-2 min-h-[120px]"
-                      maxLength={400} placeholder="Worum geht es? Anforderungen, Benefits, Kontakt …"
-                      {...bind("description")} />
-          </label>
-        </div>
-
-        {/* Paketwahl */}
-        <div className="mt-2">
-          <div className="text-sm text-neutral-400 mb-2">Paket wählen</div>
-          <div className="grid gap-2">
-            {PACKAGES.map((p) => (
-              <label key={p.key} className={`card p-3 flex items-center justify-between ${pkgKey === p.key ? "ring-1" : ""}`}
-                     style={pkgKey === p.key ? { boxShadow: "0 0 0 1px rgba(220,38,38,.42)" } : undefined}>
-                <div className="flex flex-col">
-                  <span className="font-semibold">{p.label}</span>
-                  <span className="text-sm text-neutral-400">{p.desc}</span>
+            <div className="form-grid">
+              <div className="field">
+                <label htmlFor="title" className="label">Jobtitel *</label>
+                <input id="title" required maxLength={80} placeholder="z. B. Triebfahrzeugführer (m/w/d)"
+                  className="input" {...bind("title")} aria-describedby="help-title counter-title" />
+                <div className="row-between">
+                  <small id="help-title" className="help">Max. 80 Zeichen</small>
+                  <small id="counter-title" className="counter">{titleCount}/80</small>
                 </div>
-                <input type="radio" name="package" checked={pkgKey === p.key} onChange={() => setPkgKey(p.key)} />
-              </label>
-            ))}
-          </div>
-          <div className="text-xs text-neutral-500 mt-2">
-            Die Preise sind in Stripe hinterlegt. Auswahl steuert die entsprechende Preis-ID.
-          </div>
-        </div>
+              </div>
 
-        {/* Aktionen */}
-        {err && <div className="text-sm text-red-400">{err}</div>}
-        <div className="mt-2 flex flex-wrap gap-2">
-          <button className="btn btn-accent" type="submit" disabled={busy}>
-            {busy ? "Weiter zur Zahlung…" : "Jetzt bezahlen"}
-          </button>
-          <Link className="btn" href="/pricing">Zu den Paketen</Link>
-        </div>
-      </form>
+              <div className="row-2">
+                <div className="field">
+                  <label htmlFor="company" className="label">Firma *</label>
+                  <input id="company" required maxLength={80} placeholder="z. B. DB Regio"
+                    className="input" {...bind("company")} />
+                </div>
 
-      {/* Live-Vorschau */}
-      <div className="card p-6 no-lift">
+                <div className="field">
+                  <label htmlFor="bundesland" className="label">Bundesland</label>
+                  <input id="bundesland" maxLength={40} placeholder="z. B. Bayern"
+                    className="input" {...bind("bundesland")} />
+                </div>
+              </div>
+
+              <div className="row-2">
+                <div className="field">
+                  <label htmlFor="location" className="label">Ort *</label>
+                  <input id="location" required maxLength={80} placeholder="z. B. München"
+                    className="input" {...bind("location")} />
+                </div>
+
+                <div className="field">
+                  <label htmlFor="applyUrl" className="label">Bewerbungslink / E-Mail *</label>
+                  <input id="applyUrl" required maxLength={120}
+                    placeholder="https://firma.de/jobs/123 oder mailto:jobs@firma.de"
+                    className="input" {...bind("applyUrl")} />
+                </div>
+              </div>
+
+              <div className="field">
+                <label htmlFor="logoUrl" className="label">Logo-URL</label>
+                <input id="logoUrl" maxLength={120} placeholder="https://…/logo.png"
+                  className="input" {...bind("logoUrl")} />
+                <small className="help">Quadratisches PNG/SVG empfohlen (mind. 96×96 px)</small>
+              </div>
+
+              <div className="field">
+                <label htmlFor="description" className="label">Kurzbeschreibung</label>
+                <textarea id="description" maxLength={400}
+                  placeholder="Worum geht es? Anforderungen, Benefits, Kontakt …"
+                  className="textarea" {...bind("description")}
+                  aria-describedby="counter-desc" />
+                <div className="row-end">
+                  <small id="counter-desc" className="counter">{descCount}/400</small>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Abschnitt: Paket */}
+          <section className="card no-lift p-6">
+            <header className="section-head">
+              <h2>Paket wählen</h2>
+              <p className="section-desc">Die Preise sind in Stripe hinterlegt. Deine Auswahl steuert die Preis-ID.</p>
+            </header>
+
+            <div className="stack-3">
+              {PACKAGES.map((p) => (
+                <label key={p.key} className={`choice ${pkgKey === p.key ? "choice-active" : ""}`}>
+                  <div className="choice-main">
+                    <span className="choice-title">{p.label}</span>
+                    <span className="choice-desc">{p.desc}</span>
+                  </div>
+                  <input
+                    type="radio"
+                    name="package"
+                    checked={pkgKey === p.key}
+                    onChange={() => setPkgKey(p.key)}
+                    aria-label={p.label}
+                  />
+                </label>
+              ))}
+            </div>
+          </section>
+
+          {/* Aktionen */}
+          <section className="card no-lift p-6">
+            {err && <div className="alert error mb-3">{err}</div>}
+
+            <div className="row-wrap">
+              <button className="btn btn-accent" type="submit" disabled={busy}>
+                {busy ? "Weiter zur Zahlung…" : "Jetzt bezahlen"}
+              </button>
+              <Link className="btn" href="/pricing">Pakete ansehen</Link>
+              <Link className="btn" href="/">Zur Startseite</Link>
+            </div>
+
+            <p className="tiny text-neutral-500 mt-3">
+              Mit „Jetzt bezahlen“ stimmst du der Verarbeitung deiner Angaben zur Anzeigenerstellung zu.
+            </p>
+          </section>
+        </form>
+      </div>
+
+      {/* ---------- RECHTSSPALTE: STICKY VORSCHAU ---------- */}
+      <aside className="sticky-card card no-lift p-6 h-fit">
         <div className="badge mb-3">Vorschau</div>
+
         <div className="flex items-start gap-3">
           {draft.logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -160,21 +211,32 @@ export default function NewJobPage() {
           ) : (
             <div className="w-12 h-12 rounded-lg border bg-neutral-900/40" />
           )}
+
           <div>
-            <div className="text-lg font-bold">{draft.title || "Jobtitel"}</div>
-            <div className="text-neutral-400">
-              {draft.company || "Firma"} · {draft.location || "Ort"}
-              {draft.bundesland ? ` (${draft.bundesland})` : ""}
-            </div>
+            <div className="text-lg font-bold">{previewTitle}</div>
+            <div className="text-neutral-400">{previewMeta}</div>
           </div>
         </div>
+
         <p className="mt-3 text-neutral-300 whitespace-pre-wrap">
           {draft.description || "Kurze Jobbeschreibung …"}
         </p>
+
         <div className="mt-4 text-sm text-neutral-400">
           Bewerbungsweg: {draft.applyUrl || "https://… oder mailto:…"}
         </div>
-      </div>
+      </aside>
+    </div>
+  );
+}
+
+/* ------- kleine UI-Helfer ------- */
+
+function Step({ number, label, active }: { number: number; label: string; active?: boolean }) {
+  return (
+    <div className={`step ${active ? "step-active" : ""}`}>
+      <div className="step-num">{number}</div>
+      <div className="step-label">{label}</div>
     </div>
   );
 }
