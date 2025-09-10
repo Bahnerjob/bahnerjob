@@ -302,3 +302,5 @@ h1,h2,h3,h4 {
 /* Rechtelinks im Footer sichtbar, aber dezent */
 .site-legal-links { display:flex; gap:1rem; align-items:center; }
 .site-legal-links a { color: inherit; text-decoration: underline; }
+/* Hero-CTAs: Buttons und Texte mittig ausrichten */
+.home-hero-ctas { justify-content: center; text-align: center; }

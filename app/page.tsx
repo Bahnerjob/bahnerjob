@@ -35,7 +35,7 @@ export default async function HomePage() {
                 oder finde deinen nächsten Schritt im Schienenverkehr.
               </p>
               {/* CTAs zentriert */}
-              <div className="mt-6 flex flex-wrap gap-3 justify-center">
+              <div className="mt-6 flex flex-wrap gap-3 justify-center text-center">
                 <a href="/jobs/new" className="btn btn-accent h-11 px-5 rounded-xl font-semibold">Anzeige schalten</a>
                 <a href="/pricing" className="btn h-11 px-5 rounded-xl border border-neutral-800 hover:bg-neutral-900">Preise ansehen</a>
                 <a href="/" className="btn h-11 px-5 rounded-xl border border-neutral-800 hover:bg-neutral-900">Jobs durchsuchen</a>
@@ -95,4 +95,5 @@ export default async function HomePage() {
     </div>
   );
 }
+
 
