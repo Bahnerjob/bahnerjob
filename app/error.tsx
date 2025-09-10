@@ -1,10 +1,12 @@
-import { Suspense } from "react";
-import JobsView from "./view";
+﻿"use client";
 
-export default function JobsPage() {
+export default function Error({ error, reset }: { error: Error; reset: () => void }) {
+  console.error(error);
   return (
-    <Suspense fallback={<div className="card p-6">Lade Jobs…</div>}>
-      <JobsView />
-    </Suspense>
+    <div className="card p-6">
+      <h1 className="font-bold tracking-tight">Uups, da ist etwas schiefgelaufen.</h1>
+      <p className="mt-2 text-neutral-300">Bitte versuch es noch einmal.</p>
+      <button className="btn btn-accent mt-4" onClick={() => reset()}>Neu laden</button>
+    </div>
   );
 }

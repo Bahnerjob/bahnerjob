@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -16,7 +16,7 @@ export default function JobsView() {
       <header className="text-center">
         <div className="badge mb-3">Aktuelle Stellen</div>
         <h1 className="font-bold tracking-tight">Jobs im Bahnsektor</h1>
-        <p className="mt-3 lead">Suche nach Titel, Firma oder Ort – oder filtere nach Bundesland.</p>
+        <p className="mt-3 lead">Suche nach Titel, Firma oder Ort  oder filtere nach Bundesland.</p>
       </header>
 
       <form className="card p-4" action="/jobs" method="get">
@@ -26,7 +26,7 @@ export default function JobsView() {
             <input
               name="q"
               defaultValue={q}
-              placeholder="z. B. Triebfahrzeugführer, Hamburg…"
+              placeholder="z. B. Triebfahrzeugführer, Hamburg"
               className="w-full rounded-xl border px-3 py-2 bg-transparent"
               style={{ borderColor: "rgb(var(--border))" }}
             />
@@ -79,7 +79,7 @@ function JobCard({ j }: { j: Job }) {
         <div>
           <h3 className="text-lg font-semibold tracking-tight">{j.title}</h3>
           <p className="text-sm text-neutral-400 mt-0.5">
-            {j.company} • {j.ort} · {j.bundesland}
+            {j.company}  {j.ort}  {j.bundesland}
           </p>
         </div>
         {j.featured && (
