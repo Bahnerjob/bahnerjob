@@ -34,11 +34,11 @@ export default async function HomePage() {
         <div className="container grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="card">
             <div className="text-sm text-neutral-400">Für Unternehmen</div>
-            <h2 className="text-lg font-semibold mt-1">Schnell passende Bewerbungen erhalten</h2>
+            <h2 className="text-lg font-semibold mt-1">Schnell qualifizierte Bewerbungen erhalten</h2>
             <ul className="mt-3 text-sm text-neutral-300 space-y-2">
-              <li> Anzeige in wenigen Minuten erstellen  ohne Schnickschnack</li>
-              <li> Sichtbar bei Bahn-Profis, nicht im allgemeinen Rauschen</li>
-              <li> Klarer Bewerbungslink  direkte Kandidaten statt Leerlauf</li>
+              <li> Anzeige in wenigen Minuten veröffentlichen  klar strukturiert und ohne Schnickschnack.</li>
+              <li> Gezielte Reichweite in der Bahnbranche: passende Fach- und Führungskräfte.</li>
+              <li> Direkter Bewerbungslink  Kandidaten kommen ohne Umwege bei Ihnen an.</li>
             </ul>
             <div className="mt-4">
               <a href="/jobs/new" className="btn btn-accent px-4 py-2 rounded-lg font-semibold">Anzeige schalten</a>
@@ -46,11 +46,11 @@ export default async function HomePage() {
           </div>
           <div className="card">
             <div className="text-sm text-neutral-400">Für Fachkräfte</div>
-            <h2 className="text-lg font-semibold mt-1">Gezielt Jobs im Schienenverkehr finden</h2>
+            <h2 className="text-lg font-semibold mt-1">Stellen im Schienenverkehr gezielt finden</h2>
             <ul className="mt-3 text-sm text-neutral-300 space-y-2">
-              <li> Relevante Stellen: Triebfahrzeugführung, Leitstelle, Instandhaltung u. v. m.</li>
-              <li> Übersichtliche Anzeigen  alles Wichtige auf einen Blick</li>
-              <li> Direkte Bewerbung beim Arbeitgeber, keine Umwege</li>
+              <li> Aktuelle Jobs bei Infrastruktur-, Verkehrs- und Instandhaltungsunternehmen.</li>
+              <li> Übersichtliche Anzeigen mit klaren Anforderungen und Kontaktweg.</li>
+              <li> Direkte Bewerbung beim Arbeitgeber  ohne Registrierung.</li>
             </ul>
             <div className="mt-4">
               <a href="/" className="btn px-4 py-2 rounded-lg border border-neutral-800 hover:bg-neutral-900">Jobs durchsuchen</a>
@@ -79,3 +79,4 @@ export default async function HomePage() {
     </div>
   );
 }
+
