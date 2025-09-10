@@ -1,38 +1,37 @@
-﻿export default function Page() {
+﻿export default function HomePage() {
   return (
-    <main className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-extrabold"> Eisenbahner-Jobs</h1>
-      <p className="mt-2 text-neutral-300">
-        Willkommen bei <strong>bahnerjob.de</strong>  der Jobbörse speziell für Eisenbahner:innen.
-      </p>
-
-      <section className="mt-8 grid gap-4">
-        <div className="border border-neutral-800 rounded-xl p-4 bg-neutral-900/50">
-          <h3 className="text-lg font-semibold">
-            Lokführer:in (Güter) <span className="text-neutral-400 font-normal"> DB Cargo</span>
-          </h3>
-          <p className="text-sm text-neutral-300 mt-1">Hamburg Rbf  ~3.400 € / Monat</p>
-          <p className="text-sm text-neutral-400 mt-2">
-            Sichere Durchführung von Güterzügen, Bereitschaft zu Schichtarbeit, moderne Fahrzeugflotte.
-          </p>
-          <a href="/jobs/new" className="mt-3 inline-block text-emerald-400 text-sm underline">
-            Jetzt bewerben
-          </a>
+    <div className="space-y-12">
+      {/* Hero */}
+      <section className="text-center fade-in">
+        <div className="inline-flex items-center gap-2 badge mb-4">
+          <span className="h-1.5 w-1.5 rounded-full" style={{ background: "rgb(var(--accent))"}} />
+          Bahn-Jobs · Deutschlandweit
         </div>
-
-        <div className="border border-neutral-800 rounded-xl p-4 bg-neutral-900/50">
-          <h3 className="text-lg font-semibold">
-            Fahrdienstleiter:in (ESTW) <span className="text-neutral-400 font-normal"> DB Netz</span>
-          </h3>
-          <p className="text-sm text-neutral-300 mt-1">Frankfurt  ~3.600 € / Monat</p>
-          <p className="text-sm text-neutral-400 mt-2">
-            Steuerung des Eisenbahnbetriebs auf modernen ESTW, Kommunikation mit BZ.
-          </p>
-          <a href="/jobs/new" className="mt-3 inline-block text-emerald-400 text-sm underline">
-            Jetzt bewerben
-          </a>
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
+          Finde deinen nächsten <span style={{ color: "rgb(var(--accent))" }}>Bahnerjob</span>
+        </h1>
+        <p className="mt-4 text-neutral-300 max-w-2xl mx-auto">
+          Von Triebfahrzeugführer:in bis Fahrtrainer: moderne Suche, klare Preise, schnelle Veröffentlichung.
+        </p>
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <a className="btn btn-accent" href="/jobs/new">Anzeige schalten</a>
+          <a className="btn" href="/jobs">Jobs durchsuchen</a>
         </div>
       </section>
-    </main>
+
+      {/* Features */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 fade-in-delayed">
+        {[
+          ["Schnell live", "Anzeigen in Minuten veröffentlichen – ohne Agentur."],
+          ["Fair & transparent", "Klare Pakete: Basic, Featured & Boost."],
+          ["Für Bahner gemacht", "Texte & Struktur passgenau für den Bahnsektor."]
+        ].map(([title, desc]) => (
+          <div key={title} className="card p-6">
+            <div className="text-sm badge mb-3">{title}</div>
+            <p className="text-neutral-300">{desc}</p>
+          </div>
+        ))}
+      </section>
+    </div>
   );
 }

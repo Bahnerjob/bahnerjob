@@ -1,53 +1,50 @@
-// app/layout.tsx
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Link from "next/link";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Eisenbahner-Jobs",
-  description: "Jobbörse für Bahn-Berufe (Lokführer:in, Instandhaltung, Leitstelle u.v.m.)",
+export const metadata = {
+  title: "Bahnerjob",
+  description: "Die Jobbörse für den Bahnsektor – schnell finden, einfach bewerben."
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="de">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-neutral-950 text-neutral-100`}>
-        {/* Header */}
-        <header className="border-b border-neutral-800">
-          <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-            <Link href="/" className="font-semibold">🚆 Eisenbahner-Jobs</Link>
-            <nav className="flex gap-4 text-sm">
-              <Link href="/pricing" className="hover:underline">Preise</Link>
-              <Link href="/jobs/new" className="px-3 py-1 rounded bg-emerald-500 text-neutral-900">Job posten</Link>
-            </nav>
-          </div>
-        </header>
-
-        {/* Seiteninhalt */}
-        <main className="max-w-5xl mx-auto px-4 py-8">
-          {children}
-        </main>
-
-        {/* Footer */}
-        <footer className="border-t border-neutral-800 py-6 text-center text-sm text-neutral-400">
-          © {new Date().getFullYear()} Eisenbahner-Jobs •{" "}
-          <Link href="/legal/impressum" className="underline">Impressum</Link> •{" "}
-          <Link href="/legal/datenschutz" className="underline">Datenschutz</Link>
-        </footer>
+      <body>
+        <SiteHeader />
+        <main className="container section fade-in">{children}</main>
+        <SiteFooter />
       </body>
     </html>
+  );
+}
+
+/* --- Inline-Komponenten (du kannst sie auch in /components auslagern) --- */
+function SiteHeader() {
+  return (
+    <header className="border-b" style={{ borderColor: "rgb(var(--border))" }}>
+      <div className="container py-4 flex items-center justify-between">
+        <a href="/" className="text-lg font-bold tracking-tight">
+          <span className="mr-2 inline-block h-2.5 w-2.5 rounded-full" style={{ background: "rgb(var(--accent))" }} />
+          Bahnerjob
+        </a>
+        <nav className="flex items-center gap-5 text-sm text-neutral-300">
+          <a className="hover:text-white" href="/jobs">Jobs</a>
+          <a className="hover:text-white" href="/pricing">Preise</a>
+          <a className="hover:text-white" href="/legal/impressum">Impressum</a>
+          <a className="btn btn-accent" href="/jobs/new">Anzeige schalten</a>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="mt-16 border-t" style={{ borderColor: "rgb(var(--border))" }}>
+      <div className="container py-8 text-sm text-neutral-400 flex flex-col md:flex-row items-center md:justify-between gap-3">
+        <div>© {new Date().getFullYear()} Bahnerjob – Made for rail people</div>
+        <div className="flex gap-4">
+          <a className="hover:text-white" href="/legal/impressum">Impressum</a>
+          <a className="hover:text-white" href="/legal/datenschutz">Datenschutz</a>
+        </div>
+      </div>
+    </footer>
   );
 }
