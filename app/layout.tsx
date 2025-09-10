@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,10 +28,10 @@ export default function RootLayout({
         {/* Header */}
         <header className="border-b border-neutral-800">
           <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-            <a href="/" className="font-semibold">🚆 Eisenbahner-Jobs</a>
+            <Link href="/" className="font-semibold">🚆 Eisenbahner-Jobs</Link>
             <nav className="flex gap-4 text-sm">
-              <a href="/pricing" className="hover:underline">Preise</a>
-              <a href="/jobs/new" className="px-3 py-1 rounded bg-emerald-500 text-neutral-900">Job posten</a>
+              <Link href="/pricing" className="hover:underline">Preise</Link>
+              <Link href="/jobs/new" className="px-3 py-1 rounded bg-emerald-500 text-neutral-900">Job posten</Link>
             </nav>
           </div>
         </header>
@@ -43,8 +44,8 @@ export default function RootLayout({
         {/* Footer */}
         <footer className="border-t border-neutral-800 py-6 text-center text-sm text-neutral-400">
           © {new Date().getFullYear()} Eisenbahner-Jobs •{" "}
-          <a href="/legal/impressum" className="underline">Impressum</a> •{" "}
-          <a href="/legal/datenschutz" className="underline">Datenschutz</a>
+          <Link href="/legal/impressum" className="underline">Impressum</Link> •{" "}
+          <Link href="/legal/datenschutz" className="underline">Datenschutz</Link>
         </footer>
       </body>
     </html>
