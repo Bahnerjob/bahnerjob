@@ -14,11 +14,7 @@ const FEEDS: string[] = [
 ];
 
 export async function getRailNewsDE(limitPerFeed = 6): Promise<NewsItem[]> {
-  const parser = new XMLParser({
-    ignoreAttributes: false,
-    attributeNamePrefix: "@_",
-  });
-
+  const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "@_" });
   const all: NewsItem[] = [];
 
   await Promise.all(
@@ -26,7 +22,7 @@ export async function getRailNewsDE(limitPerFeed = 6): Promise<NewsItem[]> {
       try {
         const res = await fetch(url, {
           headers: { "User-Agent": "bahnerjob-newsbot/1.0 (+https://bahnerjob.de)" },
-          next: { revalidate: 600 },
+          next: { revalidate: 600 }, // 10 Minuten Cache
         });
         if (!res.ok) return;
 
@@ -35,8 +31,7 @@ export async function getRailNewsDE(limitPerFeed = 6): Promise<NewsItem[]> {
 
         const ch = j.rss?.channel ?? j.feed;
         const items: any[] = ch?.item ?? ch?.entry ?? [];
-        const sourceName =
-          ch?.title?.toString?.() ?? new URL(url).hostname.replace(/^www\./, "");
+        const sourceName = ch?.title?.toString?.() ?? new URL(url).hostname.replace(/^www\./, "");
 
         for (const it of items.slice(0, limitPerFeed)) {
           const title = it.title?._cdata || it.title || it["title#text"] || "";
@@ -51,12 +46,7 @@ export async function getRailNewsDE(limitPerFeed = 6): Promise<NewsItem[]> {
                   : it.link?.["@_href"]) || "";
 
           if (title && safeLink) {
-            all.push({
-              title: String(title).trim(),
-              link: String(safeLink).trim(),
-              date: date ? String(date) : undefined,
-              source: sourceName,
-            });
+            all.push({ title: String(title).trim(), link: String(safeLink).trim(), date: date ? String(date) : undefined, source: sourceName });
           }
         }
       } catch {
