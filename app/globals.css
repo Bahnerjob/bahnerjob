@@ -1,205 +1,77 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* === Dark Theme (global) === */
+/* === Global Dark Theme === */
 :root {
-  --bg: 10 10 11;          /* #0a0a0b */
-  --panel: 20 20 23;       /* #141417 */
-  --border: 38 38 44;      /* #26262c */
-  --muted: 160 160 170;    /* #a0a0aa */
-  --text: 235 235 240;     /* #ebebf0 */
-  --accent: 220 38 38;     /* rot */
+  --color-bg: #0a0a0a;
+  --color-fg: #fafafa;
+  --color-muted: #9ca3af;
+  --color-accent: #f59e0b; /* amber-500 */
 }
 
-html, body { height: 100%; }
-
-body {
-  color: rgb(var(--text));
-  background:
-    radial-gradient(1200px 600px at 80% -10%, rgba(220,38,38,0.15), transparent 70%),
-    radial-gradient(800px 400px at 10% 0%, rgba(99,102,241,0.12), transparent 60%),
-    rgb(var(--bg));
-  background-attachment: fixed;
+html, body {
+  height: 100%;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-inter), sans-serif;
 }
 
-/* === Grundlayout & Helfer === */
-.container {
-  max-width: 72rem; /* ~6xl */
-  margin-inline: auto;
-  padding-inline: 1rem; /* ähnlich px-4 */
-}
-.section { padding-block: 2.5rem; }
-.lead { font-size: 1.05rem; color: rgb(var(--muted)); }
+a { color: inherit; text-decoration: none; }
 
-/* Überschriften */
-h1 { font-size: clamp(1.75rem, 2.5vw + 1rem, 2.25rem); line-height: 1.15; }
-h2 { font-size: 1.25rem; line-height: 1.25; margin: 0; }
-
-/* Karten & Badges */
-.card {
-  border: 1px solid rgb(var(--border));
-  border-radius: 16px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
-    rgba(var(--panel) / 0.75);
-  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
-  transition: transform .15s ease;
-  backdrop-filter: blur(8px);
-}
-.card:hover { transform: translateY(-1px); }
-.card.no-lift:hover { transform: none; } /* Karten, die nicht „springen“ sollen */
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  border: 1px solid rgb(var(--border));
-  border-radius: 999px;
-  color: rgb(var(--muted));
-  white-space: nowrap;
+h1, h2, h3, h4 {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 600;
 }
 
-/* Buttons */
+/* === Layout Utilities === */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-  padding: 10px 14px;
-  font-size: .94rem;
-  font-weight: 600;
-  border-radius: 14px;
-  border: 1px solid rgb(var(--border));
-  color: rgb(var(--text));
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
-    rgba(255,255,255,0.01);
-  transition: background .15s ease, transform .1s ease;
-}
-.btn:hover { background: rgba(255,255,255,0.06); }
-
-.btn-accent {
-  color: white;
-  border-color: rgba(220,38,38,0.6);
-  background:
-    linear-gradient(180deg, rgba(220,38,38,0.18), rgba(220,38,38,0.12));
-}
-.btn-accent:hover { background: rgba(220,38,38,0.22); }
-
-/* Sektionstitel */
-.section-head { margin-bottom: .5rem; }
-.section-head .section-desc { color: rgb(var(--muted)); }
-
-/* Kleintext */
-.tiny { font-size: 12px; }
-
-/* Sanfter Fade-in */
-@keyframes in {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.fade-in { animation: in .5s ease-out both; }
-.fade-in-delayed { animation: in .6s ease-out .1s both; }
-
-/* ===================================================== */
-/*  Formular-Fixes NUR für /jobs/new  (scoped mit .bj-new) */
-/* ===================================================== */
-
-.bj-new .form-layout {
-  display: grid;
-  gap: 2rem;
-  align-items: start;
-}
-@media (min-width: 960px) {
-  .bj-new .form-layout {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-  }
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 0.5rem; font-weight: 500; transition: background 0.15s;
 }
 
-.bj-new .form-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+.btn-accent { background: var(--color-accent); color: #000; }
+
+.input, .textarea, select {
+  background: #0d0d0d; border: 1px solid #1f1f1f; border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem; color: var(--color-fg);
+}
+.input:focus, .textarea:focus, select:focus { outline: none; border-color: var(--color-accent); }
+
+.label { font-size: 0.9rem; color: var(--color-muted); font-weight: 500; }
+
+.card {
+  border-radius: 0.75rem; border: 1px solid #1f1f1f;
+  background: rgba(15,15,15,0.5); padding: 1rem;
 }
 
-.bj-new .row-2 {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
+/* === NewsRail (optional) === */
+.news-rail a { transition: background 0.15s; }
+.news-rail a:hover { background: #111; }
+
+/* === Bahnerjob NEW Form (scoped) === */
+.bj-new .form-layout { display: flex; flex-direction: column; gap: 1.5rem; }
+.bj-new .form-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+
 @media (min-width: 768px) {
-  .bj-new .row-2 {
-    grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-  }
+  .bj-new .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bj-new .row-2 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 }
 
-.bj-new .field { min-width: 0; }
+.bj-new .field { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; }
+.bj-new .textarea { resize: vertical; }
 
-.bj-new .label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-.bj-new .input,
-.bj-new .textarea,
-.bj-new select {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid rgb(var(--border));
-  border-radius: 12px;
-  background: rgba(255,255,255,0.02);
-  color: rgb(var(--text));
-}
-.bj-new .input:focus,
-.bj-new .textarea:focus,
-.bj-new select:focus {
-  outline: none;
-  border-color: rgba(220,38,38,0.55);
-  box-shadow: 0 0 0 2px rgba(220,38,38,0.18);
-}
-.bj-new .textarea { min-height: 140px; resize: vertical; }
-
-.bj-new .help, .bj-new .counter { color: rgb(var(--muted)); font-size: 12px; }
-.bj-new .row-between { display:flex; justify-content:space-between; gap:8px; }
-.bj-new .row-end { display:flex; justify-content:flex-end; }
-
-.bj-new .stepper { display:flex; gap:8px; flex-wrap: wrap; }
-.bj-new .step {
-  display:flex; align-items:center; gap:8px;
-  padding:8px 10px; border:1px solid rgb(var(--border));
-  border-radius: 12px; background: rgba(255,255,255,0.02);
-}
-.bj-new .step-num {
-  width:22px; height:22px; border-radius:999px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:.8rem; color:#fff; background: rgba(220,38,38,0.25);
-}
-.bj-new .step-active .step-num { background: rgba(220,38,38,0.85); }
-
-.bj-new .stack-3 { display:grid; gap:12px; grid-template-columns: 1fr; }
-@media (min-width: 640px) {
-  .bj-new .stack-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
-}
-.bj-new .choice {
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  padding:12px 14px; border:1px solid rgb(var(--border)); border-radius:14px;
-  background: rgba(255,255,255,0.02);
-}
-.bj-new .choice-main { min-width: 0; }
-.bj-new .choice-title { font-weight: 600; }
-.bj-new .choice-desc { color: rgb(var(--muted)); font-size: .92rem; }
-.bj-new .choice input { flex: none; accent-color: #dc2626; }
-.bj-new .choice-active {
-  border-color: rgba(220,38,38,0.6);
-  box-shadow: 0 0 0 1px rgba(220,38,38,0.35) inset;
-}
-
-.bj-new .row-wrap { display:flex; flex-wrap: wrap; gap: 8px; }
-.bj-new .sticky-card { position: sticky; top: 84px; }
+/* === Bahnerjob Fix Pack 2025-09-10: Formular-Hardening (.bj-new) === */
+.bj-new .form-grid, .bj-new .row-2 { align-items: start; }
+/* Lange Labels: nie überlappen, bei wenig Platz mit Ellipsis */
+.bj-new .label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: .92rem; }
+/* Kritisch: verhindert Überlauf/Überlappung der Eingabefelder in Grids */
+.bj-new .input, .bj-new select, .bj-new .textarea, .bj-new .field { min-width: 0; }
+/* Counter und Abstände leicht glätten */
+.bj-new .counter { opacity: .8; } .bj-new .row-end { margin-top: 6px; }
+/* Karten smooth beim Hover (Zittern vermeiden) */
+.card { will-change: transform; }
+/* Sekundär-Buttons minimal stärkerer Hover-Kontrast */
+.btn:hover { background: rgba(255, 255, 255, 0.08); }

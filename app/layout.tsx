@@ -1,65 +1,49 @@
-import "./globals.css";
-import Link from "next/link";
-import Image from "next/image";
-import { Inter, Manrope } from "next/font/google";
+﻿import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css?v=2025-09-10-03";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Bahnerjob",
-  description: "Die Jobbörse für den Bahnsektor – schnell finden, einfach bewerben."
+  description: "Jobs aus der Bahnbranche  Anzeigen schalten & finden.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de" className={`${inter.variable} ${manrope.variable}`}>
-      <body>
-        <SiteHeader />
-        <main className="container section fade-in">{children}</main>
-        <SiteFooter />
+    <html lang="de" suppressHydrationWarning>
+      <body className={`${inter.variable} bg-[var(--color-bg)] text-[var(--color-fg)] antialiased`}>
+        {/* Header inline  KEINE externe Header-Datei nötig */}
+        <header className="sticky top-0 z-40 border-b border-neutral-800 bg-[#0d0d0d]">
+          <div className="container flex h-16 items-center justify-between">
+            <a href="/" className="flex items-center gap-3">
+              <img src="/logo-bahnerjob.svg" alt="Bahnerjob" width={28} height={28} />
+              <span className="text-base font-semibold tracking-tight">Bahnerjob</span>
+            </a>
+            <nav className="flex items-center gap-2">
+              <a href="/" className="btn h-9 px-3 border border-neutral-800 hover:bg-neutral-900 rounded-lg">
+                Jobs durchsuchen
+              </a>
+              <a href="/pricing" className="btn h-9 px-3 border border-neutral-800 hover:bg-neutral-900 rounded-lg">
+                Preise
+              </a>
+              <a href="/jobs/new" className="btn btn-accent h-9 px-3 rounded-lg font-semibold">
+                Anzeige schalten
+              </a>
+            </nav>
+          </div>
+        </header>
+
+        <main className="min-h-[calc(100dvh-64px)]">{children}</main>
+
+        <footer className="mt-10 border-t border-neutral-800 bg-[#0d0d0d] text-neutral-400">
+          <div className="container py-8 text-sm"> {new Date().getFullYear()} Bahnerjob</div>
+        </footer>
       </body>
     </html>
-  );
-}
-
-function SiteHeader() {
-  return (
-    <header className="border-b" style={{ borderColor: "rgb(var(--border))" }}>
-      <div className="container header-row">
-        <Link href="/" className="brand" aria-label="Zur Startseite">
-          <Image
-            src="/logo-bahnerjob.svg"
-            alt="Bahnerjob.de"
-            width={170}
-            height={28}
-            priority
-            className="brand-img"
-          />
-        </Link>
-
-        <nav className="site-nav">
-          <Link className="hover:text-white" href="/jobs">Jobs</Link>
-          <Link className="hover:text-white" href="/pricing">Preise</Link>
-          <Link className="hover:text-white" href="/legal/impressum">Impressum</Link>
-          {/* WICHTIG: CTA führt auf /jobs/new */}
-          <Link className="btn btn-accent" href="/jobs/new">Anzeige schalten</Link>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-function SiteFooter() {
-  return (
-    <footer className="mt-16 border-t" style={{ borderColor: "rgb(var(--border))" }}>
-      <div className="container footer-row text-sm text-neutral-400">
-        <div>© {new Date().getFullYear()} Bahnerjob – Made for rail people</div>
-        <div className="footer-links">
-          <Link className="hover:text-white" href="/legal/impressum">Impressum</Link>
-          <Link className="hover:text-white" href="/legal/datenschutz">Datenschutz</Link>
-        </div>
-      </div>
-    </footer>
   );
 }
