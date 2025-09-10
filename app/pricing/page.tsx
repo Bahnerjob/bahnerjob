@@ -1,16 +1,17 @@
-﻿import BuyButton from "@/components/BuyButton";
+﻿import Link from "next/link";
+import BuyButton from "@/components/BuyButton";
 
 export default function PricingPage() {
-  const basic = process.env.NEXT_PUBLIC_PRICE_ID_BASIC!;
-  const featured = process.env.NEXT_PUBLIC_PRICE_ID_FEATURED!;
-  const boost = process.env.NEXT_PUBLIC_PRICE_ID_BOOST!;
+  const basic = process.env.NEXT_PUBLIC_PRICE_ID_BASIC;
+  const featured = process.env.NEXT_PUBLIC_PRICE_ID_FEATURED;
+  const boost = process.env.NEXT_PUBLIC_PRICE_ID_BOOST;
 
   return (
     <div className="space-y-8">
       <div className="text-center">
         <div className="badge mb-3">Klare Pakete</div>
-        <h1 className="text-3xl font-bold tracking-tight">Preise für Jobanzeigen</h1>
-        <p className="mt-3 text-neutral-300">Wähle dein Paket – jederzeit erweiterbar mit Boost.</p>
+        <h1 className="font-bold tracking-tight">Preise für Jobanzeigen</h1>
+        <p className="mt-3 lead">Wähle dein Paket – jederzeit erweiterbar mit Boost.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -28,8 +29,8 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* Featured (Highlight) */}
-        <div className="card p-6 border-red-500/40 ring-1 ring-red-500/20 flex flex-col">
+        {/* Featured */}
+        <div className="card p-6 flex flex-col" style={{ borderColor: "rgba(220,38,38,.4)" }}>
           <div className="badge mb-2" style={{color:"white", borderColor:"rgba(220,38,38,0.4)"}}>Meist gewählt</div>
           <div className="text-3xl font-bold">149 €</div>
           <p className="mt-2 text-neutral-300">Hervorgehobene Platzierung mit mehr Reichweite.</p>
@@ -56,6 +57,10 @@ export default function PricingPage() {
             <BuyButton label="Jetzt kaufen – 39 €" priceId={boost} />
           </div>
         </div>
+      </div>
+
+      <div className="text-center text-neutral-400">
+        <p>Du hast Fragen? <Link className="underline" href="/legal/impressum">Kontakt</Link></p>
       </div>
     </div>
   );

@@ -21,32 +21,43 @@ body {
     radial-gradient(800px 400px at 10% 0%, rgba(99,102,241,0.12), transparent 60%),
     rgb(var(--bg));
   background-attachment: fixed;
+
+  /* moderne, größere Typo */
+  font-size: 17px;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
 }
 
-/* Layout-Helfer (ohne @apply) */
+/* Headlines */
+h1, h2, h3 { font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+h1 { font-size: clamp(2.25rem, 3.2vw + 1rem, 3.5rem); }
+h2 { font-size: clamp(1.5rem,  2.2vw + .5rem, 2.25rem); }
+h3 { font-size: clamp(1.125rem,1.2vw + .5rem, 1.375rem); }
+
+/* Lead-Text */
+.lead { font-size: 1.0625rem; color: rgb(200 200 205); }
+
+/* Layout-Helfer */
 .container {
-  max-width: 72rem;               /* ~ max-w-6xl */
+  max-width: 80rem;              /* breiter als Standard */
   margin-left: auto;
-  margin-right: auto;             /* mx-auto */
-  padding-left: 1rem;
-  padding-right: 1rem;            /* px-4 */
+  margin-right: auto;
+  padding-left: 1.25rem;         /* 20px */
+  padding-right: 1.25rem;
 }
 .section {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;         /* py-10 */
+  padding-top: 2.75rem;
+  padding-bottom: 2.75rem;
 }
 @media (min-width: 768px) {
-  .section {
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;       /* md:py-14 */
-  }
+  .section { padding-top: 3.75rem; padding-bottom: 3.75rem; }
 }
 
-/* Karten & Buttons (ohne @apply) */
+/* Karten & Buttons */
 .card {
-  border-radius: 1rem;            /* rounded-2xl */
+  border-radius: 1.25rem;        /* ~ rounded-2xl */
   border: 1px solid rgb(var(--border));
-  box-shadow: 0 1px 2px rgba(0,0,0,.05); /* shadow-sm (approx) */
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
   transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
               rgba(var(--panel) / 0.75);
@@ -54,21 +65,17 @@ body {
 }
 .card:hover { transform: translateY(-1px); }
 
-/* Primärer Button */
 .btn {
-  display: inline-flex;           /* inline-flex */
-  align-items: center;            /* items-center */
-  justify-content: center;        /* justify-center */
-  border-radius: 0.75rem;         /* rounded-xl */
-  padding: 0.5rem 1rem;           /* py-2 px-4 */
-  font-size: 0.875rem;            /* text-sm */
-  font-weight: 500;               /* font-medium */
-  transition: all 150ms ease;     /* transition */
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 0.9rem;
+  padding: 0.625rem 1.125rem;    /* 10px 18px */
+  font-size: 1rem; font-weight: 500;
+  transition: all 150ms ease;
   border: 1px solid rgb(var(--border));
   background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
               rgba(255,255,255,0.01);
 }
-.btn:hover { background-color: rgb(38 38 38); } /* bg-neutral-800 */
+.btn:hover { background-color: rgb(38 38 38); } /* ~ neutral-800 */
 
 .btn-accent {
   color: #fff;
@@ -77,24 +84,17 @@ body {
 }
 .btn-accent:hover { background: rgba(220,38,38,0.22); }
 
-/* Kleine Badges */
+/* Badges */
 .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;                   /* gap-1 */
-  border-radius: 9999px;          /* rounded-full */
+  display: inline-flex; align-items: center; gap: 0.25rem; /* gap-1 */
+  border-radius: 9999px;
   border: 1px solid rgb(var(--border));
-  padding: 0.25rem 0.5rem;        /* py-1 px-2 */
-  font-size: 11px;                /* text-[11px] */
-  text-transform: uppercase;
-  letter-spacing: .05em;          /* tracking-wide (approx) */
+  padding: 0.25rem 0.5rem;       /* py-1 px-2 */
+  font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
   color: rgb(var(--muted));
 }
 
 /* Sanfter Fade-in */
-@keyframes in {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+@keyframes in { from { opacity:0; transform: translateY(6px) } to { opacity:1; transform: none } }
 .fade-in { animation: in .5s ease-out both; }
 .fade-in-delayed { animation: in .6s ease-out .1s both; }

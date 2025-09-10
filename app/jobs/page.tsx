@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { JOBS, BUNDESLAENDER, type Job } from "@/lib/job";
 
-// In Next 15 kann searchParams ein Promise sein → async + await
+// Next 15: searchParams kann ein Promise sein
 export default async function JobsPage({
   searchParams,
 }: {
@@ -19,16 +19,12 @@ export default async function JobsPage({
 
   return (
     <div className="space-y-8">
-      {/* Header */}
       <header className="text-center">
         <div className="badge mb-3">Aktuelle Stellen</div>
-        <h1 className="text-3xl font-bold tracking-tight">Jobs im Bahnsektor</h1>
-        <p className="mt-3 text-neutral-300">
-          Suche nach Titel, Firma oder Ort – oder filtere nach Bundesland.
-        </p>
+        <h1 className="font-bold tracking-tight">Jobs im Bahnsektor</h1>
+        <p className="mt-3 lead">Suche nach Titel, Firma oder Ort – oder filtere nach Bundesland.</p>
       </header>
 
-      {/* Filter */}
       <form className="card p-4" action="/jobs" method="get">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div>
@@ -58,17 +54,12 @@ export default async function JobsPage({
             </select>
           </div>
           <div className="flex items-end gap-2">
-            <button type="submit" className="btn w-full md:w-auto">
-              Filtern
-            </button>
-            <Link href="/jobs" className="btn w-full md:w-auto">
-              Zurücksetzen
-            </Link>
+            <button type="submit" className="btn w-full md:w-auto">Filtern</button>
+            <Link href="/jobs" className="btn w-full md:w-auto">Zurücksetzen</Link>
           </div>
         </div>
       </form>
 
-      {/* Liste */}
       <div className="grid grid-cols-1 gap-4">
         {jobs.length === 0 ? (
           <div className="card p-6 text-neutral-300">Keine Treffer. Bitte Filter anpassen.</div>
@@ -101,16 +92,11 @@ function JobCard({ j }: { j: Job }) {
         </div>
         <div className="flex items-center gap-2">
           {j.featured && (
-            <span
-              className="badge"
-              style={{ borderColor: "rgba(220,38,38,0.4)", color: "white" }}
-            >
+            <span className="badge" style={{ borderColor: "rgba(220,38,38,0.4)", color: "white" }}>
               Featured
             </span>
           )}
-          <Link href="/pricing" className="btn btn-accent">
-            Anzeige buchen
-          </Link>
+          <Link href="/pricing" className="btn btn-accent">Anzeige buchen</Link>
         </div>
       </div>
       <p className="text-neutral-300 mt-3">{j.beschreibung}</p>

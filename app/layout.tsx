@@ -1,5 +1,8 @@
 import "./globals.css";
 import Link from "next/link";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata = {
   title: "Bahnerjob",
@@ -9,7 +12,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="de">
-      <body>
+      <body className={inter.className}>
         <SiteHeader />
         <main className="container section fade-in">{children}</main>
         <SiteFooter />
@@ -18,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   );
 }
 
-/* --- Inline-Komponenten (du kannst sie auch in /components auslagern) --- */
+/* --- Inline-Komponenten --- */
 function SiteHeader() {
   return (
     <header className="border-b" style={{ borderColor: "rgb(var(--border))" }}>

@@ -9,10 +9,10 @@ export default function HomePage() {
           <span className="h-1.5 w-1.5 rounded-full" style={{ background: "rgb(var(--accent))"}} />
           Bahn-Jobs · Deutschlandweit
         </div>
-        <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
+        <h1 className="font-bold tracking-tight">
           Finde deinen nächsten <span style={{ color: "rgb(var(--accent))" }}>Bahnerjob</span>
         </h1>
-        <p className="mt-4 text-neutral-300 max-w-2xl mx-auto">
+        <p className="mt-4 lead max-w-2xl mx-auto">
           Von Triebfahrzeugführer:in bis Fahrtrainer: moderne Suche, klare Preise, schnelle Veröffentlichung.
         </p>
         <div className="mt-6 flex items-center justify-center gap-3">

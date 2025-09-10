@@ -4,11 +4,10 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
 
-  // Preis-ID bevorzugt aus dem Request-Body; sonst Fallbacks
   const priceId =
     body.priceId ||
     process.env.NEXT_PUBLIC_PRICE_ID_FEATURED ||
-    process.env.NEXT_PUBLIC_STRIPE_PRICE_ID; // falls du noch eine alte Variable hattest
+    process.env.NEXT_PUBLIC_STRIPE_PRICE_ID;
 
   const secret = process.env.STRIPE_SECRET_KEY;
   if (!secret || !priceId) {
