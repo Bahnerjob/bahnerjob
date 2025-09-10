@@ -2,6 +2,8 @@
 import JobCard from "@/components/JobCard";
 import { mockJobs } from "@/lib/jobs";
 import { sortJobs, type Job } from "@/lib/sort";
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 function matches(job: Job, q: string): boolean {
   if (!q.trim()) return true;
@@ -52,3 +54,4 @@ export default function JobsPage({ searchParams }: { searchParams: { [k: string]
     </div>
   );
 }
+
