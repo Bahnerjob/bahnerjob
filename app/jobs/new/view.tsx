@@ -84,7 +84,7 @@ export default function View() {
 
   return (
     <div className="bj-new px-4 py-6">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-7xl">
         <header className="mb-6">
           <h1 className="text-2xl md:text-3xl font-semibold">Anzeige erstellen</h1>
           <p className="text-neutral-400 mt-2">
@@ -101,136 +101,7 @@ export default function View() {
           {/* FORMULAR */}
           <form onSubmit={onSubmit} className="form-layout grid gap-5">
             {/* Paket wählen */}
-            <section className="card section no-overlap">
-              <div className="section-head">
-                <h2 className="section-title">Paket wählen</h2>
-                <p className="section-sub">Wählen Sie das Modell, das zu der Anzeige passt. Ein späterer Wechsel ist möglich.</p>
-              </div>
-
-              <div className="pkg-grid">
-                {([
-                  {key:"basic", title:"Basic", desc:"30 Tage Laufzeit  gelistet in Suche & Liste"},
-                  {key:"featured", title:"Featured", desc:"Priorisiert in Listen  Featured-Badge"},
-                  {key:"boost", title:"Boost", desc:"Maximale Prominenz  45 Tage Laufzeit"},
-                ] as {key:Pkg; title:string; desc:string}[]).map((opt) => {
-                  const active = pkg === opt.key;
-                  return (
-                    <button
-                      type="button"
-                      key={opt.key}
-                      onClick={() => setPkg(opt.key)}
-                      aria-pressed={active}
-                      className={["option-card", active ? "option-card--active" : "option-card--idle"].join(" ")}
-                    >
-                      <div className="option-head">
-                        <span className="option-title">{opt.title}</span>
-                        <span className={["option-dot", active ? "option-dot--on" : "option-dot--off"].join(" ")} aria-hidden="true"></span>
-                      </div>
-                      <div className="option-desc">{opt.desc}</div>
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-
-            {/* Basisdaten */}
-            <section className="card section no-overlap">
-              <div className="section-head">
-                <h2 className="section-title">Basisdaten</h2>
-                <p className="section-sub">Stellentitel und Unternehmen  damit Bewerbende die Anzeige eindeutig zuordnen.</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 form-grid">
-                <div className="field">
-                  <label className="label block">Stellentitel <span className="req">*</span></label>
-                  <input
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="z. B. Triebfahrzeugführer (m/w/d)"
-                    className="input w-full"
-                    required
-                    aria-required="true"
-                  />
-                  <p className="help">Konkreter Titel mit (m/w/d) steigert die Klickrate.</p>
-                </div>
-
-                <div className="field">
-                  <label className="label block">Unternehmen <span className="req">*</span></label>
-                  <input
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    placeholder="z. B. DB Regio AG"
-                    className="input w-full"
-                    required
-                    aria-required="true"
-                  />
-                  <p className="help">Offizieller Arbeitgebername oder Marke.</p>
-                </div>
-              </div>
-            </section>
-
-            {/* Standort & Bewerbung */}
-            <section className="card section no-overlap">
-              <div className="section-head">
-                <h2 className="section-title">Standort & Bewerbung</h2>
-                <p className="section-sub">Land und Ort unterstützen die Suche; der Link führt direkt zur Bewerbung.</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 form-grid-4">
-                <div className="field">
-                  <label className="label block">Land</label>
-                  <select
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value as Country)}
-                    className="select w-full"
-                    aria-label="Land"
-                  >
-                    <option value="DE">Deutschland</option>
-                    <option value="AT">Österreich</option>
-                    <option value="CH">Schweiz</option>
-                    <option value="INTL">Ausland (international)</option>
-                  </select>
-                  <p className="help">Erlaubt späteres Filtern (D/AT/CH/Ausland).</p>
-                </div>
-
-                <div className="field">
-                  <label className="label block">Bundesland/Kanton</label>
-                  <input
-                    value={state}
-                    onChange={(e) => setState(e.target.value)}
-                    placeholder="z. B. Baden-Württemberg"
-                    className="input w-full"
-                  />
-                </div>
-
-                <div className="field">
-                  <label className="label block">Ort</label>
-                  <input
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    placeholder="z. B. Friedrichshafen"
-                    className="input w-full"
-                  />
-                </div>
-
-                <div className="field">
-                  <label className="label block">Bewerbungslink</label>
-                  <input
-                    value={applyUrl}
-                    onChange={(e) => setApplyUrl(e.target.value)}
-                    placeholder="https://"
-                    className="input w-full"
-                    inputMode="url"
-                  />
-                  <p className="help">Direkter Link zur Bewerbung oder Karriereseite.</p>
-                </div>
-              </div>
-            </section>
-
-            {/* Beschreibung  strukturiert & professionell */}
-            <section className="card section no-overlap">
-              <div className="section-head">
-                <h2 className="section-title">Stellenbeschreibung</h2>
+             param($m) $m.Groups[1].Value -replace 'section no-overlap','section no-overlap desc-section' 
                 <p className="section-sub">Kurz und klar gegliedert: Aufgaben, Anforderungen, Benefits.</p>
               </div>
 
@@ -369,3 +240,4 @@ export default function View() {
     </div>
   );
 }
+

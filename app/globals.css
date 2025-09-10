@@ -604,3 +604,49 @@ a:hover { text-decoration-thickness: 2px; }
 a, a:visited { color: inherit !important; text-decoration: underline; }
 a:hover { text-decoration-thickness: 2px; }
 .bj-new a[href="#"] { pointer-events: none; color: #6b7280 !important; text-decoration: none; }
+/* === Breiterer Container via Tailwind-Klasse max-w-7xl ist bereits gesetzt === */
+
+/* Einheitliche Inputs/Textareas (keine hellen Hintergründe, kein Überschreiben durch Autofill) */
+.input, .select, .textarea {
+  background: #0f0f0f !important;
+  border: 1px solid #1f1f1f !important;
+  border-radius: 10px !important;
+  padding: .65rem .75rem !important;
+  color: #e5e7eb !important;
+  width: 100%;
+  min-width: 0;
+  display: block;
+}
+
+/* Autofill in Chromium: Hintergrund auf dunkel zwingen */
+.input:-webkit-autofill,
+.select:-webkit-autofill,
+.textarea:-webkit-autofill {
+  -webkit-text-fill-color: #e5e7eb !important;
+  -webkit-box-shadow: 0 0 0px 1000px #0f0f0f inset !important;
+  box-shadow: 0 0 0px 1000px #0f0f0f inset !important;
+  caret-color: #e5e7eb !important;
+}
+
+/* Stellenbeschreibung optisch nach unten andocken (mit Abstand erkennbar) */
+.desc-section { 
+  min-height: 28rem; 
+  padding-bottom: .75rem; 
+  margin-bottom: 1.25rem;  /* Abstand zur folgenden Sektion */
+}
+@media (min-width: 1024px){
+  .desc-section { min-height: 34rem; margin-bottom: 1.5rem; }
+}
+
+/* Vorschau-Spalte bleibt sticky, aber die Formseite kann visuell aufholen */
+.bj-new .form-layout { gap: 1.25rem; }
+.bj-new .section { gap: .85rem; }
+
+/* Sicherstellen, dass alle drei Beschreibungs-Textareas gleich aussehen */
+.bj-new .desc-grid .textarea { 
+  background: #0f0f0f !important; 
+  border: 1px solid #1f1f1f !important; 
+}
+
+/* (Schon vorhanden, aber hier nochmal als Netz) */
+.counter { text-align: right; font-size: .75rem; color: #9ca3af; margin-top: .25rem; }
