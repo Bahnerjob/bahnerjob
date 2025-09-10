@@ -2,6 +2,8 @@
 import { getNews, type NewsItem } from "@/lib/news";
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Bahnerjob  Bahnbranche Jobs",
@@ -83,6 +85,7 @@ export default async function HomePage() {
     </div>
   );
 }
+
 
 
 
