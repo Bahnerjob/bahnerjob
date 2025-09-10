@@ -2,99 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Farb-Token (DB-Rot als Akzent) */
-:root {
-  --bg: 10 10 11;          /* #0a0a0b */
-  --panel: 20 20 23;       /* #141417 */
-  --border: 38 38 44;      /* #26262c */
-  --muted: 160 160 170;    /* #a0a0aa */
-  --text: 235 235 240;     /* #ebebf0 */
-  --accent: 220 38 38;     /* #dc2626 */
+/* Farb-Token */
+:root{
+  --bg:10 10 11;            /* #0a0a0b */
+  --panel:20 20 23;         /* #141417 */
+  --border:38 38 44;        /* #26262c */
+  --muted:160 160 170;      /* #a0a0aa */
+  --text:235 235 240;       /* #ebebf0 */
+  --accent:220 38 38;       /* DB-Rot (wie Tailwind red-600) */
 }
 
 /* Basis */
-html, body { height: 100%; }
-body {
-  color: rgb(var(--text));
+html,body{height:100%}
+body{
+  color:rgb(var(--text));
+  /* Nur Rot – keine lila/indigo Fläche mehr */
   background:
-    radial-gradient(1200px 600px at 80% -10%, rgba(220,38,38,0.15), transparent 70%),
-    radial-gradient(800px 400px at 10% 0%, rgba(99,102,241,0.12), transparent 60%),
+    radial-gradient(1100px 520px at 75% -10%, rgba(220,38,38,0.14), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
     rgb(var(--bg));
-  background-attachment: fixed;
+  background-attachment:fixed;
 
-  /* moderne, größere Typo */
-  font-size: 17px;
-  line-height: 1.65;
-  letter-spacing: 0.01em;
+  /* moderne Typo */
+  font-size:17px;
+  line-height:1.65;
+  letter-spacing:.01em;
 }
 
 /* Headlines */
-h1, h2, h3 { font-weight: 700; letter-spacing: -0.01em; margin: 0; }
-h1 { font-size: clamp(2.25rem, 3.2vw + 1rem, 3.5rem); }
-h2 { font-size: clamp(1.5rem,  2.2vw + .5rem, 2.25rem); }
-h3 { font-size: clamp(1.125rem,1.2vw + .5rem, 1.375rem); }
+h1,h2,h3{font-weight:700;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(2.25rem,3.2vw + 1rem,3.5rem)}
+h2{font-size:clamp(1.5rem,2.2vw + .5rem,2.25rem)}
+h3{font-size:clamp(1.125rem,1.2vw + .5rem,1.375rem)}
+.lead{font-size:1.0625rem;color:rgb(200 200 205)}
 
-/* Lead-Text */
-.lead { font-size: 1.0625rem; color: rgb(200 200 205); }
+/* Layout */
+.container{max-width:80rem;margin:0 auto;padding:0 1.25rem}
+.section{padding:2.75rem 0}
+@media (min-width:768px){.section{padding:3.75rem 0}}
 
-/* Layout-Helfer */
-.container {
-  max-width: 80rem;              /* breiter als Standard */
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.25rem;         /* 20px */
-  padding-right: 1.25rem;
-}
-.section {
-  padding-top: 2.75rem;
-  padding-bottom: 2.75rem;
-}
-@media (min-width: 768px) {
-  .section { padding-top: 3.75rem; padding-bottom: 3.75rem; }
-}
+/* Header/Footer Reihen + Nav/Links (fixe Abstände, kein Zusammenkleben) */
+.header-row{display:flex;align-items:center;justify-content:space-between;padding:1rem 0}
+.brand{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;letter-spacing:-.01em}
+.brand-dot{display:inline-block;width:.625rem;height:.625rem;border-radius:9999px;background:rgb(var(--accent))}
+.site-nav{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;font-size:.95rem;color:rgb(200 200 205)}
+.site-nav a{color:inherit;text-decoration:none}
+.site-nav a:hover{color:#fff}
+
+.footer-row{display:flex;flex-direction:column;gap:.75rem;align-items:center;justify-content:space-between;padding:2rem 0}
+@media (min-width:768px){.footer-row{flex-direction:row}}
+.footer-links{display:flex;gap:1rem;flex-wrap:wrap}
+.footer-links a{color:rgb(var(--muted));text-decoration:none}
+.footer-links a:hover{color:#fff}
 
 /* Karten & Buttons */
-.card {
-  border-radius: 1.25rem;        /* ~ rounded-2xl */
-  border: 1px solid rgb(var(--border));
-  box-shadow: 0 1px 2px rgba(0,0,0,.05);
-  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
-              rgba(var(--panel) / 0.75);
-  backdrop-filter: blur(8px);
+.card{
+  border-radius:1.25rem;
+  border:1px solid rgb(var(--border));
+  box-shadow:0 1px 2px rgba(0,0,0,.05);
+  transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+  background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)), rgba(var(--panel)/.75);
+  backdrop-filter:blur(8px);
 }
-.card:hover { transform: translateY(-1px); }
+.card:hover{transform:translateY(-1px)}
 
-.btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  border-radius: 0.9rem;
-  padding: 0.625rem 1.125rem;    /* 10px 18px */
-  font-size: 1rem; font-weight: 500;
-  transition: all 150ms ease;
-  border: 1px solid rgb(var(--border));
-  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
-              rgba(255,255,255,0.01);
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:.9rem;padding:.625rem 1.125rem;
+  font-size:1rem;font-weight:500;transition:all .15s ease;
+  border:1px solid rgb(var(--border));
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)), rgba(255,255,255,.01);
+  color:inherit;text-decoration:none;
 }
-.btn:hover { background-color: rgb(38 38 38); } /* ~ neutral-800 */
+.btn:hover{background-color:rgb(38 38 38)}
+.btn-accent{color:#fff;border-color:rgba(220,38,38,.6);background:linear-gradient(180deg, rgba(220,38,38,.18), rgba(220,38,38,.12))}
+.btn-accent:hover{background:rgba(220,38,38,.22)}
 
-.btn-accent {
-  color: #fff;
-  border-color: rgba(220,38,38,0.6);
-  background: linear-gradient(180deg, rgba(220,38,38,0.18), rgba(220,38,38,0.12));
-}
-.btn-accent:hover { background: rgba(220,38,38,0.22); }
-
-/* Badges */
-.badge {
-  display: inline-flex; align-items: center; gap: 0.25rem; /* gap-1 */
-  border-radius: 9999px;
-  border: 1px solid rgb(var(--border));
-  padding: 0.25rem 0.5rem;       /* py-1 px-2 */
-  font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
-  color: rgb(var(--muted));
+/* Badge */
+.badge{
+  display:inline-flex;align-items:center;gap:.25rem;
+  border-radius:9999px;border:1px solid rgb(var(--border));
+  padding:.25rem .5rem;font-size:12px;text-transform:uppercase;letter-spacing:.05em;
+  color:rgb(var(--muted));
 }
 
-/* Sanfter Fade-in */
-@keyframes in { from { opacity:0; transform: translateY(6px) } to { opacity:1; transform: none } }
-.fade-in { animation: in .5s ease-out both; }
-.fade-in-delayed { animation: in .6s ease-out .1s both; }
+/* Fade-in */
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.fade-in{animation:in .5s ease-out both}
+.fade-in-delayed{animation:in .6s ease-out .1s both}

@@ -25,19 +25,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 function SiteHeader() {
   return (
     <header className="border-b" style={{ borderColor: "rgb(var(--border))" }}>
-      <div className="container py-4 flex items-center justify-between">
-        <Link href="/" className="text-lg font-bold tracking-tight">
-          <span
-            className="mr-2 inline-block h-2.5 w-2.5 rounded-full"
-            style={{ background: "rgb(var(--accent))" }}
-          />
+      <div className="container header-row">
+        <Link href="/" className="brand">
+          <span className="brand-dot" />
           Bahnerjob
         </Link>
-        <nav className="flex items-center gap-5 text-sm text-neutral-300">
-          <Link className="hover:text-white" href="/jobs">Jobs</Link>
-          <Link className="hover:text-white" href="/pricing">Preise</Link>
-          <Link className="hover:text-white" href="/legal/impressum">Impressum</Link>
-          <Link className="btn btn-accent" href="/jobs/new">Anzeige schalten</Link>
+
+        <nav className="site-nav">
+          <Link href="/jobs">Jobs</Link>
+          <Link href="/pricing">Preise</Link>
+          <Link href="/legal/impressum">Impressum</Link>
+          <Link href="/jobs/new" className="btn btn-accent">Anzeige schalten</Link>
         </nav>
       </div>
     </header>
@@ -47,11 +45,11 @@ function SiteHeader() {
 function SiteFooter() {
   return (
     <footer className="mt-16 border-t" style={{ borderColor: "rgb(var(--border))" }}>
-      <div className="container py-8 text-sm text-neutral-400 flex flex-col md:flex-row items-center md:justify-between gap-3">
+      <div className="container footer-row">
         <div>© {new Date().getFullYear()} Bahnerjob – Made for rail people</div>
-        <div className="flex gap-4">
-          <Link className="hover:text-white" href="/legal/impressum">Impressum</Link>
-          <Link className="hover:text-white" href="/legal/datenschutz">Datenschutz</Link>
+        <div className="footer-links">
+          <Link href="/legal/impressum">Impressum</Link>
+          <Link href="/legal/datenschutz">Datenschutz</Link>
         </div>
       </div>
     </footer>
