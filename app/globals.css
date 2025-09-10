@@ -1,53 +1,155 @@
-/* ====== Form & Layout Fixes (Bahnerjob) ====== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Sauberes Sizing, keine Überläufe */
-*, *::before, *::after { box-sizing: border-box; }
-img, svg, video { max-width: 100%; height: auto; }
+/* === Dark Theme (global) === */
+:root {
+  --bg: 10 10 11;          /* #0a0a0b */
+  --panel: 20 20 23;       /* #141417 */
+  --border: 38 38 44;      /* #26262c */
+  --muted: 160 160 170;    /* #a0a0aa */
+  --text: 235 235 240;     /* #ebebf0 */
+  --accent: 220 38 38;     /* rot */
+}
 
-/* Typo & Überschneidungen vermeiden */
-h1, h2, h3 { line-height: 1.25; margin: 0; }
-.section-head h2 { font-size: 1.25rem; font-weight: 700; }
-.section-desc { color: rgb(var(--muted)); }
+html, body { height: 100%; }
 
-/* Karten sollen beim Formular nicht „springen“ */
-.card.no-lift:hover { transform: none; }
+body {
+  color: rgb(var(--text));
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(220,38,38,0.15), transparent 70%),
+    radial-gradient(800px 400px at 10% 0%, rgba(99,102,241,0.12), transparent 60%),
+    rgb(var(--bg));
+  background-attachment: fixed;
+}
 
-/* Seite: Entwurf-Formular – links/rechts Spalten */
-.form-layout {
+/* === Grundlayout & Helfer === */
+.container {
+  max-width: 72rem; /* ~6xl */
+  margin-inline: auto;
+  padding-inline: 1rem; /* ähnlich px-4 */
+}
+.section { padding-block: 2.5rem; }
+.lead { font-size: 1.05rem; color: rgb(var(--muted)); }
+
+/* Überschriften */
+h1 { font-size: clamp(1.75rem, 2.5vw + 1rem, 2.25rem); line-height: 1.15; }
+h2 { font-size: 1.25rem; line-height: 1.25; margin: 0; }
+
+/* Karten & Badges */
+.card {
+  border: 1px solid rgb(var(--border));
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
+    rgba(var(--panel) / 0.75);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+  transition: transform .15s ease;
+  backdrop-filter: blur(8px);
+}
+.card:hover { transform: translateY(-1px); }
+.card.no-lift:hover { transform: none; } /* Karten, die nicht „springen“ sollen */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  border: 1px solid rgb(var(--border));
+  border-radius: 999px;
+  color: rgb(var(--muted));
+  white-space: nowrap;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: 10px 14px;
+  font-size: .94rem;
+  font-weight: 600;
+  border-radius: 14px;
+  border: 1px solid rgb(var(--border));
+  color: rgb(var(--text));
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
+    rgba(255,255,255,0.01);
+  transition: background .15s ease, transform .1s ease;
+}
+.btn:hover { background: rgba(255,255,255,0.06); }
+
+.btn-accent {
+  color: white;
+  border-color: rgba(220,38,38,0.6);
+  background:
+    linear-gradient(180deg, rgba(220,38,38,0.18), rgba(220,38,38,0.12));
+}
+.btn-accent:hover { background: rgba(220,38,38,0.22); }
+
+/* Sektionstitel */
+.section-head { margin-bottom: .5rem; }
+.section-head .section-desc { color: rgb(var(--muted)); }
+
+/* Kleintext */
+.tiny { font-size: 12px; }
+
+/* Sanfter Fade-in */
+@keyframes in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: in .5s ease-out both; }
+.fade-in-delayed { animation: in .6s ease-out .1s both; }
+
+/* ===================================================== */
+/*  Formular-Fixes NUR für /jobs/new  (scoped mit .bj-new) */
+/* ===================================================== */
+
+.bj-new .form-layout {
   display: grid;
   gap: 2rem;
   align-items: start;
 }
 @media (min-width: 960px) {
-  .form-layout {
+  .bj-new .form-layout {
     grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
   }
 }
 
-/* Form-Gitter + Zeilen */
-.form-grid {
+.bj-new .form-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
 }
-.row-2 {
+
+.bj-new .row-2 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
 }
 @media (min-width: 768px) {
-  .row-2 { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  .bj-new .row-2 {
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  }
 }
 
-/* Felder & Eingaben */
-.field { min-width: 0; } /* verhindert Überlauf in Grids */
-.label {
+.bj-new .field { min-width: 0; }
+
+.bj-new .label {
   display: block;
   margin-bottom: 6px;
   font-weight: 600;
   line-height: 1.3;
 }
-.input, .textarea, select {
+
+.bj-new .input,
+.bj-new .textarea,
+.bj-new select {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid rgb(var(--border));
@@ -55,58 +157,49 @@ h1, h2, h3 { line-height: 1.25; margin: 0; }
   background: rgba(255,255,255,0.02);
   color: rgb(var(--text));
 }
-.input:focus, .textarea:focus, select:focus {
+.bj-new .input:focus,
+.bj-new .textarea:focus,
+.bj-new select:focus {
   outline: none;
   border-color: rgba(220,38,38,0.55);
   box-shadow: 0 0 0 2px rgba(220,38,38,0.18);
 }
-.textarea { min-height: 140px; resize: vertical; }
+.bj-new .textarea { min-height: 140px; resize: vertical; }
 
-.help, .counter { color: rgb(var(--muted)); font-size: 12px; }
-.row-between { display:flex; justify-content:space-between; gap:8px; }
-.row-end { display:flex; justify-content:flex-end; }
+.bj-new .help, .bj-new .counter { color: rgb(var(--muted)); font-size: 12px; }
+.bj-new .row-between { display:flex; justify-content:space-between; gap:8px; }
+.bj-new .row-end { display:flex; justify-content:flex-end; }
 
-/* Stepper oben */
-.stepper { display:flex; gap:8px; flex-wrap: wrap; }
-.step {
+.bj-new .stepper { display:flex; gap:8px; flex-wrap: wrap; }
+.bj-new .step {
   display:flex; align-items:center; gap:8px;
   padding:8px 10px; border:1px solid rgb(var(--border));
   border-radius: 12px; background: rgba(255,255,255,0.02);
 }
-.step-num {
+.bj-new .step-num {
   width:22px; height:22px; border-radius:999px;
   display:flex; align-items:center; justify-content:center;
   font-size:.8rem; color:#fff; background: rgba(220,38,38,0.25);
 }
-.step-active .step-num { background: rgba(220,38,38,0.85); }
+.bj-new .step-active .step-num { background: rgba(220,38,38,0.85); }
 
-/* Paketwahl (Radios) */
-.stack-3 {
-  display:grid; gap:12px;
-  grid-template-columns: 1fr;
-}
+.bj-new .stack-3 { display:grid; gap:12px; grid-template-columns: 1fr; }
 @media (min-width: 640px) {
-  .stack-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .bj-new .stack-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
 }
-.choice {
+.bj-new .choice {
   display:flex; align-items:center; justify-content:space-between; gap:12px;
   padding:12px 14px; border:1px solid rgb(var(--border)); border-radius:14px;
   background: rgba(255,255,255,0.02);
 }
-.choice-main { min-width: 0; }
-.choice-title { font-weight: 600; }
-.choice-desc { color: rgb(var(--muted)); font-size: .92rem; }
-.choice input { flex: none; accent-color: #dc2626; }
-.choice-active {
+.bj-new .choice-main { min-width: 0; }
+.bj-new .choice-title { font-weight: 600; }
+.bj-new .choice-desc { color: rgb(var(--muted)); font-size: .92rem; }
+.bj-new .choice input { flex: none; accent-color: #dc2626; }
+.bj-new .choice-active {
   border-color: rgba(220,38,38,0.6);
   box-shadow: 0 0 0 1px rgba(220,38,38,0.35) inset;
 }
 
-/* Buttons in Zeile umbrechen, kein Überlappen */
-.row-wrap { display:flex; flex-wrap: wrap; gap: 8px; }
-
-/* Rechte Seitenleiste kleben ohne Überlappung */
-.sticky-card { position: sticky; top: 84px; }
-
-/* Badges etwas kompakter */
-.badge { white-space: nowrap; }
+.bj-new .row-wrap { display:flex; flex-wrap: wrap; gap: 8px; }
+.bj-new .sticky-card { position: sticky; top: 84px; }

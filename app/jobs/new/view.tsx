@@ -83,7 +83,7 @@ export default function NewJobView() {
   }, [draft.company, draft.location, draft.bundesland]);
 
   return (
-    <div className="form-layout">
+    <div className="bj-new form-layout">
       {/* ---------- LINKSSPALTE: FORM ---------- */}
       <div className="space-y-8">
         {/* Stepper */}
