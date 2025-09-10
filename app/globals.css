@@ -718,3 +718,18 @@ input::placeholder, textarea::placeholder { white-space: normal; }
 
 /* Grid-Kind allgemein absichern */
 .field { min-width: 0; }
+/* Standort & Bewerbung: dauerhaft einspaltig (auch auf Desktop) */
+.bj-new .form-grid-4 { 
+  display: grid;
+  grid-template-columns: 1fr !important;
+  gap: 1rem;
+}
+.bj-new .form-grid-4 > * { min-width: 0; }
+
+/* Inputs sicher in der Spalte halten (falls noch nicht gesetzt) */
+.input, .select, .textarea {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}

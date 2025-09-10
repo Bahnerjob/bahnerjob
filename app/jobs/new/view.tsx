@@ -183,12 +183,10 @@ export default function View() {
             <section className="card section no-overlap">
               <div className="section-head">
                 <h2 className="section-title">Standort & Bewerbung</h2>
-                <p className="section-sub">
-                  Land und Ort unterstützen die Suche; der Link führt direkt zur Bewerbung.
-                </p>
+                
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 form-grid-4">
+              <div className="grid grid-cols-1 gap-4 form-grid-4">
                 <div className="field min-w-0">
                   <label className="label block">Land</label>
                   <select
@@ -202,7 +200,6 @@ export default function View() {
                     <option value="CH">Schweiz</option>
                     <option value="INTL">Ausland (international)</option>
                   </select>
-                  <p className="help">Erlaubt späteres Filtern (D/AT/CH/Ausland).</p>
                 </div>
 
                 <div className="field min-w-0">
@@ -383,5 +380,6 @@ export default function View() {
     </div>
   );
 }
+
 
 
