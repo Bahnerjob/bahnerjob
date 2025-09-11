@@ -86,7 +86,7 @@ export default function NewJobPage() {
             </div>
             <div>
               <label className="muted" htmlFor="type">Beschäftigungsart</label>
-              <select id="type" value={form.type} onChange={up("type")} className="select">
+              <select id="type" value={form.type} onChange={up("type")} className="select select-dark">
                 <option value="">Bitte wählen </option>
                 <option>Vollzeit</option>
                 <option>Teilzeit</option>

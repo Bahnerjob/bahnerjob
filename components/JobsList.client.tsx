@@ -54,7 +54,7 @@ export default function JobsListClient({ initial }: { initial: Job[] }) {
           </div>
           <div>
             <label className="muted" htmlFor="type">Art</label>
-            <select id="type" className="select" value={type} onChange={e => setType(e.target.value)}>
+            <select id="type" className="select select-dark" value={type} onChange={e => setType(e.target.value)}>
               <option value="">Alle</option>
               {types.map(t => <option key={t} value={t as string}>{t}</option>)}
             </select>
@@ -64,14 +64,14 @@ export default function JobsListClient({ initial }: { initial: Job[] }) {
         <div className="field-grid two">
           <div>
             <label className="muted" htmlFor="location">Ort</label>
-            <select id="location" className="select" value={location} onChange={e => setLocation(e.target.value)}>
+            <select id="location" className="select select-dark" value={location} onChange={e => setLocation(e.target.value)}>
               <option value="">Alle</option>
               {locations.map(l => <option key={l as string} value={l as string}>{l}</option>)}
             </select>
           </div>
           <div>
             <label className="muted" htmlFor="region">Bundesland / Region</label>
-            <select id="region" className="select" value={region} onChange={e => setRegion(e.target.value)}>
+            <select id="region" className="select select-dark" value={region} onChange={e => setRegion(e.target.value)}>
               <option value="">Alle</option>
               {regions.map(r => <option key={r as string} value={r as string}>{r}</option>)}
             </select>
