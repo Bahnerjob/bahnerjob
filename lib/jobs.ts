@@ -79,3 +79,7 @@ export const mockJobs: Job[] = [
     description: "Fleet reliability, preventive maintenance, stakeholder coordination."
   }
 ];
+
+export function getJobById(id: string) {
+  return mockJobs.find(j => j.id === id) || null;
+}

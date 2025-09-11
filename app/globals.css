@@ -805,3 +805,33 @@ a:hover { text-decoration-thickness:2px; }
 /* === Filterleiste ========================================================== */
 .job-filters .input, .job-filters .select { height: 2.5rem; }
 .job-card .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+/* Detailseite Layout */
+.detail-sec { margin-bottom: 1.25rem; }
+.detail-sec-title { font-size: 1.125rem; font-weight: 600; margin-bottom: .35rem; }
+.detail-sec-body { color: #e5e7eb; }
+.detail-ul { list-style: disc; padding-left: 1.25rem; }
+.detail-ul li { margin: .25rem 0; }
+
+.detail-aside { position: sticky; top: 1.5rem; height: max-content; }
+.detail-card {
+  border: 1px solid #1f1f1f;
+  background: rgba(15,15,15,.6);
+  border-radius: 14px;
+  padding: .9rem .95rem;
+}
+.divider { height:1px; background: rgba(255,255,255,0.08); }
+/* Detailseite Layout */
+.detail-sec { margin-bottom: 1.25rem; }
+.detail-sec-title { font-size: 1.125rem; font-weight: 600; margin-bottom: .35rem; }
+.detail-sec-body { color: #e5e7eb; }
+.detail-ul { list-style: disc; padding-left: 1.25rem; }
+.detail-ul li { margin: .25rem 0; }
+
+.detail-aside { position: sticky; top: 1.5rem; height: max-content; }
+.detail-card {
+  border: 1px solid #1f1f1f;
+  background: rgba(15,15,15,.6);
+  border-radius: 14px;
+  padding: .9rem .95rem;
+}
+.divider { height:1px; background: rgba(255,255,255,0.08); }
