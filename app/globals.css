@@ -97,3 +97,30 @@ body.bj-hard-dark{ background:#0a0a0b !important; color:#ebebf0 !important; }/* 
   outline: none;
   border-color: rgb(99, 102, 241);
 }
+
+/* === unified dark select ======================================= */
+select.select-dark, .select-dark {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px;
+  padding: 10px 36px 10px 12px;
+  font-size: 14px;
+  line-height: 1.25;
+  color-scheme: dark; /* native Controls dunkel rendern */
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20' fill='none'><path d='M5 8l5 5 5-5' stroke='%23bfbfc4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px 12px;
+}
+select.select-dark:focus, .select-dark:focus {
+  outline: none;
+  border-color: rgb(72,72,78) !important;
+  box-shadow: 0 0 0 2px rgba(120,120,128,.15);
+}
+select.select-dark::-ms-expand { display:none; }
+select.select-dark option { background-color: rgb(23,23,24); color: rgba(235,235,240,.95); }
+/* =============================================================== */
+
