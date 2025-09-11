@@ -1,34 +1,32 @@
-﻿type NewsItem = {
-  id: string;
-  title: string;
-  url: string;
-  source?: string;
-  date?: string; // ISO
-};
+"use client";
+import React from "react";
 
-export default function NewsRail({ items = [] as NewsItem[] }) {
-  if (!items?.length) return null;
+type Item = { source: string; title: string; link: string; date?: string };
+
+export default function NewsRailClient() {
+  const [items, setItems] = React.useState<Item[] | null>(null);
+  const [err, setErr] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    let alive = true;
+    fetch("/api/railnews", { cache: "no-store" })
+      .then(r => r.ok ? r.json() : Promise.reject(r.statusText))
+      .then(j => { if (alive) setItems(j.items as Item[]); })
+      .catch(e => { if (alive) setErr("News konnten nicht geladen werden."); });
+    return () => { alive = false; };
+  }, []);
+
+  if (err) return <div className="muted">{err}</div>;
+  if (!items) return <div className="muted">Lade News </div>;
+  if (items.length === 0) return <div className="muted">Aktuell keine Meldungen.</div>;
 
   return (
-    <div className="news-grid grid grid-cols-1 md:grid-cols-3 gap-6">
-      {items.map((n) => (
-        <a
-          key={n.id}
-          href={n.url}
-          className="news-card block rounded-3xl p-5 transition focus:outline-none"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <div className="flex items-center justify-between gap-2">
-            <div className="news-source text-xs text-neutral-400 truncate">{n.source}</div>
-            {n.date && (
-              <div className="news-date text-xs text-neutral-500 shrink-0">
-                {new Date(n.date).toLocaleDateString('de-DE')}
-              </div>
-            )}
-          </div>
-          <div className="news-sep" aria-hidden="true"></div>
-          <div className="news-title text-sm font-medium leading-5 line-clamp-3">{n.title}</div>
+    <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "12px" }}>
+      {items.slice(0, 6).map((n, i) => (
+        <a key={i} href={n.link} target="_blank" rel="noopener noreferrer"
+           className="card-link">
+          <div className="muted" style={{ fontSize: 12 }}>{n.source}{n.date ? "  " + new Date(n.date).toLocaleDateString("de-DE") : ""}</div>
+          <div style={{ marginTop: 4, fontWeight: 700, lineHeight: 1.25 }}>{n.title}</div>
         </a>
       ))}
     </div>
