@@ -3,9 +3,9 @@
             <h2 style={{fontFamily:"Manrope, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif", fontSize:"22px", fontWeight:800, letterSpacing:"-0.01em", margin:"8px 0 0"}}>Mehr qualifizierte Bewerbungen</h2>
             <p style={{marginTop:"12px", color:"rgba(235,235,240,.9)"}}>Erreiche Fachkräfte im Bahnsektor ohne Streuverlust. Anzeige in Minuten online, einfach pflegbar und auf allen Geräten stark sichtbar.</p>
             <ul style={{marginTop:"16px", color:"rgba(235,235,240,.85)", paddingLeft:"18px"}}>
-              <li style={{marginBottom:"6px"}}>Klare Pakete & transparente Laufzeiten</li>
-              <li style={{marginBottom:"6px"}}>Einheitliche Darstellung & gute Lesbarkeit</li>
-              <li>Direkte Bewerbungen beim Unternehmen</li>
+              <li style={{marginBottom:"6px"}}>Zielgerichtete Reichweite im Bahnsektor<li style={{marginBottom:"6px"}}>
+              <li style={{marginBottom:"6px"}}>Zielgerichtete Reichweite im Bahnsektor<li style={{marginBottom:"6px"}}>
+              <li>Zielgerichtete Reichweite im Bahnsektor<li>
             </ul>
             <div style={{display:"flex", gap:"12px", flexWrap:"wrap", alignItems:"center", marginTop:"20px"}}>
               <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Anzeige schalten</Link>Anzeige veröffentlichen</Link>
