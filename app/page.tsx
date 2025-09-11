@@ -76,10 +76,10 @@ export default function HomePage() {
           <Link href="/pricing" className="btn btn-secondary">Pakete & Leistungen</Link>
         </div>
         <div className="container" style={{display:"grid", gap:"16px", gridTemplateColumns:"1fr", marginTop:"16px"}}>
-          <div className="panel"><div style={{fontWeight:700}}>Branchenspezifisch</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Community statt Streuverlust.</p></div>
-          <div className="panel"><div style={{fontWeight:700}}>Schnell & modern</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Live-Vorschau, Stripe, in Minuten online.</p></div>
-          <div className="panel"><div style={{fontWeight:700}}>Klare Pakete</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Basic, Featured, Boost  transparent.</p></div>
-          <div className="panel"><div style={{fontWeight:700}}>Lesbarkeit</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Ruhige Typo, klare Struktur.</p></div>
+          <div className="panel"><div style={{fontWeight:700}}>Branchenspezifisch</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Jobs ausschließlich für den Bahnsektor  zielgerichtete Reichweite ohne Umwege.</p></div>
+          <div className="panel"><div style={{fontWeight:700}}>Schnell & modern</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Stellenanzeigen in wenigen Minuten online  klarer Ablauf, direkte Veröffentlichung.</p></div>
+          <div className="panel"><div style={{fontWeight:700}}>Klare Pakete</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Wähle zwischen Basic, Featured oder Boost  klar kalkulierbar und fair.</p></div>
+          <div className="panel"><div style={{fontWeight:700}}>Lesbarkeit</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Moderne Darstellung und mobil optimiert  so finden Bewerber:innen deine Anzeige sofort.</p></div>
         </div>
       </section>
 
