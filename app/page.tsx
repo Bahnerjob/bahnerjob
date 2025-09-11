@@ -19,7 +19,7 @@ export default function HomePage() {
         <div className="chip">Die Jobbörse für den Bahnsektor</div>
         <h1 style={{fontFamily:"Manrope, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif", fontWeight:800, letterSpacing:"-0.01em", fontSize:"clamp(2.25rem,5vw,3rem)", margin:"20px 0 0"}}>Klar. Modern. Fokussiert.</h1>
         <p style={{maxWidth:"46rem", margin:"16px auto 0", color:"rgba(235,235,240,.9)"}}>
-          Gute Lesbarkeit, klare Wege  und Buttons, die wirklich wie Buttons aussehen.
+          Finde passende Stellen oder erreiche gezielt Fachkräfte  schnell, klar, ohne Umwege.
         </p>
         <div style={{display:"flex", flexWrap:"wrap", gap:"12px", justifyContent:"center", marginTop:"28px"}}>
           <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
@@ -77,9 +77,9 @@ export default function HomePage() {
         </div>
         <div className="container" style={{display:"grid", gap:"16px", gridTemplateColumns:"1fr", marginTop:"16px"}}>
           <div className="panel"><div style={{fontWeight:700}}>Branchenspezifisch</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Jobs ausschließlich für den Bahnsektor  zielgerichtete Reichweite ohne Umwege.</p></div>
-          <div className="panel"><div style={{fontWeight:700}}>Schnell & modern</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Stellenanzeigen in wenigen Minuten online  klarer Ablauf, direkte Veröffentlichung.</p></div>
+          <div className="panel"><div style={{fontWeight:700}}>Schnell & einfach</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Stellenanzeigen in wenigen Minuten online  klarer Ablauf, direkte Veröffentlichung.</p></div>
           <div className="panel"><div style={{fontWeight:700}}>Klare Pakete</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Wähle zwischen Basic, Featured oder Boost  klar kalkulierbar und fair.</p></div>
-          <div className="panel"><div style={{fontWeight:700}}>Lesbarkeit</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Moderne Darstellung und mobil optimiert  so finden Bewerber:innen deine Anzeige sofort.</p></div>
+          <div className="panel"><div style={{fontWeight:700}}>Maximale Sichtbarkeit</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Moderne Darstellung und mobil optimiert  so finden Bewerber:innen deine Anzeige sofort.</p></div>
         </div>
       </section>
 
