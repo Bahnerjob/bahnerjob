@@ -80,4 +80,20 @@ a:hover{ color: rgb(var(--text) / .9); }
 :focus-visible{ outline-color: rgb(var(--accent)); }
 
 /* (Hard fallback, falls irgendwas Styles killt) */
-body.bj-hard-dark{ background:#0a0a0b !important; color:#ebebf0 !important; }
+body.bj-hard-dark{ background:#0a0a0b !important; color:#ebebf0 !important; }/* Einheitliches dunkles Select */
+.select-dark {
+  background-color: rgb(23, 23, 24);
+  border: 1px solid rgb(48, 48, 52);
+  color: rgba(235, 235, 240, 0.95);
+  border-radius: 0.5rem;
+  padding: 8px 12px;
+  font-size: 14px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.select-dark:focus {
+  outline: none;
+  border-color: rgb(99, 102, 241);
+}
