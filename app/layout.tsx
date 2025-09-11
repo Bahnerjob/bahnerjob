@@ -1,49 +1,46 @@
-﻿import type { Metadata } from "next";
-import Image from "next/image";
 import "./globals.css";
+import Link from "next/link";
+import Image from "next/image";
+import { Inter, Manrope } from "next/font/google";
 
-export const metadata: Metadata = {
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
+
+export const metadata = {
   title: "Bahnerjob",
-  description: "Jobs aus der Bahnbranche  Anzeigen schalten & finden.",
+  description: "Die Jobbörse für den Bahnsektor  schnell finden, klar schalten.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de" suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col">
-        <header className="site-header sticky top-0 z-50 border-b border-neutral-800 bg-[#0d0d0d]">
-          <div className="container h-28 md:h-32 flex items-center justify-between">
-            <a href="/" className="flex items-center gap-3" aria-label="Zur Startseite">
-              {/* Intrinsische Größe groß, Anzeigegröße wird per CSS gesteuert */}
-              <Image
-                src="/logo-bahnerjob.svg"
-                alt="Bahnerjob"
-                width={400}
-                height={400}
-                priority
-                className="site-logo"
-              />
-            </a>
-            <nav className="flex items-center gap-2">
-              <a href="/" className="btn h-9 px-3 border border-neutral-800 hover:bg-neutral-900 rounded-lg">Jobs durchsuchen</a>
-              <a href="/pricing" className="btn h-9 px-3 border border-neutral-800 hover:bg-neutral-900 rounded-lg">Preise</a>
-              <a href="/jobs/new" className="btn btn-accent h-9 px-3 rounded-lg font-semibold">Anzeige schalten</a>
-            </nav>
-          </div>
+    <html lang="de" className={`${inter.variable} ${manrope.variable}`}>
+      <body>
+        <header className="container mx-auto max-w-6xl px-4 py-5 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <Image src="/icon.svg" alt="" width={28} height={28} />
+            <span className="font-semibold">Bahnerjob</span>
+          </Link>
+          <nav className="flex items-center gap-3">
+            <Link className="btn" href="/jobs">Jobs</Link>
+            <Link className="btn" href="/pricing">Preise</Link>
+            <Link className="btn btn-accent" href="/jobs/new">Anzeige schalten</Link>
+          </nav>
         </header>
 
-        <main className="flex-1 pb-16 md:pb-24">{children}</main>
+        <main className="container mx-auto max-w-6xl px-4 py-10">
+          {children}
+        </main>
 
-        <footer className="site-footer border-t border-neutral-800 bg-[#0d0d0d] text-neutral-400">
-          <div className="container py-8 text-sm"> {new Date().getFullYear()} Bahnerjob</div>
-          <div className="container py-2 text-xs site-legal-links">
-            <a href="/impressum" className="underline underline-offset-2 mr-4">Impressum</a>
-            <a href="/datenschutz" className="underline underline-offset-2">Datenschutz</a>
+        <footer className="container mx-auto max-w-6xl px-4 py-12 text-sm text-neutral-400">
+          <div className="flex items-center justify-between">
+            <div> {new Date().getFullYear()} Bahnerjob</div>
+            <nav className="flex items-center gap-3">
+              <Link href="/legal/impressum">Impressum</Link>
+              <Link href="/legal/datenschutz">Datenschutz</Link>
+            </nav>
           </div>
         </footer>
       </body>
     </html>
   );
 }
-
-
