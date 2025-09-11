@@ -1,144 +1,136 @@
 import Link from "next/link";
 import NewsRail from "@/components/NewsRail";
 
-// Server component  kein "use client"
+// Server component
 export const revalidate = 0;
 
 export const metadata = {
   title: "Bahnerjob  Jobs & Stellenanzeigen im Bahnsektor",
-  description: "Klares, augenfreundliches Layout: Unternehmen schalten Anzeigen, Bewerber:innen finden schnell passende Stellen.",
+  description: "Ruhiges, klares Layout wie Anzeige schalten: Unternehmen schalten Anzeigen, Bewerber:innen finden schnell passende Stellen.",
 };
 
 export default function HomePage() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-12">
-      {/* HERO  luftig, ohne Box-Rahmen */}
-      <section className="text-center">
-        <div className="inline-flex items-center gap-2 rounded-full bg-neutral-900/40 px-3 py-1 text-xs text-neutral-300">
-          Die Jobbörse für den Bahnsektor
-        </div>
-        <h1 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight">
-          Klar. Augenfreundlich. Bahnerjob.
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-neutral-300">
-          Deutlich getrennte Bereiche, gute Lesbarkeit und moderne Darstellung  ohne harte Rahmen.
+    <main>
+      {/* HERO */}
+      <section className="section text-center">
+        <div className="chip">Die Jobbörse für den Bahnsektor</div>
+        <h1 className="h1-bj mt-5">Klar. Augenfreundlich. Bahnerjob.</h1>
+        <p className="lead mx-auto mt-4 max-w-2xl">
+          Deutlich getrennte Bereiche, ruhige Typografie und moderne Darstellung  konsistent mit Anzeige schalten.
         </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <div className="cta-row">
           <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
           <Link href="/jobs/new?pkg=basic" className="btn btn-accent">Anzeige schalten</Link>
         </div>
       </section>
 
-      {/* Subtiler Trenner (kein weiß, kein Border-Outline) */}
-      <div className="mt-16 h-px bg-neutral-800/40" />
+      <div className="divider" />
 
-      {/* Zielgruppen  weiche, getönte Flächen ohne Rahmen */}
-      <section className="mt-10 grid gap-6 md:grid-cols-2">
-        {/* Unternehmen */}
-        <article className="rounded-2xl bg-neutral-900/20 p-6">
-          <div className="text-xs text-neutral-400">Für Unternehmen</div>
-          <h2 className="mt-2 text-xl font-semibold">Sichtbarkeit ohne Streuverlust</h2>
-          <p className="mt-3 text-neutral-300">
-            Anzeige schnell erstellen, Vorschau prüfen und sicher veröffentlichen.
-            Optional <em>Featured</em> & <em>Boost</em> für mehr Reichweite.
-          </p>
-          <ul className="mt-4 space-y-2 text-neutral-300">
-            <li> Klare Pakete & transparente Laufzeiten</li>
-            <li> Einheitliche Darstellung & gute Lesbarkeit</li>
-            <li> Direkte Bewerbungen ohne Umwege</li>
-          </ul>
-          <div className="mt-6 flex items-center gap-3">
-            <Link href="/jobs/new?pkg=basic" className="btn btn-accent">Anzeige schalten</Link>
-            <Link href="/pricing" className="text-sm text-neutral-400 hover:text-neutral-200">Pakete ansehen </Link>
-          </div>
-        </article>
+      {/* ZIELGRUPPEN */}
+      <section className="section">
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Unternehmen */}
+          <article className="card-soft">
+            <div className="text-xs muted">Für Unternehmen</div>
+            <h2 className="h2-bj mt-2">Sichtbarkeit ohne Streuverlust</h2>
+            <p className="lead mt-3">
+              Anzeige in Minuten erstellen, Vorschau prüfen und sicher veröffentlichen. Optional <em>Featured</em> &amp; <em>Boost</em>.
+            </p>
+            <ul className="mt-4 space-y-2 text-neutral-300">
+              <li> Klare Pakete & transparente Laufzeiten</li>
+              <li> Einheitliche Darstellung & gute Lesbarkeit</li>
+              <li> Direkte Bewerbungen ohne Umwege</li>
+            </ul>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <Link href="/jobs/new?pkg=basic" className="btn btn-accent">Anzeige schalten</Link>
+              <Link href="/pricing" className="text-sm muted hover:text-neutral-200">Pakete ansehen </Link>
+            </div>
+          </article>
 
-        {/* Bewerber:innen */}
-        <article className="rounded-2xl bg-neutral-900/20 p-6">
-          <div className="text-xs text-neutral-400">Für Bewerber:innen</div>
-          <h2 className="mt-2 text-xl font-semibold">Finde deinen nächsten Halt</h2>
-          <p className="mt-3 text-neutral-300">
-            Suche nach Ort, Bundesland oder Arbeitgeber. Klare Anzeigen mit den wichtigsten Details.
-          </p>
-          <ul className="mt-4 space-y-2 text-neutral-300">
-            <li> Filter für Ort, Bundesland & Vertragsart</li>
-            <li> Aufgaben, Anforderungen, Benefits auf einen Blick</li>
-            <li> Bewerbung direkt beim Unternehmen</li>
-          </ul>
-          <div className="mt-6">
-            <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
-          </div>
-        </article>
+          {/* Bewerber:innen */}
+          <article className="card-soft">
+            <div className="text-xs muted">Für Bewerber:innen</div>
+            <h2 className="h2-bj mt-2">Finde deinen nächsten Halt</h2>
+            <p className="lead mt-3">
+              Suche nach Ort, Bundesland oder Arbeitgeber. Klare Anzeigen mit den wichtigsten Details.
+            </p>
+            <ul className="mt-4 space-y-2 text-neutral-300">
+              <li> Filter für Ort, Bundesland & Vertragsart</li>
+              <li> Aufgaben, Anforderungen, Benefits auf einen Blick</li>
+              <li> Bewerbung direkt beim Unternehmen</li>
+            </ul>
+            <div className="mt-6">
+              <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
+            </div>
+          </article>
+        </div>
       </section>
 
-      {/* Trenner */}
-      <div className="mt-16 h-px bg-neutral-800/40" />
+      <div className="divider" />
 
-      {/* Features  ganz reduziert, ohne Box-Rahmen */}
-      <section className="mt-10">
-        <div className="flex items-center justify-between">
+      {/* FEATURES */}
+      <section className="section">
+        <div className="container-bj flex items-center justify-between">
           <h3 className="text-lg font-semibold">Warum Bahnerjob?</h3>
-          <Link href="/pricing" className="text-sm text-neutral-400 hover:text-neutral-200">
-            Pakete & Leistungen 
-          </Link>
+          <Link href="/pricing" className="text-sm muted hover:text-neutral-200">Pakete & Leistungen </Link>
         </div>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-2xl bg-neutral-900/20 p-5">
+        <div className="container-bj mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="card-soft">
             <div className="text-sm font-medium">Branchenspezifisch</div>
-            <p className="mt-1 text-sm text-neutral-400">Bahn-Community statt Streuverlust.</p>
+            <p className="mt-1 text-sm muted">Bahn-Community statt Streuverlust.</p>
           </div>
-          <div className="rounded-2xl bg-neutral-900/20 p-5">
+          <div className="card-soft">
             <div className="text-sm font-medium">Schnell & modern</div>
-            <p className="mt-1 text-sm text-neutral-400">Live-Vorschau, Stripe, in Minuten online.</p>
+            <p className="mt-1 text-sm muted">Live-Vorschau, Stripe, in Minuten online.</p>
           </div>
-          <div className="rounded-2xl bg-neutral-900/20 p-5">
+          <div className="card-soft">
             <div className="text-sm font-medium">Klare Pakete</div>
-            <p className="mt-1 text-sm text-neutral-400">Basic, Featured, Boost  transparent.</p>
+            <p className="mt-1 text-sm muted">Basic, Featured, Boost  transparent.</p>
           </div>
-          <div className="rounded-2xl bg-neutral-900/20 p-5">
+          <div className="card-soft">
             <div className="text-sm font-medium">Lesbarkeit</div>
-            <p className="mt-1 text-sm text-neutral-400">Ruhige Typografie, klare Struktur.</p>
+            <p className="mt-1 text-sm muted">Ruhige Typografie, klare Struktur.</p>
           </div>
         </div>
       </section>
 
-      {/* Trenner */}
-      <div className="mt-16 h-px bg-neutral-800/40" />
+      <div className="divider" />
 
-      {/* Info/Trust  kurzer Textblock, frei stehend */}
-      <section className="mt-10">
-        <h3 className="text-lg font-semibold">Moderation & Inhalt</h3>
-        <p className="mt-3 max-w-3xl text-neutral-300">
-          Klare Angaben (Position, Aufgaben, Anforderungen, Benefits) und einheitliche Formate helfen
-          Kandidat:innen bei der schnellen Einschätzung und sparen Unternehmen Zeit.
-        </p>
-      </section>
-
-      {/* Trenner */}
-      <div className="mt-16 h-px bg-neutral-800/40" />
-
-      {/* CTA  weiche Fläche ohne Rahmen */}
-      <section className="mt-10 rounded-2xl bg-neutral-900/25 p-8 text-center">
-        <h3 className="text-xl font-semibold">Bereit für den nächsten Schritt?</h3>
-        <p className="mt-2 text-neutral-300">Finde passende Stellen oder starte mit deiner ersten Anzeige.</p>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-          <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
-          <Link href="/jobs/new?pkg=basic" className="btn btn-accent">Anzeige schalten</Link>
+      {/* INFO/TRUST */}
+      <section className="section">
+        <div className="container-bj">
+          <h3 className="text-lg font-semibold">Moderation & Inhalt</h3>
+          <p className="lead mt-3 max-w-3xl">
+            Klare Angaben (Position, Aufgaben, Anforderungen, Benefits) und einheitliche Formate helfen
+            Kandidat:innen bei der schnellen Einschätzung und sparen Unternehmen Zeit.
+          </p>
         </div>
       </section>
 
-      {/* Trenner */}
-      <div className="mt-16 h-px bg-neutral-800/40" />
+      <div className="divider" />
 
-      {/* News  klar abgesetzt, ohne Rahmen */}
-      <section className="mt-10">
-        <div className="flex items-center justify-between">
+      {/* CTA */}
+      <section className="section">
+        <div className="container-bj text-center">
+          <h3 className="text-xl font-semibold">Bereit für den nächsten Schritt?</h3>
+          <p className="lead mt-2">Finde passende Stellen oder starte mit deiner ersten Anzeige.</p>
+          <div className="cta-row">
+            <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
+            <Link href="/jobs/new?pkg=basic" className="btn btn-accent">Anzeige schalten</Link>
+          </div>
+        </div>
+      </section>
+
+      <div className="divider" />
+
+      {/* NEWS */}
+      <section className="section">
+        <div className="container-bj flex items-center justify-between">
           <h3 className="text-lg font-semibold">News</h3>
-          <Link href="/news" className="text-sm text-neutral-400 hover:text-neutral-200">
-            Alle News 
-          </Link>
+          <Link href="/news" className="text-sm muted hover:text-neutral-200">Alle News </Link>
         </div>
-        <div className="mt-6">
+        <div className="container-bj mt-6">
           <NewsRail />
         </div>
       </section>
