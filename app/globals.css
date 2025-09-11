@@ -2,48 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-/* === Dark Theme (global) === */
+/* ===== Design Tokens (neutral + rot, kein Blau/Lila) ===== */
 :root {
   --bg: 10 10 11;          /* #0a0a0b */
-  --panel: 20 20 23;       /* #141417 */
-  --border: 38 38 44;      /* #26262c */
+  --panel: 16 16 18;       /* #101012 */
+  --panel-soft: 22 22 26;  /* #16161a */
   --muted: 160 160 170;    /* #a0a0aa */
   --text: 235 235 240;     /* #ebebf0 */
-  --accent: 220 38 38;     /* rot */
+  --accent: 220 38 38;     /* rot (#dc2626) */
+  --divider: 60 60 68;     /* sehr dezente Trenner */
 }
 
-/* moderne Typo (Inter via next/font) */
 html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body { color: rgb(var(--text)); background: rgb(var(--bg)); }
 
-/* Seite: Grundfarben */
-body {
-  color: rgb(var(--text));
-  background: rgb(var(--bg));
-}
+/* Links nicht blau */
+a { color: rgb(var(--text)); }
+a:hover { color: rgb(var(--text) / 0.9); }
 
-/* Layout-Hilfen */
-.lead { color: rgb(var(--text) / 0.9); }
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 11px;
-  color: rgb(var(--text) / 0.9);
-  background: rgba(255,255,255,0.06);
-}
+/* Utilities für ruhigen Look */
+.container-bj { @apply mx-auto max-w-6xl px-4; }
+.section      { @apply container-bj py-14; }
+.divider      { height:1px; background: rgb(var(--divider) / 0.4); }
+.muted        { color: rgb(var(--muted)); }
+.lead         { color: rgb(var(--text) / 0.9); }
 
-/* Buttons */
+/* Buttons (neutral / akzent rot), ohne Blau/Lila */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  padding: 10px 14px; border-radius: 12px; font-weight: 600;
-  background: rgba(255,255,255,0.04); color: rgb(var(--text));
-  transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
-  border: 1px solid rgba(255,255,255,0.06);
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:10px 14px; border-radius:14px; font-weight:600;
+  background: rgba(255,255,255,0.05); color: rgb(var(--text));
+  border:1px solid rgba(255,255,255,0.08);
+  transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
 }
-.btn:hover { background: rgba(255,255,255,0.07); transform: translateY(-1px); }
+.btn:hover { background: rgba(255,255,255,0.08); transform: translateY(-1px); }
 .btn:active { transform: translateY(0); }
+
 .btn.btn-accent {
   background: rgb(var(--accent));
   border-color: rgb(var(--accent));
@@ -51,65 +45,32 @@ body {
 }
 .btn.btn-accent:hover { filter: brightness(1.05); }
 
-/* Karten (ruhig, leicht, im Stil Anzeige schalten) */
-.card {
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
-    rgba(var(--panel) / 0.7);
-  box-shadow: 0 1px 0 rgba(0,0,0,0.24);
-  transition: transform .15s ease, box-shadow .15s ease;
-  backdrop-filter: blur(8px);
-}
-.card:hover { transform: translateY(-1px); }
-.card.no-lift:hover { transform: none; }
-
-/* ======= Form Styles für /jobs/new (scoped via .bj-new) ======= */
-.bj-new .form-layout {
-  display: grid; gap: 2rem; align-items: start;
-}
-@media (min-width: 960px) {
-  .bj-new .form-layout { grid-template-columns: minmax(0,1fr) minmax(0,0.9fr); }
+/* "Karten" ohne harte Rahmen  nur softer Panel-Look */
+.panel-soft {
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+              rgb(var(--panel-soft));
+  box-shadow: 0 1px 0 rgba(0,0,0,0.25);
 }
 
-.bj-new .stepper {
-  display: flex; gap: 8px; align-items: center;
-  background: rgba(255,255,255,0.04); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);
+/* Chips / Badges */
+.chip {
+  display:inline-flex; align-items:center; gap:6px;
+  padding: 6px 12px; border-radius:999px;
+  background: rgba(255,255,255,0.06); color: rgb(var(--text) / 0.9);
+  font-size:12px;
 }
-.bj-new .step { display:flex; align-items:center; gap:10px; padding: 8px 10px; }
-.bj-new .step-num {
-  width: 22px; height: 22px; border-radius: 999px;
-  display:grid; place-items:center; font-size:12px;
-  background: rgba(255,255,255,0.06);
+
+/* Headings rhythm */
+.h1-bj { @apply text-3xl sm:text-5xl font-semibold tracking-tight; letter-spacing:-0.01em; }
+.h2-bj { @apply text-xl sm:text-2xl font-semibold; letter-spacing:-0.01em; }
+
+/* Header minimal border, kein Blau/Lila */
+.site-header {
+  border-bottom: 1px solid rgb(var(--divider) / 0.4);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+  backdrop-filter: blur(6px);
 }
-.bj-new .step-active .step-num { background: rgb(var(--accent)); color: white; }
-.bj-new .step-label { font-size: 12px; color: rgb(var(--text) / 0.9); }
 
-.bj-new .field { display:flex; flex-direction:column; gap:8px; }
-.bj-new .label { color: rgb(var(--text)); font-weight: 600; font-size: 14px; }
-.bj-new .help  { color: rgb(var(--muted)); font-size: 12px; }
-
-.bj-new .row-2, .bj-new .row-between { display:grid; gap: 12px; }
-@media (min-width: 720px) { .bj-new .row-2 { grid-template-columns: 1fr 1fr; } }
-.bj-new .row-between { grid-template-columns: 1fr auto; align-items:end; }
-
-.bj-new .input,
-.bj-new .textarea,
-.bj-new select {
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.02);
-  border-radius: 12px; padding: 10px 12px; color: rgb(var(--text));
-}
-.bj-new .input:focus,
-.bj-new .textarea:focus,
-.bj-new select:focus {
-  outline: none; border-color: rgba(220,38,38,0.55);
-  box-shadow: 0 0 0 2px rgba(220,38,38,0.18);
-}
-.bj-new .textarea { min-height: 140px; resize: vertical; }
-
-.sticky-card { position: sticky; top: 20px; }
-
-/* kleine Utilities */
-.tiny { font-size: 12px; }
+/* Entfernt etwaige Tailwind-Default-Farben auf focus (blau) */
+:focus { outline-color: rgb(var(--accent)); }
