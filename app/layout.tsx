@@ -9,9 +9,16 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const globalCss = `
+    :root {
+      --bg: #0a0a0b;
+      --text: #ebebf0;
+      --muted: rgba(235,235,240,.72);
+      --panel: #18181c;
+      --accent: #dc2626; /* rot */
+    }
     html, body {
-      background: #0a0a0b !important;
-      color: #ebebf0 !important;
+      background: var(--bg) !important;
+      color: var(--text) !important;
       margin: 0; padding: 0;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
@@ -24,13 +31,47 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
       backdrop-filter: blur(6px);
     }
-    .muted { color: rgba(235,235,240,.7); }
+    .muted { color: var(--muted); }
+
+    /* CHIPS */
+    .chip {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600;
+      background: rgba(255,255,255,.10); color: var(--text);
+    }
+
+    /* BUTTONS  groß, aufmerksam, klarer Hover/Focus */
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:.6rem;
+      height: 48px; min-width: 48px; padding: 0 18px;
+      font-weight: 800; letter-spacing:.02em; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08); color: var(--text);
+      box-shadow: 0 1px 0 rgba(0,0,0,.35);
+      transition: transform .15s ease, filter .15s ease, background .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); background: rgba(255,255,255,.12); }
+    .btn:focus-visible { outline: 3px solid rgba(220,38,38,.6); outline-offset: 2px; }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(220,38,38,.28), 0 1px 0 rgba(0,0,0,.35) inset;
+    }
+    .btn-primary:hover { filter: brightness(1.06); transform: translateY(-1px); }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)), var(--panel);
+      border-radius: 18px; padding: 24px; box-shadow: 0 1px 0 rgba(0,0,0,.25);
+    }
   `;
   return (
     <html lang="de">
       <head>
-        <style dangerouslySetInnerHTML={{ __html: globalCss }} />
+        <meta charSet="utf-8" />
         <meta name="theme-color" content="#0a0a0b" />
+        <style dangerouslySetInnerHTML={{ __html: globalCss }} />
       </head>
       <body style={{ minHeight: "100vh", position: "relative", background:"#0a0a0b", color:"#ebebf0" }}>
         <div id="__bj_dark_backdrop" style={{ position: "fixed", inset: 0, background: "#0a0a0b", zIndex: -1 }} />
@@ -38,7 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="container" style={{height:"64px", display:"flex", alignItems:"center", justifyContent:"space-between"}}>
             <Link href="/" style={{display:"inline-flex", alignItems:"center", gap:"12px"}}>
               <Image src="/icon.svg" alt="Bahnerjob" width={44} height={44} />
-              <span style={{fontSize:"22px",fontWeight:700,letterSpacing:"-0.01em"}}>Bahnerjob</span>
+              <span style={{fontSize:"22px",fontWeight:800,letterSpacing:"-0.01em"}}>Bahnerjob</span>
             </Link>
           </div>
         </header>

@@ -15,29 +15,28 @@ export default function HomePage() {
   return (
     <div>
       {/* HERO */}
-      <section className="section center">
-        <div className="chip">Die JobbÃ¶rse fÃ¼r den Bahnsektor</div>
-        <h1 className="h1" style={{marginTop:"20px"}}>Klar. Modern. Fokussiert.</h1>
-        <p className="lead" style={{maxWidth:"46rem", margin:"16px auto 0"}}>
-          Gute Lesbarkeit, klare Wege  und Buttons, die wirklich wie Buttons aussehen.
+      <section style={{textAlign:"center", padding:"56px 0 24px"}}>
+        <div className="chip">Die Jobb\u00F6rse f\u00FCr den Bahnsektor</div>
+        <h1 style={{fontFamily:"Manrope, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif", fontWeight:800, letterSpacing:"-0.01em", fontSize:"clamp(2.25rem,5vw,3rem)", margin:"20px 0 0"}}>Klar. Modern. Fokussiert.</h1>
+        <p style={{maxWidth:"46rem", margin:"16px auto 0", color:"rgba(235,235,240,.9)"}}>
+          Gute Lesbarkeit, klare Wege \u2013 und Buttons, die wirklich wie Buttons aussehen.
         </p>
-        <div style={{display:"flex", flexWrap:"wrap", gap:"12px", justifyContent:"center", marginTop:"24px"}}>
+        <div style={{display:"flex", flexWrap:"wrap", gap:"12px", justifyContent:"center", marginTop:"28px"}}>
           <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
           <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Anzeige schalten</Link>
         </div>
       </section>
 
-      <div className="divider" />
+      <div style={{height:"1px", background:"rgba(60,60,68,.4)", margin:"40px 0"}} />
 
       {/* ZIELGRUPPEN */}
-      <section className="section">
-        <div className="grid two">
+      <section style={{padding:"0 0 8px"}}>
+        <div style={{display:"grid", gap:"16px", gridTemplateColumns:"1fr"}}>
           <article className="panel">
-            <div className="muted" style={{fontSize:"12px"}}>FÃ¼r Unternehmen</div>
-            <h2 className="h2">Sichtbarkeit ohne Streuverlust</h2>
-            <p className="lead" style={{marginTop:"12px"}}>
-              Anzeige in Minuten erstellen, Vorschau prÃ¼fen und sicher verÃ¶ffentlichen.
-              Optional <em>Featured</em> &amp; <em>Boost</em>.
+            <div className="muted" style={{fontSize:"12px"}}>F\u00FCr Unternehmen</div>
+            <h2 style={{fontFamily:"Manrope, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif", fontSize:"22px", fontWeight:800, letterSpacing:"-0.01em", margin:"8px 0 0"}}>Sichtbarkeit ohne Streuverlust</h2>
+            <p style={{marginTop:"12px", color:"rgba(235,235,240,.9)"}}>
+              Anzeige in Minuten erstellen, Vorschau pr\u00FCfen und sicher ver\u00F6ffentlichen. Optional <em>Featured</em> &amp; <em>Boost</em>.
             </p>
             <ul style={{marginTop:"16px", color:"rgba(235,235,240,.85)", paddingLeft:"18px"}}>
               <li style={{marginBottom:"6px"}}>Klare Pakete & transparente Laufzeiten</li>
@@ -46,18 +45,18 @@ export default function HomePage() {
             </ul>
             <div style={{display:"flex", gap:"12px", flexWrap:"wrap", alignItems:"center", marginTop:"20px"}}>
               <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Anzeige schalten</Link>
-              <Link href="/pricing" className="muted">Pakete & Leistungen </Link>
+              <Link href="/pricing" className="muted">Pakete & Leistungen \u2192</Link>
             </div>
           </article>
 
           <article className="panel">
-            <div className="muted" style={{fontSize:"12px"}}>FÃ¼r Bewerber:innen</div>
-            <h2 className="h2">Finde deinen nÃ¤chsten Halt</h2>
-            <p className="lead" style={{marginTop:"12px"}}>
+            <div className="muted" style={{fontSize:"12px"}}>F\u00FCr Bewerber:innen</div>
+            <h2 style={{fontFamily:"Manrope, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif", fontSize:"22px", fontWeight:800, letterSpacing:"-0.01em", margin:"8px 0 0"}}>Finde deinen n\u00E4chsten Halt</h2>
+            <p style={{marginTop:"12px", color:"rgba(235,235,240,.9)"}}>
               Suche gezielt nach Ort, Bundesland oder Arbeitgeber. Klare Anzeigen mit den wichtigsten Details.
             </p>
             <ul style={{marginTop:"16px", color:"rgba(235,235,240,.85)", paddingLeft:"18px"}}>
-              <li style={{marginBottom:"6px"}}>Filter fÃ¼r Ort, Bundesland &amp; Vertragsart</li>
+              <li style={{marginBottom:"6px"}}>Filter f\u00FCr Ort, Bundesland &amp; Vertragsart</li>
               <li style={{marginBottom:"6px"}}>Aufgaben, Anforderungen, Benefits auf einen Blick</li>
               <li>Direktbewerbung beim Unternehmen</li>
             </ul>
@@ -68,31 +67,29 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="divider" />
+      <div style={{height:"1px", background:"rgba(60,60,68,.4)", margin:"40px 0"}} />
 
       {/* FEATURES */}
-      <section className="section">
+      <section>
         <div className="container" style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
-          <h3 style={{fontSize:"18px", fontWeight:700}}>Warum Bahnerjob?</h3>
-          <Link href="/pricing" className="muted">Pakete & Leistungen </Link>
+          <h3 style={{fontSize:"18px", fontWeight:800}}>Warum Bahnerjob?</h3>
+          <Link href="/pricing" className="muted">Pakete & Leistungen \u2192</Link>
         </div>
-        <div className="container" style={{
-          display:"grid", gap:"16px", gridTemplateColumns:"1fr", marginTop:"16px"
-        }}>
-          <div className="panel"><div style={{fontWeight:600}}>Branchenspezifisch</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Community statt Streuverlust.</p></div>
-          <div className="panel"><div style={{fontWeight:600}}>Schnell & modern</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Live-Vorschau, Stripe, in Minuten online.</p></div>
-          <div className="panel"><div style={{fontWeight:600}}>Klare Pakete</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Basic, Featured, Boost  transparent.</p></div>
-          <div className="panel"><div style={{fontWeight:600}}>Lesbarkeit</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Ruhige Typo, klare Struktur.</p></div>
+        <div className="container" style={{display:"grid", gap:"16px", gridTemplateColumns:"1fr", marginTop:"16px"}}>
+          <div className="panel"><div style={{fontWeight:700}}>Branchenspezifisch</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Community statt Streuverlust.</p></div>
+          <div className="panel"><div style={{fontWeight:700}}>Schnell & modern</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Live-Vorschau, Stripe, in Minuten online.</p></div>
+          <div className="panel"><div style={{fontWeight:700}}>Klare Pakete</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Basic, Featured, Boost  transparent.</p></div>
+          <div className="panel"><div style={{fontWeight:700}}>Lesbarkeit</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Ruhige Typo, klare Struktur.</p></div>
         </div>
       </section>
 
-      <div className="divider" />
+      <div style={{height:"1px", background:"rgba(60,60,68,.4)", margin:"40px 0"}} />
 
-      {/* NEWS (failsafe) */}
-      <section className="section">
+      {/* NEWS */}
+      <section>
         <div className="container" style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
-          <h3 style={{fontSize:"18px", fontWeight:700}}>News</h3>
-          <Link href="/news" className="muted">Alle News </Link>
+          <h3 style={{fontSize:"18px", fontWeight:800}}>News</h3>
+          <Link href="/news" className="muted">Alle News \u2192</Link>
         </div>
         <div className="container" style={{marginTop:"16px"}}>
           <NewsRail />
