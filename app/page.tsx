@@ -1,93 +1,104 @@
-﻿import NewsRail from "@/components/NewsRail";
-import { getNews, type NewsItem } from "@/lib/news";
+﻿import Image from "next/image";
+import Link from "next/link";
+
+// Server-Komponente, kein "use client"
 export const revalidate = 0;
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Bahnerjob  Bahnbranche Jobs",
-  description: "Jobs aus der Bahnbranche  Anzeige erstellen oder passende Stelle finden.",
+  title: "Bahnerjob  Eisenbahner-Jobs finden & Anzeigen schalten",
+  description:
+    "Bahnerjob ist das Jobboard für Eisenbahner:innen. Finde passende Stellen oder schalte deine Anzeige in Minuten.",
+  icons: { icon: "/icon.svg" },
 };
 
-export default async function HomePage() {
-  const news: NewsItem[] = await getNews().catch(() => []);
+type NewsItem = {
+  id: string;
+  title: string;
+  date: string;
+  href: string;
+};
 
+function NewsList({ items }: { items: NewsItem[] }) {
   return (
-    <div>
-      {/* HERO ohne Bild/Logo (Logo ist global im Header) */}
-      <section className="py-10 md:py-14 hero-section">
-        <div className="container">
-          <h1 className="text-3xl md:text-5xl font-semibold leading-tight text-center">
-            Jobs für die Bahnbranche  <span className="text-amber-400">einfach finden oder inserieren</span>
-          </h1>
-          <p className="text-neutral-400 max-w-2xl mx-auto mt-3 text-center">
-            Bahnerjob ist das Jobboard speziell für Eisenbahn-Profis. Erstelle in wenigen Minuten eine Anzeige
-            oder finde deinen nächsten Schritt im Schienenverkehr.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3 justify-center text-center hero-ctas">
-            <a href="/jobs/new" className="btn btn-accent h-11 px-5 rounded-xl font-semibold">Anzeige schalten</a>
-            <a href="/pricing" className="btn h-11 px-5 rounded-xl border border-neutral-800 hover:bg-neutral-900">Preise ansehen</a>
-            <a href="/" className="btn h-11 px-5 rounded-xl border border-neutral-800 hover:bg-neutral-900">Jobs durchsuchen</a>
+    <div className="mt-10 grid gap-4 sm:grid-cols-2">
+      {items.map((n) => (
+        <Link
+          key={n.id}
+          href={n.href}
+          className="group rounded-2xl border border-neutral-800 bg-neutral-900/50 p-5 hover:bg-neutral-900 transition-colors"
+        >
+          <div className="text-xs text-neutral-400">{n.date}</div>
+          <div className="mt-1 text-base font-semibold leading-snug group-hover:underline">
+            {n.title}
           </div>
-        </div>
-      </section>
-
-      {/* FÜR WEN?  zwei Karten */}
-      <section className="py-8 after-hero">
-        <div className="container grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="card">
-            <div className="text-sm text-neutral-400">Für Unternehmen</div>
-            <h2 className="text-lg font-semibold mt-1">Schnell qualifizierte Bewerbungen erhalten</h2>
-            <ul className="mt-3 text-sm text-neutral-300 space-y-2">
-              <li> Anzeige in wenigen Minuten veröffentlichen  klar strukturiert und ohne Schnickschnack.</li>
-              <li> Gezielte Reichweite in der Bahnbranche: passende Fach- und Führungskräfte.</li>
-              <li> Direkter Bewerbungslink  Kandidaten kommen ohne Umwege bei Ihnen an.</li>
-            </ul>
-            <div className="mt-4">
-              <a href="/jobs/new" className="btn btn-accent px-4 py-2 rounded-lg font-semibold">Anzeige schalten</a>
-            </div>
-          </div>
-          <div className="card">
-            <div className="text-sm text-neutral-400">Für Fachkräfte</div>
-            <h2 className="text-lg font-semibold mt-1">Stellen im Schienenverkehr gezielt finden</h2>
-            <ul className="mt-3 text-sm text-neutral-300 space-y-2">
-              <li> Aktuelle Jobs bei Infrastruktur-, Verkehrs- und Instandhaltungsunternehmen.</li>
-              <li> Übersichtliche Anzeigen mit klaren Anforderungen und Kontaktweg.</li>
-              <li> Direkte Bewerbung beim Arbeitgeber  ohne Registrierung.</li>
-            </ul>
-            <div className="mt-4">
-              <a href="/" className="btn px-4 py-2 rounded-lg border border-neutral-800 hover:bg-neutral-900">Jobs durchsuchen</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* sanfte Trennung */}
-      <section className="section-divider" aria-hidden="true">
-        <div className="container"><div className="divider-line"></div></div>
-      </section>
-
-      {/* NEWS (DACH Eisenbahn)  nur wenn vorhanden */}
-      {news.length > 0 && (
-        <section className="news-section py-10">
-          <div className="container">
-            <div className="section-head">
-        <div className="section-eyebrow">Aktuelles</div>
-        <h2 className="section-title">Branchen-News</h2>
-        <div className="section-sub">Eisenbahn im DACH-Raum  automatisch aktualisiert</div>
-        <div className="section-sep" aria-hidden="true"></div>
-      </div>
-            <NewsRail items={news} />
-          </div>
-        </section>
-      )}
+        </Link>
+      ))}
     </div>
   );
 }
 
+export default async function Page() {
+  const news: NewsItem[] = [
+    { id: "1", title: "Neue Features: Schnellere Anzeigenerstellung & bessere Vorschau", date: "11.09.2025", href: "/news/neue-features" },
+    { id: "2", title: "Tipps für Arbeitgeber: So wird eure Anzeige zum Bewerbermagnet", date: "09.09.2025", href: "/news/anzeige-optimieren" },
+  ];
 
+  return (
+    <main className="mx-auto max-w-5xl px-4 py-12">
+      {/* Hero */}
+      <section className="rounded-3xl border border-neutral-800 bg-neutral-950 p-8 sm:p-12">
+        <div className="flex items-center gap-4">
+          <Image src="/icon.svg" alt="Bahnerjob Logo" width={56} height={56} priority />
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Bahnerjob</h1>
+            <p className="text-neutral-400 text-sm sm:text-base">
+              Das Jobboard für Eisenbahner:innen  vom Stellwerk bis zum Triebfahrzeug.
+            </p>
+          </div>
+        </div>
 
+        <div className="mt-8 max-w-2xl">
+          <h2 className="text-xl sm:text-2xl font-semibold">
+            Finde deinen nächsten Halt  oder erreiche die passenden Talente.
+          </h2>
+          <p className="mt-3 text-neutral-300">
+            Durchsuche aktuelle Stellenangebote oder schalte in wenigen Minuten eine professionelle Anzeige mit hoher Sichtbarkeit.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/jobs" className="rounded-xl px-5 py-3 bg-white text-black font-medium hover:opacity-90 transition">
+              Jobs durchsuchen
+            </Link>
+            <Link href="/jobs/new?pkg=basic" className="rounded-xl px-5 py-3 border border-neutral-700 hover:border-neutral-500 text-white transition">
+              Anzeige schalten
+            </Link>
+          </div>
+        </div>
+      </section>
 
+      {/* Highlights */}
+      <section className="mt-10 grid gap-4 sm:grid-cols-3">
+        <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5">
+          <div className="text-sm font-semibold">Branchenspezifisch</div>
+          <div className="mt-1 text-neutral-400 text-sm">Zielgruppe Bahn: Reichweite ohne Streuverlust.</div>
+        </div>
+        <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5">
+          <div className="text-sm font-semibold">Schnell & modern</div>
+          <div className="mt-1 text-neutral-400 text-sm">Anzeige erstellen, live Vorschau sehen, Stripe Checkout.</div>
+        </div>
+        <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5">
+          <div className="text-sm font-semibold">Faire Pakete</div>
+          <div className="mt-1 text-neutral-400 text-sm">Basic, Featured oder Boost  transparent & effektiv.</div>
+        </div>
+      </section>
 
-
+      {/* News */}
+      <section className="mt-12">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold">News</h3>
+          <Link href="/news" className="text-sm text-neutral-400 hover:text-neutral-200">Alle News </Link>
+        </div>
+        <NewsList items={news} />
+      </section>
+    </main>
+  );
+}
