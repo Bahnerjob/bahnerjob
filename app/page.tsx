@@ -1,8 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import NewsRailClient from "../components/NewsRail.client";
 import dynamic from "next/dynamic";
-
-const NewsRail = dynamic(() => import("../components/NewsRail"), { ssr: false, loading: () => null });
 
 export const revalidate = 0;
 
@@ -106,7 +105,7 @@ export default function HomePage() {
           <Link href="/news" className="btn btn-secondary">Alle News</Link>
         </div>
         <div className="container" style={{marginTop:"16px"}}>
-          <NewsRail />
+          <NewsRailClient />
         </div>
       </section>
     </div>
