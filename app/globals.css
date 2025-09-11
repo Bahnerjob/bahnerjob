@@ -1,83 +1,83 @@
-/* bj:dark-fallback */
-body {
-  /* Harte Fallback-Farben, falls CSS-Variablen/Layer nicht greifen */
-  background-color: #0a0a0b; /* neutral-950 */
-  color: #ebebf0;            /* sehr helles Neutral */
-}
-a { color: inherit; }
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ===== Design Tokens (neutral + rot, kein Blau/Lila) ===== */
-:root {
-  --bg: 10 10 11;          /* #0a0a0b */
-  --panel: 16 16 18;       /* #101012 */
-  --panel-soft: 22 22 26;  /* #16161a */
-  --muted: 160 160 170;    /* #a0a0aa */
-  --text: 235 235 240;     /* #ebebf0 */
-  --accent: 220 38 38;     /* rot (#dc2626) */
-  --divider: 60 60 68;     /* sehr dezente Trenner */
+/* ===== Design Tokens (neutral + rot) | KEIN Blau/Lila ===== */
+:root{
+  --bg: 10 10 11;         /* #0a0a0b */
+  --panel: 18 18 20;      /* #121214 */
+  --panel-soft: 24 24 28; /* #18181c */
+  --divider: 60 60 68;
+  --text: 235 235 240;
+  --muted: 158 158 168;
+  --accent: 220 38 38;    /* Rot */
 }
 
-html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
-body { color: rgb(var(--text)); background: rgb(var(--bg)); }
-
-/* Links nicht blau */
-a { color: rgb(var(--text)); }
-a:hover { color: rgb(var(--text) / 0.9); }
-
-/* Utilities fÃ¼r ruhigen Look */
-.container-bj { @apply mx-auto max-w-6xl px-4; }
-.section      { @apply container-bj py-14; }
-.divider      { height:1px; background: rgb(var(--divider) / 0.4); }
-.muted        { color: rgb(var(--muted)); }
-.lead         { color: rgb(var(--text) / 0.9); }
-
-/* Buttons (neutral / akzent rot), ohne Blau/Lila */
-.btn {
-  display:inline-flex; align-items:center; justify-content:center;
-  padding:10px 14px; border-radius:14px; font-weight:600;
-  background: rgba(255,255,255,0.05); color: rgb(var(--text));
-  border:1px solid rgba(255,255,255,0.08);
-  transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{
+  background: rgb(var(--bg));
+  color: rgb(var(--text));
+  font-family: var(--font-inter, ui-sans-serif), system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
-.btn:hover { background: rgba(255,255,255,0.08); transform: translateY(-1px); }
-.btn:active { transform: translateY(0); }
+h1,h2,h3,h4{ font-family: var(--font-manrope, var(--font-inter)), system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
 
-.btn.btn-accent {
-  background: rgb(var(--accent));
-  border-color: rgb(var(--accent));
-  color: white;
+/* Links neutral (nicht blau/lila) */
+a{ color: rgb(var(--text)); text-decoration: none; }
+a:hover{ color: rgb(var(--text) / .9); }
+
+/* Layout helpers (mittig) */
+.container-bj{ @apply mx-auto max-w-4xl px-4; }    /* bewusst schmal für mittig & ruhig */
+.section{ @apply py-14; }
+.centered{ @apply text-center; }
+.divider{ height:1px; background: rgb(var(--divider) / .4); }
+
+/* Moderne Buttons  klar erkennbar */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  height:44px; min-width:44px; padding:0 16px;
+  font-weight:700; letter-spacing:.01em;
+  border-radius:14px; border:1px solid rgba(255,255,255,.08);
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease, filter .15s ease;
 }
-.btn.btn-accent:hover { filter: brightness(1.05); }
-
-/* "Karten" ohne harte Rahmen  nur softer Panel-Look */
-.panel-soft {
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
-              rgb(var(--panel-soft));
-  box-shadow: 0 1px 0 rgba(0,0,0,0.25);
+.btn:focus{ outline:2px solid rgba(var(--accent), .6); outline-offset:2px; }
+.btn-primary{
+  background: rgb(var(--accent)); color:#fff; border-color: rgb(var(--accent));
+  box-shadow: 0 8px 20px rgba(220,38,38,.25);
 }
+.btn-primary:hover{ filter:brightness(1.06); transform: translateY(-1px); }
+.btn-secondary{
+  background: rgba(255,255,255,.06); color: rgb(var(--text)); border-color: rgba(255,255,255,.12);
+}
+.btn-secondary:hover{ background: rgba(255,255,255,.1); transform: translateY(-1px); }
 
-/* Chips / Badges */
-.chip {
-  display:inline-flex; align-items:center; gap:6px;
-  padding: 6px 12px; border-radius:999px;
-  background: rgba(255,255,255,0.06); color: rgb(var(--text) / 0.9);
-  font-size:12px;
+/* Soft Panels  ohne harte Ränder */
+.panel-soft{
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)), rgb(var(--panel-soft));
+  border-radius:18px; padding:24px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.25);
 }
 
-/* Headings rhythm */
-.h1-bj { @apply text-3xl sm:text-5xl font-semibold tracking-tight; letter-spacing:-0.01em; }
-.h2-bj { @apply text-xl sm:text-2xl font-semibold; letter-spacing:-0.01em; }
+/* Chips */
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 12px;border-radius:999px;font-size:12px;
+  background: rgba(255,255,255,.08); color: rgb(var(--text)/.9);
+}
 
-/* Header minimal border, kein Blau/Lila */
-.site-header {
-  border-bottom: 1px solid rgb(var(--divider) / 0.4);
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+/* Typo Scales */
+.h1-bj{ @apply text-4xl sm:text-5xl font-semibold tracking-tight; letter-spacing:-.01em; }
+.h2-bj{ @apply text-2xl font-semibold; letter-spacing:-.01em; }
+.lead{ color: rgb(var(--text) / .9); }
+
+/* Header minimal */
+.site-header{
+  border-bottom:1px solid rgb(var(--divider)/.4);
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
   backdrop-filter: blur(6px);
 }
 
-/* Entfernt etwaige Tailwind-Default-Farben auf focus (blau) */
-:focus { outline-color: rgb(var(--accent)); }
+/* Entfernt system-blaue Focus-Ringe */
+:focus-visible{ outline-color: rgb(var(--accent)); }
+
+/* (Hard fallback, falls irgendwas Styles killt) */
+body.bj-hard-dark{ background:#0a0a0b !important; color:#ebebf0 !important; }
