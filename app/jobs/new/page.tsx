@@ -68,128 +68,123 @@ export default function NewJobPage() {
       <hr className="rule" />
 
       {/* GRID: Formular links, Vorschau rechts */}
-      <section style={{display:"grid", gap:"16px"}}>
-        <div style={{display:"grid", gap:"14px", gridTemplateColumns:"1fr", alignItems:"start"}}>
-          {/* FORM */}
-          <form className="panel" style={{display:"grid", gap:"12px"}} onSubmit={(e) => e.preventDefault()}>
+      <section className="posting-grid container">
+        {/* FORM */}
+        <form className="panel" style={{display:"grid", gap:"12px"}} onSubmit={(e) => e.preventDefault()}>
+          <div>
+            <label className="muted" htmlFor="title">Jobtitel *</label>
+            <input id="title" value={form.title} onChange={up("title")}
+              placeholder="z. B. Triebfahrzeugführer:in (m/w/d)"
+              className="input"/>
+          </div>
+
+          <div className="field-grid two">
             <div>
-              <label className="muted" htmlFor="title">Jobtitel *</label>
-              <input id="title" value={form.title} onChange={up("title")}
-                placeholder="z. B. Triebfahrzeugführer:in (m/w/d)"
-                style={inputStyle}/>
+              <label className="muted" htmlFor="company">Unternehmen *</label>
+              <input id="company" value={form.company} onChange={up("company")}
+                placeholder="Firmenname" className="input"/>
             </div>
-
-            <div style={{display:"grid", gap:"12px", gridTemplateColumns:"1fr 1fr"}}>
-              <div>
-                <label className="muted" htmlFor="company">Unternehmen *</label>
-                <input id="company" value={form.company} onChange={up("company")}
-                  placeholder="Firmenname" style={inputStyle}/>
-              </div>
-              <div>
-                <label className="muted" htmlFor="type">Beschäftigungsart</label>
-                <select id="type" value={form.type} onChange={up("type")} style={selectStyle}>
-                  <option value="">Bitte wählen </option>
-                  <option>Vollzeit</option>
-                  <option>Teilzeit</option>
-                  <option>Ausbildung</option>
-                  <option>Befristet</option>
-                </select>
-              </div>
-            </div>
-
-            <div style={{display:"grid", gap:"12px", gridTemplateColumns:"1fr 1fr"}}>
-              <div>
-                <label className="muted" htmlFor="location">Ort *</label>
-                <input id="location" value={form.location} onChange={up("location")}
-                  placeholder="z. B. München" style={inputStyle}/>
-              </div>
-              <div>
-                <label className="muted" htmlFor="region">Bundesland / Region</label>
-                <input id="region" value={form.region} onChange={up("region")}
-                  placeholder="z. B. Bayern" style={inputStyle}/>
-              </div>
-            </div>
-
             <div>
-              <label className="muted" htmlFor="description">Aufgaben / Beschreibung *</label>
-              <textarea id="description" value={form.description} onChange={up("description")}
-                rows={5} placeholder="Kurz und präzise beschreiben, was die Rolle ausmacht."
-                style={textareaStyle}/>
+              <label className="muted" htmlFor="type">Beschäftigungsart</label>
+              <select id="type" value={form.type} onChange={up("type")} className="select">
+                <option value="">Bitte wählen </option>
+                <option>Vollzeit</option>
+                <option>Teilzeit</option>
+                <option>Ausbildung</option>
+                <option>Befristet</option>
+              </select>
             </div>
+          </div>
 
-            <div style={{display:"grid", gap:"12px", gridTemplateColumns:"1fr 1fr"}}>
-              <div>
-                <label className="muted" htmlFor="requirements">Anforderungen</label>
-                <textarea id="requirements" value={form.requirements} onChange={up("requirements")}
-                  rows={4} placeholder="Muss- und Kann-Kriterien, Qualifikationen."
-                  style={textareaStyle}/>
-              </div>
-              <div>
-                <label className="muted" htmlFor="benefits">Benefits</label>
-                <textarea id="benefits" value={form.benefits} onChange={up("benefits")}
-                  rows={4} placeholder="Was macht die Stelle attraktiv?"
-                  style={textareaStyle}/>
-              </div>
-            </div>
-
-            <div style={{display:"grid", gap:"12px", gridTemplateColumns:"1fr 1fr"}}>
-              <div>
-                <label className="muted" htmlFor="applyUrl">Bewerbungslink</label>
-                <input id="applyUrl" value={form.applyUrl} onChange={up("applyUrl")}
-                  placeholder="https:// (Karriereseite/ATS)" style={inputStyle}/>
-              </div>
-              <div>
-                <label className="muted" htmlFor="contactEmail">Kontakt E-Mail</label>
-                <input id="contactEmail" value={form.contactEmail} onChange={up("contactEmail")}
-                  placeholder="jobs@unternehmen.de" style={inputStyle}/>
-              </div>
-            </div>
-
+          <div className="field-grid two">
             <div>
-              <label className="muted" htmlFor="package">Paket</label>
-              <div style={{display:"flex", gap:"8px", flexWrap:"wrap", marginTop:"6px"}}>
-                <button type="button" onClick={() => setForm(f => ({...f, package:"basic"}))}
-                  className={"btn " + (form.package==="basic" ? "btn-primary" : "")}>Basic</button>
-                <button type="button" onClick={() => setForm(f => ({...f, package:"featured"}))}
-                  className={"btn " + (form.package==="featured" ? "btn-primary" : "")}>Featured</button>
-                <button type="button" onClick={() => setForm(f => ({...f, package:"boost"}))}
-                  className={"btn " + (form.package==="boost" ? "btn-primary" : "")}>Boost</button>
-              </div>
+              <label className="muted" htmlFor="location">Ort *</label>
+              <input id="location" value={form.location} onChange={up("location")}
+                placeholder="z. B. München" className="input"/>
             </div>
-
-            <div style={{display:"flex", gap:"12px", flexWrap:"wrap", marginTop:"8px"}}>
-              <Link
-                href={"/pricing"}
-                className={"btn btn-primary" + (isPrimaryDisabled ? " disabled" : "")}
-                aria-disabled={isPrimaryDisabled}
-                onClick={(e) => { if (isPrimaryDisabled) e.preventDefault(); }}
-              >
-                Weiter
-              </Link>
-              <Link href="/" className="btn btn-secondary">Abbrechen</Link>
+            <div>
+              <label className="muted" htmlFor="region">Bundesland / Region</label>
+              <input id="region" value={form.region} onChange={up("region")}
+                placeholder="z. B. Bayern" className="input"/>
             </div>
+          </div>
 
-            <p className="muted" style={{fontSize:12}}>
-              * Pflichtfelder. Du kannst Details später noch verfeinern.
-            </p>
-          </form>
-        </div>
+          <div>
+            <label className="muted" htmlFor="description">Aufgaben / Beschreibung *</label>
+            <textarea id="description" value={form.description} onChange={up("description")}
+              rows={5} placeholder="Kurz und präzise beschreiben, was die Rolle ausmacht."
+              className="textarea"/>
+          </div>
+
+          <div className="field-grid two">
+            <div>
+              <label className="muted" htmlFor="requirements">Anforderungen</label>
+              <textarea id="requirements" value={form.requirements} onChange={up("requirements")}
+                rows={4} placeholder="Muss- und Kann-Kriterien, Qualifikationen."
+                className="textarea"/>
+            </div>
+            <div>
+              <label className="muted" htmlFor="benefits">Benefits</label>
+              <textarea id="benefits" value={form.benefits} onChange={up("benefits")}
+                rows={4} placeholder="Was macht die Stelle attraktiv?"
+                className="textarea"/>
+            </div>
+          </div>
+
+          <div className="field-grid two">
+            <div>
+              <label className="muted" htmlFor="applyUrl">Bewerbungslink</label>
+              <input id="applyUrl" value={form.applyUrl} onChange={up("applyUrl")}
+                placeholder="https:// (Karriereseite/ATS)" className="input"/>
+            </div>
+            <div>
+              <label className="muted" htmlFor="contactEmail">Kontakt E-Mail</label>
+              <input id="contactEmail" value={form.contactEmail} onChange={up("contactEmail")}
+                placeholder="jobs@unternehmen.de" className="input"/>
+            </div>
+          </div>
+
+          <div>
+            <label className="muted" htmlFor="package">Paket</label>
+            <div style={{display:"flex", gap:"8px", flexWrap:"wrap", marginTop:"6px"}}>
+              <button type="button" onClick={() => setForm(f => ({...f, package:"basic"}))}
+                className={"btn " + (form.package==="basic" ? "btn-primary" : "")}>Basic</button>
+              <button type="button" onClick={() => setForm(f => ({...f, package:"featured"}))}
+                className={"btn " + (form.package==="featured" ? "btn-primary" : "")}>Featured</button>
+              <button type="button" onClick={() => setForm(f => ({...f, package:"boost"}))}
+                className={"btn " + (form.package==="boost" ? "btn-primary" : "")}>Boost</button>
+            </div>
+          </div>
+
+          <div style={{display:"flex", gap:"12px", flexWrap:"wrap", marginTop:"8px"}}>
+            <Link
+              href={"/pricing"}
+              className={"btn btn-primary" + (isPrimaryDisabled ? " disabled" : "")}
+              aria-disabled={isPrimaryDisabled}
+              onClick={(e) => { if (isPrimaryDisabled) e.preventDefault(); }}
+            >
+              Weiter
+            </Link>
+            <Link href="/" className="btn btn-secondary">Abbrechen</Link>
+          </div>
+
+          <p className="muted" style={{fontSize:12}}>
+            * Pflichtfelder. Du kannst Details später noch verfeinern.
+          </p>
+        </form>
 
         {/* PREVIEW */}
-        <aside className="panel" style={{display:"grid", gap:"10px"}}>
+        <aside className="panel preview">
           <div className="muted" style={{fontSize:12}}>Vorschau</div>
-          <h2 style={{
-            fontFamily:"Manrope, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif",
-            fontSize:"20px", fontWeight:800, letterSpacing:"-0.01em"
-          }}>
+          <h2 className="preview-title">
             {form.title || "Jobtitel"}
           </h2>
-          <div style={{color:"rgba(235,235,240,.9)"}}>
+          <div className="preview-meta">
             {form.company || "Unternehmen"}  {form.location || "Ort"}{form.region ? ` (${form.region})` : ""}{form.type ? `  ${form.type}` : ""}
           </div>
 
           <section>
-            <div style={{fontWeight:700, marginTop:8}}>Beschreibung</div>
+            <div className="preview-h">Beschreibung</div>
             <p className="muted" style={{marginTop:6}}>
               {form.description || "Kurze Zusammenfassung der Aufgaben."}
             </p>
@@ -197,14 +192,14 @@ export default function NewJobPage() {
 
           {!!form.requirements.trim() && (
             <section>
-              <div style={{fontWeight:700, marginTop:8}}>Anforderungen</div>
+              <div className="preview-h">Anforderungen</div>
               <p className="muted" style={{marginTop:6, whiteSpace:"pre-wrap"}}>{form.requirements}</p>
             </section>
           )}
 
           {!!form.benefits.trim() && (
             <section>
-              <div style={{fontWeight:700, marginTop:8}}>Benefits</div>
+              <div className="preview-h">Benefits</div>
               <p className="muted" style={{marginTop:6, whiteSpace:"pre-wrap"}}>{form.benefits}</p>
             </section>
           )}
@@ -219,21 +214,55 @@ export default function NewJobPage() {
           </div>
         </aside>
       </section>
+
+      {/* Globale, dezente Layout-Hilfen für dieses Page-File */}
+      <style jsx global>{`
+        .container { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+        .posting-grid {
+          display: grid;
+          gap: 16px;
+          grid-template-columns: minmax(0,1fr);  /* mobil: eine Spalte */
+          align-items: start;
+        }
+        @media (min-width: 1024px) {
+          .posting-grid {
+            grid-template-columns: minmax(0,1fr) 380px; /* Formular | Vorschau */
+          }
+        }
+
+        .field-grid { display: grid; gap: 12px; grid-template-columns: minmax(0,1fr); }
+        .field-grid.two { grid-template-columns: minmax(0,1fr); }
+        @media (min-width: 720px) {
+          .field-grid.two { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+        }
+
+        .panel { overflow: hidden; }
+
+        /* Inputs sicher: volle Breite + Boxsizing verhindert Überlaufen */
+        .input, .textarea, .select {
+          width: 100%;
+          box-sizing: border-box;
+          background: rgba(20,20,22,.6);
+          border: 1px solid rgba(80,80,90,.6);
+          color: rgb(240,240,245);
+          border-radius: 10px;
+          padding: 10px 12px;
+          outline: none;
+        }
+        .textarea { min-height: 120px; }
+
+        /* Vorschau: verhindert Zeilenumbruch-Überlauf */
+        .preview { overflow: hidden; }
+        .preview-title {
+          font-family: Manrope, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+          font-size: 20px; font-weight: 800; letter-spacing: -0.01em;
+          margin: 0 0 4px 0;
+          word-wrap: break-word; overflow-wrap: anywhere;
+        }
+        .preview-meta { color: rgba(235,235,240,.9); }
+        .preview-h { font-weight: 700; margin-top: 8px; }
+      `}</style>
     </main>
   );
 }
-
-/** Inline Input Styles im Dark-Theme  neutral & gut sichtbar */
-const baseField = {
-  width: "100%",
-  background: "rgba(20,20,22,.6)",
-  border: "1px solid rgba(80,80,90,.6)",
-  color: "rgb(240,240,245)",
-  borderRadius: "10px",
-  padding: "10px 12px",
-  outline: "none" as const
-};
-
-const inputStyle: React.CSSProperties = { ...baseField, height: "40px" };
-const selectStyle: React.CSSProperties = { ...baseField, height: "40px" };
-const textareaStyle: React.CSSProperties = { ...baseField, minHeight: "120px" };
