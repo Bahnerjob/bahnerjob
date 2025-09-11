@@ -1,93 +1,103 @@
-﻿import NewsRail from "@/components/NewsRail";
-import { getNews, type NewsItem } from "@/lib/news";
+import React from "react";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const NewsRail = dynamic(() => import("../components/NewsRail").then(m => m.default).catch(() => () => null), { ssr: true });
+
 export const revalidate = 0;
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Bahnerjob  Bahnbranche Jobs",
-  description: "Jobs aus der Bahnbranche  Anzeige erstellen oder passende Stelle finden.",
+  title: "Bahnerjob  Jobs & Stellenanzeigen im Bahnsektor",
+  description: "Moderner, mittiger Auftritt: zwei klare Aktionen, ruhige Panels, keine bunten Ablenkungen.",
 };
 
-export default async function HomePage() {
-  const news: NewsItem[] = await getNews().catch(() => []);
-
+export default function HomePage() {
   return (
     <div>
-      {/* HERO ohne Bild/Logo (Logo ist global im Header) */}
-      <section className="py-10 md:py-14 hero-section">
-        <div className="container">
-          <h1 className="text-3xl md:text-5xl font-semibold leading-tight text-center">
-            Jobs für die Bahnbranche  <span className="text-amber-400">einfach finden oder inserieren</span>
-          </h1>
-          <p className="text-neutral-400 max-w-2xl mx-auto mt-3 text-center">
-            Bahnerjob ist das Jobboard speziell für Eisenbahn-Profis. Erstelle in wenigen Minuten eine Anzeige
-            oder finde deinen nächsten Schritt im Schienenverkehr.
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3 justify-center text-center hero-ctas">
-            <a href="/jobs/new" className="btn btn-accent h-11 px-5 rounded-xl font-semibold">Anzeige schalten</a>
-            <a href="/pricing" className="btn h-11 px-5 rounded-xl border border-neutral-800 hover:bg-neutral-900">Preise ansehen</a>
-            <a href="/" className="btn h-11 px-5 rounded-xl border border-neutral-800 hover:bg-neutral-900">Jobs durchsuchen</a>
-          </div>
+      {/* HERO */}
+      <section className="section center">
+        <div className="chip">Die JobbÃ¶rse fÃ¼r den Bahnsektor</div>
+        <h1 className="h1" style={{marginTop:"20px"}}>Klar. Modern. Fokussiert.</h1>
+        <p className="lead" style={{maxWidth:"46rem", margin:"16px auto 0"}}>
+          Gute Lesbarkeit, klare Wege  und Buttons, die wirklich wie Buttons aussehen.
+        </p>
+        <div style={{display:"flex", flexWrap:"wrap", gap:"12px", justifyContent:"center", marginTop:"24px"}}>
+          <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
+          <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Anzeige schalten</Link>
         </div>
       </section>
 
-      {/* FÜR WEN?  zwei Karten */}
-      <section className="py-8 after-hero">
-        <div className="container grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="card">
-            <div className="text-sm text-neutral-400">Für Unternehmen</div>
-            <h2 className="text-lg font-semibold mt-1">Schnell qualifizierte Bewerbungen erhalten</h2>
-            <ul className="mt-3 text-sm text-neutral-300 space-y-2">
-              <li> Anzeige in wenigen Minuten veröffentlichen  klar strukturiert und ohne Schnickschnack.</li>
-              <li> Gezielte Reichweite in der Bahnbranche: passende Fach- und Führungskräfte.</li>
-              <li> Direkter Bewerbungslink  Kandidaten kommen ohne Umwege bei Ihnen an.</li>
+      <div className="divider" />
+
+      {/* ZIELGRUPPEN */}
+      <section className="section">
+        <div className="grid two">
+          <article className="panel">
+            <div className="muted" style={{fontSize:"12px"}}>FÃ¼r Unternehmen</div>
+            <h2 className="h2">Sichtbarkeit ohne Streuverlust</h2>
+            <p className="lead" style={{marginTop:"12px"}}>
+              Anzeige in Minuten erstellen, Vorschau prÃ¼fen und sicher verÃ¶ffentlichen.
+              Optional <em>Featured</em> &amp; <em>Boost</em>.
+            </p>
+            <ul style={{marginTop:"16px", color:"rgba(235,235,240,.85)", paddingLeft:"18px"}}>
+              <li style={{marginBottom:"6px"}}>Klare Pakete & transparente Laufzeiten</li>
+              <li style={{marginBottom:"6px"}}>Einheitliche Darstellung & gute Lesbarkeit</li>
+              <li>Direkte Bewerbungen beim Unternehmen</li>
             </ul>
-            <div className="mt-4">
-              <a href="/jobs/new" className="btn btn-accent px-4 py-2 rounded-lg font-semibold">Anzeige schalten</a>
+            <div style={{display:"flex", gap:"12px", flexWrap:"wrap", alignItems:"center", marginTop:"20px"}}>
+              <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Anzeige schalten</Link>
+              <Link href="/pricing" className="muted">Pakete & Leistungen </Link>
             </div>
-          </div>
-          <div className="card">
-            <div className="text-sm text-neutral-400">Für Fachkräfte</div>
-            <h2 className="text-lg font-semibold mt-1">Stellen im Schienenverkehr gezielt finden</h2>
-            <ul className="mt-3 text-sm text-neutral-300 space-y-2">
-              <li> Aktuelle Jobs bei Infrastruktur-, Verkehrs- und Instandhaltungsunternehmen.</li>
-              <li> Übersichtliche Anzeigen mit klaren Anforderungen und Kontaktweg.</li>
-              <li> Direkte Bewerbung beim Arbeitgeber  ohne Registrierung.</li>
+          </article>
+
+          <article className="panel">
+            <div className="muted" style={{fontSize:"12px"}}>FÃ¼r Bewerber:innen</div>
+            <h2 className="h2">Finde deinen nÃ¤chsten Halt</h2>
+            <p className="lead" style={{marginTop:"12px"}}>
+              Suche gezielt nach Ort, Bundesland oder Arbeitgeber. Klare Anzeigen mit den wichtigsten Details.
+            </p>
+            <ul style={{marginTop:"16px", color:"rgba(235,235,240,.85)", paddingLeft:"18px"}}>
+              <li style={{marginBottom:"6px"}}>Filter fÃ¼r Ort, Bundesland &amp; Vertragsart</li>
+              <li style={{marginBottom:"6px"}}>Aufgaben, Anforderungen, Benefits auf einen Blick</li>
+              <li>Direktbewerbung beim Unternehmen</li>
             </ul>
-            <div className="mt-4">
-              <a href="/" className="btn px-4 py-2 rounded-lg border border-neutral-800 hover:bg-neutral-900">Jobs durchsuchen</a>
+            <div style={{marginTop:"20px"}}>
+              <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
             </div>
-          </div>
+          </article>
         </div>
       </section>
 
-      {/* sanfte Trennung */}
-      <section className="section-divider" aria-hidden="true">
-        <div className="container"><div className="divider-line"></div></div>
+      <div className="divider" />
+
+      {/* FEATURES */}
+      <section className="section">
+        <div className="container" style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
+          <h3 style={{fontSize:"18px", fontWeight:700}}>Warum Bahnerjob?</h3>
+          <Link href="/pricing" className="muted">Pakete & Leistungen </Link>
+        </div>
+        <div className="container" style={{
+          display:"grid", gap:"16px", gridTemplateColumns:"1fr", marginTop:"16px"
+        }}>
+          <div className="panel"><div style={{fontWeight:600}}>Branchenspezifisch</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Community statt Streuverlust.</p></div>
+          <div className="panel"><div style={{fontWeight:600}}>Schnell & modern</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Live-Vorschau, Stripe, in Minuten online.</p></div>
+          <div className="panel"><div style={{fontWeight:600}}>Klare Pakete</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Basic, Featured, Boost  transparent.</p></div>
+          <div className="panel"><div style={{fontWeight:600}}>Lesbarkeit</div><p className="muted" style={{marginTop:"4px", fontSize:"14px"}}>Ruhige Typo, klare Struktur.</p></div>
+        </div>
       </section>
 
-      {/* NEWS (DACH Eisenbahn)  nur wenn vorhanden */}
-      {news.length > 0 && (
-        <section className="news-section py-10">
-          <div className="container">
-            <div className="section-head">
-        <div className="section-eyebrow">Aktuelles</div>
-        <h2 className="section-title">Branchen-News</h2>
-        <div className="section-sub">Eisenbahn im DACH-Raum  automatisch aktualisiert</div>
-        <div className="section-sep" aria-hidden="true"></div>
-      </div>
-            <NewsRail items={news} />
-          </div>
-        </section>
-      )}
+      <div className="divider" />
+
+      {/* NEWS (failsafe) */}
+      <section className="section">
+        <div className="container" style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
+          <h3 style={{fontSize:"18px", fontWeight:700}}>News</h3>
+          <Link href="/news" className="muted">Alle News </Link>
+        </div>
+        <div className="container" style={{marginTop:"16px"}}>
+          <NewsRail />
+        </div>
+      </section>
     </div>
   );
 }
-
-
-
-
-
-

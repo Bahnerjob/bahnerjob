@@ -2,34 +2,31 @@
 import JobCard from "@/components/JobCard";
 import { mockJobs } from "@/lib/jobs";
 import { sortJobs, type Job } from "@/lib/sort";
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
+/** Volltext-Match auf Titel, Unternehmen, Ort, Region */
 function matches(job: Job, q: string): boolean {
-  if (!q.trim()) return true;
+  if (!q?.trim()) return true;
   const needle = q.trim().toLowerCase();
-  return [
-    job.title,
-    job.company,
-    job.city ?? "",
-    job.state ?? "",
-  ].some((f) => f.toLowerCase().includes(needle));
+  return [job.title, job.company, job.city ?? "", job.state ?? ""]
+    .some((f) => f.toLowerCase().includes(needle));
 }
 
-function filterJobs(jobs: Job, params: { q?: string; country?: string; pkg?: string }) {
+/** Filtert nach Query, Land und Paket */
+function filterJobs(source: Job[], params: { q?: string; country?: string; pkg?: string }): Job[] {
   const { q = "", country = "", pkg = "" } = params;
-  return mockJobs.filter((j) => {
+  return source.filter((j) => {
     if (country && j.country !== country) return false;
-    if (pkg && j.pkg !== (pkg as any)) return false;
+    if (pkg && j.pkg !== (pkg as Job["pkg"])) return false;
     if (!matches(j, q)) return false;
     return true;
   });
 }
 
 export default function JobsPage({ searchParams }: { searchParams: { [k: string]: string | undefined } }) {
-  const filtered = filterJobs(mockJobs as any, {
+  const filtered = filterJobs(mockJobs, {
     q: searchParams.q,
     country: searchParams.country,
     pkg: searchParams.pkg,
@@ -56,5 +53,3 @@ export default function JobsPage({ searchParams }: { searchParams: { [k: string]
     </div>
   );
 }
-
-
