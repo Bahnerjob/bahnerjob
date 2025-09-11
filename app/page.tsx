@@ -1,134 +1,133 @@
 import Link from "next/link";
 import NewsRail from "@/components/NewsRail";
 
-// Server component (no client hooks)
+// Server component  kein "use client"
 export const revalidate = 0;
 
 export const metadata = {
   title: "Bahnerjob  Jobs & Stellenanzeigen im Bahnsektor",
-  description:
-    "Bahnerjob: Die spezialisierte Jobbörse für den Bahnsektor. Unternehmen schalten moderne Anzeigen mit hoher Sichtbarkeit. Bewerber:innen finden schnell passende Stellen.",
+  description: "Spezialisierte Jobbörse für den Bahnsektor. Klare Pakete für Unternehmen, schnelle Suche für Bewerber:innen.",
 };
 
 export default function HomePage() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-12 space-y-14">
+    <main className="mx-auto max-w-6xl px-4 py-12">
       {/* HERO */}
-      <section className="rounded-3xl border border-neutral-800 bg-neutral-950 p-8 sm:p-12">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/50 px-3 py-1 text-xs text-neutral-300">
-            Die Jobbörse für den Bahnsektor
-          </div>
-          <h1 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight">
-            Stellen finden. <span className="text-neutral-200">Talente erreichen.</span>
-          </h1>
-          <p className="mt-4 text-neutral-300">
-            Bahnerjob verbindet Eisenbahner:innen mit den passenden Arbeitgebern  vom Stellwerk bis zum Triebfahrzeug.
-            Schlanke Prozesse, klare Pakete, moderne Darstellung.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
-            <Link href="/jobs/new?pkg=basic" className="btn btn-accent">Anzeige schalten</Link>
-          </div>
+      <section className="text-center">
+        <div className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/40 px-3 py-1 text-xs text-neutral-300">
+          Die Jobbörse für den Bahnsektor
         </div>
-      </section>
-
-      {/* ZIELGRUPPEN */}
-      <section className="grid gap-6 md:grid-cols-2">
-        {/* Unternehmen */}
-        <article className="card p-6 border border-neutral-800 bg-neutral-900/40 rounded-2xl">
-          <div className="badge">Für Unternehmen</div>
-          <h2 className="mt-2 text-xl font-semibold">Sichtbar in der Bahn-Community</h2>
-          <p className="mt-2 text-neutral-300">
-            Erreiche gezielt Fachkräfte ohne Streuverlust. Mit wenigen Klicks eine professionelle Anzeige erstellen,
-            Vorschau prüfen und per Stripe sicher veröffentlichen. Optional: <em>Featured</em> und <em>Boost</em>.
-          </p>
-          <ul className="mt-4 list-disc pl-5 text-neutral-300 space-y-1">
-            <li>Branchenspezifische Reichweite &amp; relevante Bewerbungen</li>
-            <li>Klare Pakete &amp; transparente Laufzeiten</li>
-            <li>Aktualisierbare Inhalte &amp; saubere Formatierung</li>
-          </ul>
-          <div className="mt-5"><Link href="/jobs/new?pkg=basic" className="btn btn-accent">Anzeige schalten</Link></div>
-          <p className="mt-3 text-sm text-neutral-400">
-            Tipp: Mit <strong>Featured</strong> hebt sich eure Anzeige im Listing visuell ab.
-            <a href="/pricing" className="underline ml-1">Zu den Paketen</a>
-          </p>
-        </article>
-
-        {/* Bewerber:innen */}
-        <article className="card p-6 border border-neutral-800 bg-neutral-900/40 rounded-2xl">
-          <div className="badge">Für Bewerber:innen</div>
-          <h2 className="mt-2 text-xl font-semibold">Finde deinen nächsten Halt</h2>
-          <p className="mt-2 text-neutral-300">
-            Durchsuche aktuelle Stellen im Bahnsektor. Filtere nach Ort, Bundesland oder Arbeitgeber und bewirb dich
-            direkt beim Unternehmen  ohne Umwege.
-          </p>
-          <ul className="mt-4 list-disc pl-5 text-neutral-300 space-y-1">
-            <li>Klar strukturierte Anzeigen mit relevanten Details</li>
-            <li>Filter für Ort, Bundesland &amp; Vertragsart (sofern angegeben)</li>
-            <li>Direktbewerbung beim jeweiligen Arbeitgeber</li>
-          </ul>
-          <div className="mt-5"><Link href="/jobs" className="btn">Jobs durchsuchen</Link></div>
-          <p className="mt-3 text-sm text-neutral-400">Hinweis: Neue Jobs kommen regelmäßig rein  schau öfter vorbei.</p>
-        </article>
-      </section>
-
-      {/* FEATURES */}
-      <section>
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">Warum Bahnerjob?</h3>
-          <a href="/pricing" className="text-sm text-neutral-400 hover:text-neutral-200">Pakete ansehen </a>
-        </div>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5">
-            <div className="badge">Branchenspezifisch</div>
-            <div className="mt-2 font-semibold">Reichweite ohne Streuverlust</div>
-            <p className="mt-1 text-neutral-400 text-sm">Gezielt Bahn-Profile erreichen  vom Stellwerk bis Tfz.</p>
-          </div>
-          <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5">
-            <div className="badge">Schnell & modern</div>
-            <div className="mt-2 font-semibold">Live-Vorschau & Stripe</div>
-            <p className="mt-1 text-neutral-400 text-sm">Anzeige erstellen, prüfen, bezahlen  in Minuten live.</p>
-          </div>
-          <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5">
-            <div className="badge">Faire Pakete</div>
-            <div className="mt-2 font-semibold">Basic, Featured, Boost</div>
-            <p className="mt-1 text-neutral-400 text-sm">Transparente Laufzeiten &amp; klare Vorteile.</p>
-          </div>
-          <div className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-5">
-            <div className="badge">Qualität</div>
-            <div className="mt-2 font-semibold">Saubere Darstellung</div>
-            <p className="mt-1 text-neutral-400 text-sm">Strukturiertes Layout, gute Lesbarkeit, mobile-ready.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* TRUST */}
-      <section className="rounded-2xl border border-neutral-800 bg-neutral-900/30 p-6">
-        <h3 className="text-lg font-semibold">Moderation & Inhalt</h3>
-        <p className="mt-2 text-neutral-300">
-          Bahnerjob achtet auf fachlich passende Inhalte, klare Angaben und einheitliche Formate  so finden
-          Kandidat:innen schnell, was wirklich zählt, und Unternehmen sparen Zeit bei der Vorauswahl.
+        <h1 className="mt-5 text-3xl sm:text-4xl font-semibold tracking-tight">Klar. Fokussiert. Bahnerjob.</h1>
+        <p className="mx-auto mt-4 max-w-2xl text-neutral-300">
+          Stellen finden und Talente erreichen  ohne Ablenkung. Ruhiges Design, klare Informationen,
+          deutliche Bereiche und moderne Darstellung.
         </p>
-      </section>
-
-      {/* CTA-BANNER */}
-      <section className="rounded-2xl border border-neutral-800 bg-neutral-950 p-6 sm:p-8 text-center">
-        <h3 className="text-xl font-semibold">Bereit für den nächsten Schritt?</h3>
-        <p className="mt-2 text-neutral-300">Finde jetzt passende Stellen oder bring deine Stellenanzeige live.</p>
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
           <Link href="/jobs/new?pkg=basic" className="btn btn-accent">Anzeige schalten</Link>
         </div>
       </section>
 
+      <div className="mt-16 border-t border-neutral-800" />
+
+      {/* ZIELGRUPPEN */}
+      <section className="mt-10 grid gap-6 md:grid-cols-2">
+        <article className="rounded-2xl border border-neutral-800 bg-neutral-950 p-6">
+          <div className="text-xs text-neutral-400">Für Unternehmen</div>
+          <h2 className="mt-2 text-xl font-semibold">Sichtbarkeit ohne Streuverlust</h2>
+          <p className="mt-3 text-neutral-300">
+            Erreiche qualifizierte Bahn-Profile. Anzeige in Minuten erstellen, Vorschau prüfen und sicher veröffentlichen.
+            Optional: <em>Featured</em> & <em>Boost</em>.
+          </p>
+          <ul className="mt-4 space-y-2 text-neutral-300">
+            <li> Klare Pakete & transparente Laufzeiten</li>
+            <li> Einheitliche Darstellung & gute Lesbarkeit</li>
+            <li> Direkte Bewerbungen ohne Umwege</li>
+          </ul>
+          <div className="mt-6">
+            <Link href="/jobs/new?pkg=basic" className="btn btn-accent">Anzeige schalten</Link>
+            <Link href="/pricing" className="ml-3 text-sm text-neutral-400 hover:text-neutral-200 align-middle">Pakete ansehen </Link>
+          </div>
+        </article>
+
+        <article className="rounded-2xl border border-neutral-800 bg-neutral-950 p-6">
+          <div className="text-xs text-neutral-400">Für Bewerber:innen</div>
+          <h2 className="mt-2 text-xl font-semibold">Finde deinen nächsten Halt</h2>
+          <p className="mt-3 text-neutral-300">
+            Suche gezielt nach Ort oder Arbeitgeber. Klare Anzeigen mit den wichtigen Details,
+            damit du schnell entscheiden kannst.
+          </p>
+          <ul className="mt-4 space-y-2 text-neutral-300">
+            <li> Filter für Ort, Bundesland & Vertragsart</li>
+            <li> Übersichtliche Infos: Aufgaben, Anforderungen, Benefits</li>
+            <li> Bewerbung direkt beim Unternehmen</li>
+          </ul>
+          <div className="mt-6">
+            <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
+          </div>
+        </article>
+      </section>
+
+      <div className="mt-16 border-t border-neutral-800" />
+
+      {/* FEATURES */}
+      <section className="mt-10">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold">Warum Bahnerjob?</h3>
+          <a href="/pricing" className="text-sm text-neutral-400 hover:text-neutral-200">Pakete & Leistungen </a>
+        </div>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="rounded-xl border border-neutral-800 bg-neutral-900/30 p-5">
+            <div className="text-sm font-medium">Branchenspezifisch</div>
+            <p className="mt-1 text-sm text-neutral-400">Bahn-Community statt Streuverlust.</p>
+          </div>
+          <div className="rounded-xl border border-neutral-800 bg-neutral-900/30 p-5">
+            <div className="text-sm font-medium">Schnell & modern</div>
+            <p className="mt-1 text-sm text-neutral-400">Live-Vorschau, Stripe, in Minuten online.</p>
+          </div>
+          <div className="rounded-xl border border-neutral-800 bg-neutral-900/30 p-5">
+            <div className="text-sm font-medium">Klare Pakete</div>
+            <p className="mt-1 text-sm text-neutral-400">Basic, Featured, Boost  transparent.</p>
+          </div>
+          <div className="rounded-xl border border-neutral-800 bg-neutral-900/30 p-5">
+            <div className="text-sm font-medium">Lesbarkeit</div>
+            <p className="mt-1 text-sm text-neutral-400">Ruhige Typografie, klare Struktur.</p>
+          </div>
+        </div>
+      </section>
+
+      <div className="mt-16 border-t border-neutral-800" />
+
+      {/* TRUST */}
+      <section className="mt-10">
+        <h3 className="text-lg font-semibold">Moderation & Inhalt</h3>
+        <p className="mt-3 max-w-3xl text-neutral-300">
+          Wir achten auf klare Angaben und einheitliche Formate  so finden Kandidat:innen schneller, was wichtig ist,
+          und Unternehmen sparen Zeit bei der Vorauswahl.
+        </p>
+      </section>
+
+      <div className="mt-16 border-t border-neutral-800" />
+
+      {/* CTA */}
+      <section className="mt-10 rounded-2xl border border-neutral-800 bg-neutral-950 p-8 text-center">
+        <h3 className="text-xl font-semibold">Bereit für den nächsten Schritt?</h3>
+        <p className="mt-2 text-neutral-300">Finde passende Stellen oder starte mit deiner ersten Anzeige.</p>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
+          <Link href="/jobs/new?pkg=basic" className="btn btn-accent">Anzeige schalten</Link>
+        </div>
+      </section>
+
+      <div className="mt-16 border-t border-neutral-800" />
+
       {/* NEWS */}
-      <section className="space-y-3">
+      <section className="mt-10">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold">News</h3>
           <a href="/news" className="text-sm text-neutral-400 hover:text-neutral-200">Alle News </a>
         </div>
-        <NewsRail />
+        <div className="mt-6"><NewsRail /></div>
       </section>
     </main>
   );
