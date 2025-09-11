@@ -1,3 +1,10 @@
+/* bj:dark-fallback */
+body {
+  /* Harte Fallback-Farben, falls CSS-Variablen/Layer nicht greifen */
+  background-color: #0a0a0b; /* neutral-950 */
+  color: #ebebf0;            /* sehr helles Neutral */
+}
+a { color: inherit; }
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,7 +27,7 @@ body { color: rgb(var(--text)); background: rgb(var(--bg)); }
 a { color: rgb(var(--text)); }
 a:hover { color: rgb(var(--text) / 0.9); }
 
-/* Utilities für ruhigen Look */
+/* Utilities fÃ¼r ruhigen Look */
 .container-bj { @apply mx-auto max-w-6xl px-4; }
 .section      { @apply container-bj py-14; }
 .divider      { height:1px; background: rgb(var(--divider) / 0.4); }

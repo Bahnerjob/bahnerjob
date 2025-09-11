@@ -14,7 +14,8 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="de" className={`${inter.variable} ${manrope.variable}`}>
-      <body>
+      {/* Harte Dark-Fallbacks direkt auf dem Body */}
+      <body className="bg-neutral-950 text-neutral-100 antialiased">
         <header className="site-header">
           <div className="container-bj h-16 flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3">
