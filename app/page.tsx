@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-const NewsRail = dynamic(() => import("@/components/NewsRail").then(m => m.default).catch(() => () => null), { ssr: true });
+const NewsRail = dynamic(() => import("../components/NewsRail").then(m => m.default).catch(() => () => null), { ssr: true });
 
 export const revalidate = 0;
 
@@ -16,7 +16,7 @@ export default function HomePage() {
     <div>
       {/* HERO */}
       <section className="section center">
-        <div className="chip">Die Jobbörse für den Bahnsektor</div>
+        <div className="chip">Die JobbÃ¶rse fÃ¼r den Bahnsektor</div>
         <h1 className="h1" style={{marginTop:"20px"}}>Klar. Modern. Fokussiert.</h1>
         <p className="lead" style={{maxWidth:"46rem", margin:"16px auto 0"}}>
           Gute Lesbarkeit, klare Wege  und Buttons, die wirklich wie Buttons aussehen.
@@ -33,10 +33,10 @@ export default function HomePage() {
       <section className="section">
         <div className="grid two">
           <article className="panel">
-            <div className="muted" style={{fontSize:"12px"}}>Für Unternehmen</div>
+            <div className="muted" style={{fontSize:"12px"}}>FÃ¼r Unternehmen</div>
             <h2 className="h2">Sichtbarkeit ohne Streuverlust</h2>
             <p className="lead" style={{marginTop:"12px"}}>
-              Anzeige in Minuten erstellen, Vorschau prüfen und sicher veröffentlichen.
+              Anzeige in Minuten erstellen, Vorschau prÃ¼fen und sicher verÃ¶ffentlichen.
               Optional <em>Featured</em> &amp; <em>Boost</em>.
             </p>
             <ul style={{marginTop:"16px", color:"rgba(235,235,240,.85)", paddingLeft:"18px"}}>
@@ -51,13 +51,13 @@ export default function HomePage() {
           </article>
 
           <article className="panel">
-            <div className="muted" style={{fontSize:"12px"}}>Für Bewerber:innen</div>
-            <h2 className="h2">Finde deinen nächsten Halt</h2>
+            <div className="muted" style={{fontSize:"12px"}}>FÃ¼r Bewerber:innen</div>
+            <h2 className="h2">Finde deinen nÃ¤chsten Halt</h2>
             <p className="lead" style={{marginTop:"12px"}}>
               Suche gezielt nach Ort, Bundesland oder Arbeitgeber. Klare Anzeigen mit den wichtigsten Details.
             </p>
             <ul style={{marginTop:"16px", color:"rgba(235,235,240,.85)", paddingLeft:"18px"}}>
-              <li style={{marginBottom:"6px"}}>Filter für Ort, Bundesland &amp; Vertragsart</li>
+              <li style={{marginBottom:"6px"}}>Filter fÃ¼r Ort, Bundesland &amp; Vertragsart</li>
               <li style={{marginBottom:"6px"}}>Aufgaben, Anforderungen, Benefits auf einen Blick</li>
               <li>Direktbewerbung beim Unternehmen</li>
             </ul>

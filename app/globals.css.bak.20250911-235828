@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Design Tokens (neutral + rot, kein Blau/Lila) ===== */
+:root {
+  --bg: 10 10 11;          /* #0a0a0b */
+  --panel: 16 16 18;       /* #101012 */
+  --panel-soft: 22 22 26;  /* #16161a */
+  --muted: 160 160 170;    /* #a0a0aa */
+  --text: 235 235 240;     /* #ebebf0 */
+  --accent: 220 38 38;     /* rot (#dc2626) */
+  --divider: 60 60 68;     /* sehr dezente Trenner */
+}
+
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body { color: rgb(var(--text)); background: rgb(var(--bg)); }
+
+/* Links nicht blau */
+a { color: rgb(var(--text)); }
+a:hover { color: rgb(var(--text) / 0.9); }
+
+/* Utilities für ruhigen Look */
+.container-bj { @apply mx-auto max-w-6xl px-4; }
+.section      { @apply container-bj py-14; }
+.divider      { height:1px; background: rgb(var(--divider) / 0.4); }
+.muted        { color: rgb(var(--muted)); }
+.lead         { color: rgb(var(--text) / 0.9); }
+
+/* Buttons (neutral / akzent rot), ohne Blau/Lila */
+.btn {
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:10px 14px; border-radius:14px; font-weight:600;
+  background: rgba(255,255,255,0.05); color: rgb(var(--text));
+  border:1px solid rgba(255,255,255,0.08);
+  transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+}
+.btn:hover { background: rgba(255,255,255,0.08); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn.btn-accent {
+  background: rgb(var(--accent));
+  border-color: rgb(var(--accent));
+  color: white;
+}
+.btn.btn-accent:hover { filter: brightness(1.05); }
+
+/* "Karten" ohne harte Rahmen  nur softer Panel-Look */
+.panel-soft {
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+              rgb(var(--panel-soft));
+  box-shadow: 0 1px 0 rgba(0,0,0,0.25);
+}
+
+/* Chips / Badges */
+.chip {
+  display:inline-flex; align-items:center; gap:6px;
+  padding: 6px 12px; border-radius:999px;
+  background: rgba(255,255,255,0.06); color: rgb(var(--text) / 0.9);
+  font-size:12px;
+}
+
+/* Headings rhythm */
+.h1-bj { @apply text-3xl sm:text-5xl font-semibold tracking-tight; letter-spacing:-0.01em; }
+.h2-bj { @apply text-xl sm:text-2xl font-semibold; letter-spacing:-0.01em; }
+
+/* Header minimal border, kein Blau/Lila */
+.site-header {
+  border-bottom: 1px solid rgb(var(--divider) / 0.4);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+  backdrop-filter: blur(6px);
+}
+
+/* Entfernt etwaige Tailwind-Default-Farben auf focus (blau) */
+:focus { outline-color: rgb(var(--accent)); }
