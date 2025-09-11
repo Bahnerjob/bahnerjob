@@ -7,34 +7,33 @@ export const revalidate = 0;
 export const metadata = {
   title: "Bahnerjob  Jobs & Stellenanzeigen im Bahnsektor",
   description:
-    "Bahnerjob verbindet Unternehmen und Fachkräfte im Bahnsektor. Klare Pakete für Arbeitgeber, schnelle Suche für Bewerber:innen.",
+    "Klare Wege für Unternehmen und Bewerber:innen. Zwei eindeutige Aktionen, ruhige Optik  ohne Blautöne/Lila.",
 };
 
 export default function HomePage() {
   return (
     <div className="space-y-16">
-      {/* HERO */}
+      {/* HERO: klare Botschaft, exakt zwei CTAs */}
       <section className="text-center">
         <div className="chip">Die Jobbörse für den Bahnsektor</div>
         <h1 className="h1-bj mt-5">Klar. Modern. Fokussiert.</h1>
         <p className="lead mx-auto mt-4 max-w-2xl">
-          Keine bunten Ablenkungen, keine doppelten Aktionen: ruhiges Design, gute Lesbarkeit und klare Wege.
+          Keine doppelten Buttons, keine bunten Ablenkungen: ruhige Flächen, gute Lesbarkeit, klare Wege.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          {/* PRIMÄRE CTAs: genau zwei */}
           <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
           <Link href="/jobs/new?pkg=basic" className="btn btn-accent">Anzeige schalten</Link>
-          {/* KEINE doppelten Varianten wie Anzeige entwerfen, Preise ansehen */}
         </div>
       </section>
 
       <div className="divider" />
 
-      {/* ZIELGRUPPEN  ruhige Panels, ohne harte Rahmen */}
+      {/* ZIELGRUPPEN: sanfte Panels ohne harte Rahmen */}
       <section className="grid gap-6 md:grid-cols-2">
+        {/* Unternehmen */}
         <article className="panel-soft p-6">
           <div className="text-xs muted">Für Unternehmen</div>
-          <h2 className="h2-bj mt-2">Sichtbar ohne Streuverlust</h2>
+          <h2 className="h2-bj mt-2">Sichtbarkeit ohne Streuverlust</h2>
           <p className="lead mt-3">
             Anzeige in Minuten erstellen, Vorschau prüfen und sicher veröffentlichen. Optional <em>Featured</em> &amp; <em>Boost</em>.
           </p>
@@ -45,10 +44,12 @@ export default function HomePage() {
           </ul>
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <Link href="/jobs/new?pkg=basic" className="btn btn-accent">Anzeige schalten</Link>
+            {/* Leiser Textlink statt zweitem Button */}
             <Link href="/pricing" className="text-sm muted hover:text-neutral-200">Pakete & Leistungen </Link>
           </div>
         </article>
 
+        {/* Bewerber:innen */}
         <article className="panel-soft p-6">
           <div className="text-xs muted">Für Bewerber:innen</div>
           <h2 className="h2-bj mt-2">Finde deinen nächsten Halt</h2>
@@ -68,13 +69,11 @@ export default function HomePage() {
 
       <div className="divider" />
 
-      {/* FEATURES  reduziert */}
+      {/* FEATURES: reduziert, neutral (keine Blau/Lila) */}
       <section>
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold">Warum Bahnerjob?</h3>
-          <Link href="/pricing" className="text-sm muted hover:text-neutral-200">
-            Pakete & Leistungen 
-          </Link>
+          <Link href="/pricing" className="text-sm muted hover:text-neutral-200">Pakete & Leistungen </Link>
         </div>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="panel-soft p-5">
