@@ -1,57 +1,19 @@
-
-import Link from "next/link";
-import SelectDark from "../../components/SelectDark";
-import JobsListClient, { type Job } from "../../components/JobsList.client";
-import SelectDark from "../../components/SelectDark";
-
-export const revalidate = 300;
-
-async function loadJobs(): Promise<Job[]> {
-  const tryPaths = ["../../lib/jobs", "../../../lib/jobs", "@/lib/jobs", "lib/jobs"];
-  for (const p of tryPaths) {
-    try {
-      // @ts-ignore  dynamischer Import unterschiedlicher Exports
-      const mod = await import(p);
-      if (typeof mod.getJobs === "function") {
-        const res = await mod.getJobs();
-        if (Array.isArray(res)) return res as Job[];
-      }
-      if (Array.isArray(mod.jobs)) return mod.jobs as Job[];
-    } catch {}
-  }
-  return [];
-}
-
-export default async function JobsPage() {
-  const initial = await loadJobs();
-
+export const dynamic = "force-static";
+import { JOBS } from "@/lib/jobs.sample";
+export default function JobsPage(){
   return (
-    <main className="page-wrap">
-      {/* HERO */}
-      <section style={{ textAlign:"center", padding:"24px 0 8px" }}>
-        <div className="chip">Jobs</div>
-        <h1
-          style={{
-            fontFamily:"Manrope, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif",
-            fontWeight:800, letterSpacing:"-0.01em",
-            fontSize:"clamp(2rem,4.6vw,2.5rem)", margin:"18px 0 0"
-          }}
-        >
-          Stellen im Bahnsektor
-        </h1>
-        <p style={{ maxWidth:"46rem", margin:"12px auto 0", color:"rgba(235,235,240,.9)" }}>
-          Durchsuche aktuelle Jobs. Filtere nach Ort, Region und Art  klare Darstellung, gute Lesbarkeit.
-        </p>
-        <div style={{ display:"flex", gap:"12px", justifyContent:"center", marginTop:"18px" }}>
-          <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Anzeige schalten</Link>
-          <Link href="/" className="btn btn-secondary">Zur Startseite</Link>
-        </div>
-      </section>
-
-      <hr className="rule" />
-
-      {/* LISTE + FILTER (Client-Komponente) */}
-      <JobsListClient initial={initial} />
+    <main style={{maxWidth:800,margin:"20px auto",fontFamily:"system-ui"}}>
+      <h1>Jobs (Demo)</h1>
+      <p><strong>Anzahl:</strong> {JOBS.length}</p>
+      <ul>
+        {JOBS.map(j=>(
+          <li key={j.id} style={{padding:"8px 0", borderBottom:"1px solid #333"}}>
+            <div><strong>{j.title}</strong>  {j.company}</div>
+            <div>{j.location}{j.bundesland?`, ${j.bundesland}`:""} {j.employmentType?` ${j.employmentType}`:""}</div>
+            <a href={j.applyUrl} target="_blank">Bewerben</a>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }
