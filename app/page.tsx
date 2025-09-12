@@ -1,5 +1,4 @@
-import dynamic from "next/dynamic";
-const NewsClient = dynamic(() => import("@/components/NewsClient"), { ssr: false });
+﻿import NewsClient from "@/components/NewsClient";
 
 export default function Home() {
   return (
