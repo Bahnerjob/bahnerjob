@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -39,14 +39,14 @@ export default function JobFilters() {
         onKeyDown={(e)=>{ if(e.key==="Enter") apply(); }}
         aria-label="Job-Suche"
       />
-      <select className="select" value={country} onChange={(e)=>setCountry(e.target.value)} aria-label="Land">
+      <select className="select select-dark" value={country} onChange={(e)=>setCountry(e.target.value)} aria-label="Land">
         <option value="">Alle Länder</option>
         <option value="DE">Deutschland</option>
         <option value="AT">Österreich</option>
         <option value="CH">Schweiz</option>
         <option value="INTL">Ausland</option>
       </select>
-      <select className="select" value={pkg} onChange={(e)=>setPkg(e.target.value)} aria-label="Paket">
+      <select className="select select-dark" value={pkg} onChange={(e)=>setPkg(e.target.value)} aria-label="Paket">
         <option value="">Alle Pakete</option>
         <option value="boost">Boost</option>
         <option value="featured">Featured</option>

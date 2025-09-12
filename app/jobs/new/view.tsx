@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -179,7 +179,7 @@ export default function View() {
               <div className="form-grid-4">
                 <div className="field min-w-0">
                   <label className="label block">Land</label>
-                  <select
+                  <select className="select-dark" 
                     value={country}
                     onChange={(e) => setCountry(e.target.value as Country)}
                     className="select w-full"

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
@@ -97,7 +97,7 @@ export default function JobsView() {
           <div className="row-2">
             <div className="field">
               <label htmlFor="bl" className="label">Bundesland</label>
-              <select id="bl" name="bl" className="input" defaultValue={bl}>
+              <select id="bl" name="bl" className="input select-dark" defaultValue={bl}>
                 <option value="">Alle</option>
                 {BUNDESLAENDER.map((s) => (
                   <option key={s} value={s}>{s}</option>
