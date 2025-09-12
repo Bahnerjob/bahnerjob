@@ -20,7 +20,7 @@ export default function HomePage() {
           Finde passende Stellen oder erreiche gezielt Fachkräfte  schnell, klar, ohne Umwege.
         </p>
         <div style={{display:"flex", flexWrap:"wrap", gap:"12px", justifyContent:"center", marginTop:"28px"}}>
-          <Link href="/jobs" className="btn btn-primary">Jobs durchsuchen</Link>
+          <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
           <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Anzeige veröffentlichen</Link>
         </div>
       </section>
@@ -61,7 +61,7 @@ export default function HomePage() {
               <li>Direkte Bewerbung beim Unternehmen</li>
             </ul>
             <div style={{marginTop:"20px", display:"flex", gap:"12px", flexWrap:"wrap"}}>
-              <Link href="/jobs" className="btn btn-primary">Jobs durchsuchen</Link>
+              <Link href="/jobs" className="btn">Jobs durchsuchen</Link>
             </div>
           </article>
         </div>

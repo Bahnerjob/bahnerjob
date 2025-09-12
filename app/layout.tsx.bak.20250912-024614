@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="de">
       <body className={manrope.className}>
-        <header className="site-header site-header site-header site-header">
+        <header className="site-header">
           <div className="site-header__inner">
             <Link href="/" className="brand" aria-label="Bahnerjob  Startseite">
               <img src="/icon.svg" alt="" className="brand-logo" />

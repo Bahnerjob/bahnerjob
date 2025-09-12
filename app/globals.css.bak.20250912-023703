@@ -26,9 +26,9 @@ a{ color: rgb(var(--text)); text-decoration: none; }
 a:hover{ color: rgb(var(--text) / .9); }
 
 /* Layout helpers (mittig) */
-.container-bj{ /* removed: @apply mx-auto max-w-4xl px-4; */ }    /* bewusst schmal für mittig & ruhig */
-.section{ /* removed: @apply py-14; */ }
-.centered{ /* removed: @apply text-center; */ }
+.container-bj{ @apply mx-auto max-w-4xl px-4; }    /* bewusst schmal für mittig & ruhig */
+.section{ @apply py-14; }
+.centered{ @apply text-center; }
 .divider{ height:1px; background: rgb(var(--divider) / .4); }
 
 /* Moderne Buttons  klar erkennbar */
@@ -65,8 +65,8 @@ a:hover{ color: rgb(var(--text) / .9); }
 }
 
 /* Typo Scales */
-.h1-bj{ /* removed: @apply text-4xl sm:text-5xl font-semibold tracking-tight; */ letter-spacing:-.01em; }
-.h2-bj{ /* removed: @apply text-2xl font-semibold; */ letter-spacing:-.01em; }
+.h1-bj{ @apply text-4xl sm:text-5xl font-semibold tracking-tight; letter-spacing:-.01em; }
+.h2-bj{ @apply text-2xl font-semibold; letter-spacing:-.01em; }
 .lead{ color: rgb(var(--text) / .9); }
 
 /* Header minimal */
@@ -351,183 +351,3 @@ select.select-dark option { background-color: rgb(23,23,24); color: rgba(235,235
   font-size: 14px !important;
 }
 /* =========================================================================== */
-
-/* === HEADER / NAV ========================================================= */
-.site-header{
-  position: sticky; top: 0; z-index: 50;
-  backdrop-filter: saturate(1.2) blur(8px);
-  background: rgba(8,8,10,0.6);
-  border-bottom: 1px solid rgb(32,32,36);
-}
-.site-header__inner{
-  max-width: 1100px; margin: 0 auto; padding: 10px 16px;
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-}
-.brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
-.brand-logo{ width:28px; height:28px; display:block; }
-.brand-wordmark{
-  font-weight:800; letter-spacing:-0.01em;
-  color: rgb(235,235,240);
-}
-
-.site-nav{ display:flex; align-items:center; gap:14px; }
-.nav-link{
-  font-size:14px; color: rgba(235,235,240,.85); text-decoration:none;
-  padding:10px 12px; border-radius:10px;
-}
-.nav-link:hover{ color: rgba(235,235,240,1); background: rgba(255,255,255,0.04); }
-
-.nav-actions{ display:flex; align-items:center; gap:8px; }
-
-/* === MAIN/FOOTER WRAPPER ================================================== */
-.site-main{ max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
-.site-footer{
-  border-top: 1px solid rgb(32,32,36);
-  background: rgb(10,10,12);
-}
-.site-footer__inner{
-  max-width:1100px; margin:0 auto; padding:18px 16px;
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-}
-.footer-link{
-  color: rgba(235,235,240,.75); text-decoration:none; font-size:13px; padding:6px 8px; border-radius:8px;
-}
-.footer-link:hover{ color: rgba(235,235,240,1); background: rgba(255,255,255,0.04); }
-
-/* === BUTTONS (modern, kontrastreich) ===================================== */
-.btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  height:40px; padding:0 14px; border-radius:12px; font-weight:700; font-size:14px;
-  border:1px solid rgb(48,48,52); color: rgba(235,235,240,.95); background: rgb(23,23,24);
-  text-decoration:none; cursor:pointer; transition: transform .02s ease, background .15s ease, border-color .15s ease;
-}
-.btn:hover{ background: rgb(28,28,30); border-color: rgb(64,64,68); }
-.btn:active{ transform: translateY(1px); }
-.btn:focus-visible{ outline:2px solid rgba(220,38,38,.7); outline-offset:2px; }
-
-.btn-primary{
-  background: rgb(185,28,28); border-color: rgb(185,28,28);
-  color: white;
-}
-.btn-primary:hover{ background: rgb(200,30,30); border-color: rgb(200,30,30); }
-.btn-primary:active{ transform: translateY(1px); }
-
-.btn-outline{
-  background: transparent; border-color: rgb(80,80,86); color: rgba(235,235,240,.95);
-}
-.btn-outline:hover{ background: rgba(255,255,255,0.04); border-color: rgb(96,96,104); }
-
-/* === MISC / TYPO ========================================================== */
-html,body{ background: rgb(12,12,14); color: rgba(235,235,240,.92); }
-.muted{ color: rgba(235,235,240,.6); font-size: 13px; }
-
-/* Mobile Tweaks */
-@media (max-width: 640px){
-  .brand-wordmark{ font-size: 16px; }
-  .nav-link{ display:none; } /* optional: nur CTA auf Mobile */
-}
-    
-/* container fallback (statt @apply max-w-4xl mx-auto px-4) */
-.container{
-  max-width:56rem; margin-left:auto; margin-right:auto;
-  padding-left:1rem; padding-right:1rem;
-}
-/* === UI BATCH (typography, header, buttons, inputs) ====================== */
-
-/* Typo: moderne, ruhige Sans */
-:root {
-  --fg: rgba(235,235,240,.95);
-  --fg-muted: rgba(235,235,240,.75);
-  --bg: rgb(15,15,16);
-  --panel: rgb(19,19,20);
-  --panel-2: rgb(23,23,24);
-  --border: rgb(48,48,52);
-  --accent: #dc2626; /* rot  dezent, kein blau/lila */
-}
-html, body {
-  font-family: Inter, Manrope, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  color: var(--fg);
-  background: var(--bg);
-}
-
-/* Sticky Header */
-.site-header {
-  position: sticky; top: 0; z-index: 50;
-  backdrop-filter: saturate(1.2) blur(8px);
-  background-color: rgba(15,15,16,.72);
-  border-bottom: 1px solid var(--border);
-}
-.site-header .brand {
-  display: inline-flex; align-items:center; gap:.6rem;
-  font-weight: 800; letter-spacing: -0.01em; font-size: 1.05rem;
-}
-.site-header .brand img { width: 22px; height: 22px; }
-@media (min-width: 640px){
-  .site-header .brand { font-size: 1.15rem; }
-  .site-header .brand img { width: 24px; height: 24px; }
-}
-
-/* Buttons (deutlich sichtbar) */
-.btn {
-  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
-  padding: .6rem .9rem;
-  border-radius: .7rem;
-  border: 1px solid var(--border);
-  background: var(--panel-2);
-  color: var(--fg);
-  text-decoration:none;
-  font-weight: 600;
-  transition: transform .06s ease, border-color .15s ease, background-color .15s ease;
-}
-.btn:hover { transform: translateY(-1px); border-color: rgb(72,72,78); }
-.btn:focus { outline: none; box-shadow: 0 0 0 2px rgba(220,38,38,.25); }
-
-.btn-primary {
-  background: linear-gradient(180deg, rgba(35,35,36,1), rgba(26,26,27,1));
-  border-color: rgb(82,82,88);
-}
-.btn-secondary {
-  background: transparent;
-  border-color: var(--border);
-}
-.btn-ghost {
-  background: transparent;
-  border-color: transparent;
-  color: var(--fg-muted);
-}
-.btn-ghost:hover { color: var(--fg); }
-
-/* Eingaben / Selects (dunkel, konsistent) */
-.input,
-select, .select, .select-dark,
-input[list] {
-  background-color: var(--panel-2);
-  border: 1px solid var(--border);
-  color: var(--fg);
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 14px;
-  color-scheme: dark;
-}
-.input:focus,
-select:focus,
-.select-dark:focus,
-input[list]:focus {
-  outline: none;
-  border-color: rgb(72,72,78);
-  box-shadow: 0 0 0 2px rgba(120,120,128,.15);
-}
-
-/* Links, die wie "sekundäre Buttons" aussehen sollen */
-.link-like {
-  color: var(--fg-muted);
-  text-decoration: none;
-  border-bottom: 1px dashed var(--border);
-}
-.link-like:hover { color: var(--fg); border-bottom-color: rgb(82,82,88); }
-
-/* Sektionen sauber separieren */
-.section { background: var(--panel); border: 1px solid var(--border); border-radius: 1rem; }
-.section + .section { margin-top: 1rem; }
-
-/* ======================================================================== */
