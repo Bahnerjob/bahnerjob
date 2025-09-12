@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 900;
-export async function GET(req: Request, { params }: { params: { slug?: string[] } }) {
-  const key = ((params?.slug ?? [])[0] || "").toLowerCase();
-  const allow = new Set(["news","railnews","latest","home","updates","headlines","articles","posts","blog"]);
-  if (!allow.has(key)) return NextResponse.json({ ok:false, reason:"no handler", slug: params?.slug ?? [] }, { status: 404 });
+export async function GET(){
   const items = [
     { id:"n1", title:"Neue RE-Linie testet modernisierte Dosto-Garnituren", date:"2025-09-10", link:"#"},
     { id:"n2", title:"SWEG startet weitere TfZ-Ausbildungsklassen",        date:"2025-09-08", link:"#"},
