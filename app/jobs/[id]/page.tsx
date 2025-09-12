@@ -1,4 +1,4 @@
-﻿import { getJobById } from "@/lib/jobs";
+import { getJobById } from "@/lib/jobs";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
@@ -62,6 +62,8 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
 
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
         <main className="detail-main">
+      <section className="section p-6 sm:p-8 job-detail">
+        <div className="mb-3"><Link href="/jobs" className="link-like">&larr; Alle Jobs</Link></div>
           {bullets.length > 0 ? (
             <Section title="Stellenbeschreibung">
               <ul className="detail-ul">
@@ -75,7 +77,8 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
               </Section>
             )
           )}
-        </main>
+                </section>
+    </main>
 
         <aside className="detail-aside">
           <div className="detail-card">

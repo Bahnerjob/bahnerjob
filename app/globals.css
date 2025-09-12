@@ -891,3 +891,35 @@ ul.benefits li{ margin-bottom:6px; }
 /* Karten im mittleren Layout etwas luftiger */
 .section .section-head{ margin-bottom: 10px; }
 /* ======================================================================== */
+  
+/* === JOB DETAIL STYLES ==================================================== */
+.job-detail .section-head{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.job-detail .muted{ color: var(--fg-muted); font-size: 12px; }
+.job-detail h1{
+  font-weight:800; letter-spacing:-0.01em; line-height:1.12;
+  margin: 6px 0 2px;
+}
+.job-detail .meta{
+  display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;
+}
+.job-detail .chip{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 10px; border-radius:999px;
+  background: var(--panel-2); border:1px solid var(--border);
+  color: var(--fg-muted); font-size:12px;
+}
+.job-detail .content{
+  display:grid; gap:16px; margin-top:16px;
+}
+.job-detail .content h2{
+  font-weight:800; letter-spacing:-0.01em; margin: 6px 0 2px;
+  font-size: 18px;
+}
+.job-detail .content ul{ padding-left:18px; color: var(--fg-muted); }
+.job-detail .content li{ margin-bottom:6px; }
+.job-detail .apply-row{
+  display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:18px;
+}
+/* ========================================================================= */
