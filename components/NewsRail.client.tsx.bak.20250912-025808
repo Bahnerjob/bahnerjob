@@ -1,0 +1,13 @@
+"use client";
+import dynamic from "next/dynamic";
+
+// Wrapper lädt die bestehende Komponenten-Datei clientseitig.
+// Falls deine NewsRail bereits "use client" hat, ist das hier trotzdem ok.
+const InnerNewsRail = dynamic(() => import("./NewsRail"), {
+  ssr: false,
+  loading: () => null,
+});
+
+export default function NewsRailClient() {
+  return <InnerNewsRail />;
+}

@@ -1,116 +1,98 @@
-﻿// app/pricing/page.tsx  (Server Component, Next 15, ohne useSearchParams)
-
 import Link from "next/link";
 
-type PkgKey = "basic" | "featured" | "boost";
-
-type Pkg = {
-  key: PkgKey;
-  title: string;
-  bullets: string[];
-  note?: string;
-};
-
-const PACKAGES: Pkg[] = [
-  {
-    key: "basic",
-    title: "Basic",
-    bullets: [
-      "Laufzeit: 30 Tage",
-      "Sichtbar in Jobliste & Suche",
-      "Logo, Titel, Ort, Bundesland, Bewerbungslink",
-      "1 Kategorie/Schwerpunkt",
-      "Rechnung per E-Mail, Support per E-Mail"
-    ]
-  },
-  {
-    key: "featured",
-    title: "Featured",
-    bullets: [
-      "Alles aus „Basic“",
-      "Priorisierte Platzierung in der Liste",
-      "Kennzeichnung als „Featured“",
-      "Bis zu 2 Kategorien/Schwerpunkte",
-      "Bessere Sichtbarkeit in Suchergebnissen"
-    ],
-    note: "Empfohlen für wichtige oder zeitkritische Positionen"
-  },
-  {
-    key: "boost",
-    title: "Boost",
-    bullets: [
-      "Alles aus „Featured“",
-      "Maximale Reichweite in Listings",
-      "Bis zu 3 Kategorien/Schwerpunkte",
-      "Verlängerte Laufzeit: 45 Tage",
-      "Ideal für schwer zu besetzende Rollen"
-    ]
-  }
-];
+export const revalidate = 0;
 
 export const metadata = {
-  title: "Preise – Bahnerjob",
-  description: "Klare Pakete für Stellenanzeigen im Bahnsektor."
+  title: "Pakete & Preise  Bahnerjob",
+  description: "Klare Pakete für Stellenanzeigen im Bahnsektor: Basic, Featured, Boost. Schnell online, moderne Darstellung."
 };
 
-// WICHTIG (Next 15): searchParams ist ein Promise!
-export default async function PricingPage(props: {
-  searchParams: Promise<{ pkg?: string }>;
-}) {
-  const { pkg } = await props.searchParams;
-  const highlight: PkgKey =
-    pkg === "basic" || pkg === "featured" || pkg === "boost" ? (pkg as PkgKey) : "featured";
-
+export default function PricingPage() {
   return (
-    <div className="space-y-10">
-      <header className="text-center">
-        <div className="badge mb-3">Pakete & Leistungen</div>
-        <h1 className="font-bold tracking-tight">Preise für Stellenanzeigen</h1>
-        <p className="lead mt-3 max-w-2xl mx-auto">
-          Wähle das Paket, das zu deiner Rolle passt. Du entwirfst die Anzeige zuerst
-          und gehst dann in den Bezahlprozess – transparent und ohne Umwege.
+    <main className="mx-auto container py-10 space-y-8">
+      {/* HERO */}
+      <section className="section" style={{padding:"18px 16px"}}>
+        <div className="section-head">
+          <h1 className="text-xl font-bold">Pakete & Preise</h1>
+          <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Anzeige erstellen</Link>
+        </div>
+        <p className="text-[14px]" style={{color:"var(--fg-muted)"}}>
+          Wähle das Paket, das zu deiner Reichweite passt. Anzeigen sind schnell erstellt, klar formatiert und auf allen Geräten gut lesbar.
         </p>
-      </header>
-
-      <section className="grid gap-6 md:grid-cols-3">
-        {PACKAGES.map((p) => {
-          const emphasized = p.key === highlight;
-          return (
-            <article
-              key={p.key}
-              className={`card p-6 flex flex-col ${emphasized ? "ring-1" : ""}`}
-              style={emphasized ? { boxShadow: "0 0 0 1px rgba(220,38,38,0.35) inset" } : undefined}
-            >
-              <div className="badge mb-2">{p.title}</div>
-
-              <ul className="text-neutral-300 text-[0.98rem] space-y-2">
-                {p.bullets.map((b, i) => (
-                  <li key={i}>• {b}</li>
-                ))}
-              </ul>
-
-              {p.note && (
-                <div className="mt-3 text-xs text-neutral-400">{p.note}</div>
-              )}
-
-              <div className="mt-auto pt-5">
-                {/* Nicht direkt kaufen → in den Entwurfs-Flow mit vorbelegtem Paket */}
-                <Link href={`/jobs/new?pkg=${p.key}`} className="btn btn-accent w-full text-center">
-                  Anzeige entwerfen
-                </Link>
-              </div>
-            </article>
-          );
-        })}
       </section>
 
-      <section className="text-center">
-        <div className="inline-flex flex-wrap items-center justify-center gap-2">
-          <span className="badge">Rechnung & Support per E-Mail</span>
-          <span className="badge">Keine Agentur notwendig</span>
-          <span className="badge">Klar & transparent</span>
+      {/* PLANS */}
+      <section className="pricing-grid">
+        {/* Basic */}
+        <article className="pricing-card">
+          <div className="pricing-title">Basic</div>
+          <div className="price">€ 79</div>
+          <div className="price-meta">30 Tage Laufzeit</div>
+          <ul className="features">
+            <li><span className="dot" /> Standard-Listung im Job-Board</li>
+            <li><span className="dot" /> Mobile-optimierte Darstellung</li>
+            <li><span className="dot" /> Direkte Bewerbung beim Unternehmen</li>
+          </ul>
+          <div className="plan-cta">
+            <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Basic wählen</Link>
+            <Link href="/jobs" className="btn btn-secondary">Jobs ansehen</Link>
+          </div>
+        </article>
+
+        {/* Featured (Highlight) */}
+        <article className="pricing-card highlight">
+          <div className="pricing-title">Featured</div>
+          <div className="price">€ 129</div>
+          <div className="price-meta">30 Tage Laufzeit + Hervorhebung</div>
+          <ul className="features">
+            <li><span className="dot" /> Priorisierte Platzierung im Listing</li>
+            <li><span className="dot" /> Visuelle Hervorhebung (fällt stärker auf)</li>
+            <li><span className="dot" /> Alles aus Basic inklusive</li>
+          </ul>
+          <div className="plan-cta">
+            <Link href="/jobs/new?pkg=featured" className="btn btn-primary">Featured wählen</Link>
+            <Link href="/jobs/new?pkg=basic" className="btn btn-secondary">Lieber Basic?</Link>
+          </div>
+        </article>
+
+        {/* Boost */}
+        <article className="pricing-card">
+          <div className="pricing-title">Boost</div>
+          <div className="price">€ 199</div>
+          <div className="price-meta">45 Tage Laufzeit + Mehr Reichweite</div>
+          <ul className="features">
+            <li><span className="dot" /> Extra-Sichtbarkeit über den Zeitraum</li>
+            <li><span className="dot" /> Verlängerte Laufzeit</li>
+            <li><span className="dot" /> Alles aus Featured inklusive</li>
+          </ul>
+          <div className="plan-cta">
+            <Link href="/jobs/new?pkg=boost" className="btn btn-primary">Boost wählen</Link>
+            <Link href="/jobs/new?pkg=featured" className="btn btn-secondary">Oder Featured?</Link>
+          </div>
+        </article>
+      </section>
+
+      {/* FAQ */}
+      <section className="section" style={{padding:"16px"}}>
+        <h2 className="text-[16px] font-bold">Häufige Fragen</h2>
+        <div className="faq" style={{marginTop:"10px"}}>
+          <details>
+            <summary>Wie schnell ist eine Anzeige online?</summary>
+            <p>In wenigen Minuten. Inhalt eingeben, prüfen und veröffentlichen.</p>
+          </details>
+          <details>
+            <summary>Kann ich den Text später anpassen?</summary>
+            <p>Ja, du kannst Inhalte während der Laufzeit aktualisieren.</p>
+          </details>
+          <details>
+            <summary>Wie bezahle ich?</summary>
+            <p>Sicher und bequem  die Seite unterstützt moderne Zahlungsanbieter.</p>
+          </details>
+        </div>
+        <div style={{marginTop:"12px"}}>
+          <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Jetzt Anzeige erstellen</Link>
         </div>
       </section>
-    </div>
+    </main>
   );
 }

@@ -1,0 +1,40 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+
+type Item = { id: string; title: string; url: string; source?: string; published?: string };
+
+export default function HomeNews({ limit = 8 }: { limit?: number }) {
+  const [items, setItems] = useState<Item[]>([]);
+
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/railnews", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((data: Item[]) => { if (alive) setItems((data || []).slice(0, limit)); })
+      .catch(() => {});
+    return () => { alive = false; };
+  }, [limit]);
+
+  if (items.length === 0) return null;
+
+  return (
+    <section className="section" aria-labelledby="home-news-h">
+      <div className="section-head">
+        <h3 id="home-news-h">News</h3>
+        <a href="/news" className="btn btn-ghost" aria-label="Alle News">Alle News </a>
+      </div>
+
+      <ul className="news-list">
+        {items.map((it) => (
+          <li key={it.id} className="news-item">
+            <a className="news-link" href={it.url} target="_blank" rel="noopener noreferrer">
+              <span className="news-title">{it.title}</span>
+              {it.source ? <span className="news-meta">{it.source}</span> : null}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
