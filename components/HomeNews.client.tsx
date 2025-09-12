@@ -3,60 +3,51 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-type NewsItem = {
-  id: string;
-  title: string;
-  url: string;
-  source: string;
-  date: string;  // ISO
-};
+type Item = { id: string; title: string; url: string; source?: string; published?: string };
 
-export default function HomeNews({ limit = 6 }: { limit?: number }) {
-  const [items, setItems] = useState<NewsItem[] | null>(null);
+export default function HomeNews({ limit = 8 }: { limit?: number }) {
+  const [items, setItems] = useState<Item[]>([]);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    let alive = true;
-    (async () => {
-      try {
-        const res = await fetch("/api/railnews", { next: { revalidate: 900 } });
-        if (!res.ok) throw new Error("news fetch failed");
-        const data = await res.json();
-        if (!alive) return;
-        const arr: NewsItem[] = (Array.isArray(data?.items) ? data.items : []).slice(0, limit);
-        setItems(arr);
-      } catch {
-        setItems([]);
-      }
-    })();
-    return () => { alive = false; };
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 6000);
+    fetch("/api/railnews", { cache: "no-store", signal: ctrl.signal })
+      .then(r => r.ok ? r.json() : Promise.reject(new Error(String(r.status))))
+      .then((data: Item[]) => {
+        if (Array.isArray(data)) setItems(data.slice(0, limit));
+        else setItems([]);
+      })
+      .catch(() => setFailed(true))
+      .finally(() => clearTimeout(timer));
+    return () => { ctrl.abort(); clearTimeout(timer); };
   }, [limit]);
 
+  // Fallback: bei Fehlern oder leerer Liste auf der Startseite NICHT crashen.
+  if (failed || items.length === 0) return null;
+
   return (
-    <section className="section" style={{padding:"18px"}}>
-      <div className="flex items-center justify-between" style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
-        <h3 className="text-lg font-semibold" style={{margin:0}}>Aktuelle Bahn-News</h3>
-        <Link href="/news" className="btn btn-secondary">Alle News</Link>
+    <section className="section p-5 md:p-6" aria-labelledby="home-news">
+      <div className="flex items-center justify-between">
+        <h3 id="home-news" className="text-lg font-semibold">News</h3>
+        <Link href="/news" className="btn btn-ghost">Alle News</Link>
       </div>
 
-      <div className="news-grid" style={{marginTop:"12px"}}>
-        {items === null ? (
-          Array.from({length: limit}).map((_,i)=>(
-            <article key={i} className="news-card skeleton" />
-          ))
-        ) : items.length === 0 ? (
-          <div className="muted">Zur Zeit sind keine Meldungen verfügbar.</div>
-        ) : (
-          items.map(n => (
-            <a key={n.id} href={n.url} target="_blank" rel="noopener noreferrer" className="news-card">
-              <div className="news-meta">
-                <span className="news-source">{n.source}</span>
-                <span className="news-dot"></span>
-                <time dateTime={n.date}>{new Date(n.date).toLocaleDateString("de-DE", { day:"2-digit", month:"short"})}</time>
-              </div>
-              <h4 className="news-title">{n.title}</h4>
-            </a>
-          ))
-        )}
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {items.map((n) => (
+          <a
+            key={n.id}
+            href={n.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block rounded-xl border border-[var(--border)] bg-[var(--panel-2)] p-4 hover:border-neutral-600 focus:outline-none focus:ring-2 focus:ring-red-500/30"
+          >
+            <div className="text-xs text-[var(--fg-muted)]">
+              {n.published ? new Date(n.published).toLocaleDateString("de-DE") : (n.source ?? "Quelle")}
+            </div>
+            <div className="mt-1 font-medium leading-snug">{n.title}</div>
+          </a>
+        ))}
       </div>
     </section>
   );

@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
-import { fetchRailNews } from "../../../lib/railnews";
 
-export const revalidate = 900;
+export const revalidate = 900; // 15 Minuten
 
 export async function GET() {
-  const items = await fetchRailNews(24);
-  return NextResponse.json({ items }, { status: 200 });
+  try {
+    // HINWEIS: Hier gehört dein echter Fetch/Parser rein.
+    // Falls etwas fehlschlägt, fangen wir es ab und geben [] zurück.
+    // Beispiel: return NextResponse.json(await fetchNewsSomehow());
+    return NextResponse.json([]);
+  } catch (e) {
+    return NextResponse.json([]);
+  }
 }

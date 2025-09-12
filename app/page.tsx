@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import HomeNews from "../components/HomeNews.client";
 import NewsRail from "../components/NewsRail";
 import NewsRailClient from "../components/NewsRail.client";
 export const revalidate = 0;
