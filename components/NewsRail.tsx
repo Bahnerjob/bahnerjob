@@ -1,34 +1,67 @@
 "use client";
+
 import React from "react";
 
-type Item = { source: string; title: string; link: string; date?: string };
+type Item = {
+  id: string;
+  title: string;
+  link: string;
+  source?: string;
+  isoDate?: string;
+};
 
-export default function NewsRailClient() {
-  const [items, setItems] = React.useState<Item[] | null>(null);
-  const [err, setErr] = React.useState<string | null>(null);
+function fmt(d?: string) {
+  try {
+    if (!d) return "";
+    const dd = new Date(d);
+    if (isNaN(dd.getTime())) return "";
+    return new Intl.DateTimeFormat("de-DE", { dateStyle: "medium" }).format(dd);
+  } catch { return ""; }
+}
+
+export default function NewsRail() {
+  const [items, setItems] = React.useState<Item[]>([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     let alive = true;
-    fetch("/api/railnews", { cache: "no-store" })
-      .then(r => r.ok ? r.json() : Promise.reject(r.statusText))
-      .then(j => { if (alive) setItems(j.items as Item[]); })
-      .catch(e => { if (alive) setErr("News konnten nicht geladen werden."); });
+    fetch("/api/railnews?limit=14", { cache: "no-store" })
+      .then(r => r.json())
+      .then((data: Item[]) => { if (alive) setItems(data || []); })
+      .catch(() => { if (alive) setItems([]); })
+      .finally(() => { if (alive) setLoading(false); });
     return () => { alive = false; };
   }, []);
 
-  if (err) return <div className="muted">{err}</div>;
-  if (!items) return <div className="muted">Lade News </div>;
-  if (items.length === 0) return <div className="muted">Aktuell keine Meldungen.</div>;
-
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "12px" }}>
-      {items.slice(0, 6).map((n, i) => (
-        <a key={i} href={n.link} target="_blank" rel="noopener noreferrer"
-           className="card-link">
-          <div className="muted" style={{ fontSize: 12 }}>{n.source}{n.date ? "  " + new Date(n.date).toLocaleDateString("de-DE") : ""}</div>
-          <div style={{ marginTop: 4, fontWeight: 700, lineHeight: 1.25 }}>{n.title}</div>
-        </a>
-      ))}
-    </div>
+    <section aria-labelledby="home-news-head">
+      <div style={{display:"flex", alignItems:"center", justifyContent:"space-between", gap:"10px", flexWrap:"wrap"}}>
+        <h3 id="home-news-head" className="text-lg font-semibold">Eisenbahn-News</h3>
+        <a href="/news" className="btn btn-ghost" aria-label="Alle News ansehen">Alle News</a>
+      </div>
+
+      <div className="rail" style={{marginTop:"10px"}}>
+        <div className="rail-track">
+          {(loading ? Array.from({length:6}).map((_,i)=>({id:"sk"+i, title:"", link:"#"})) : items).map((n, idx) => (
+            <a
+              key={n.id || String(idx)}
+              href={n.link || "#"}
+              target="_blank"
+              rel="noreferrer"
+              className="news-card"
+            >
+              {n.source || n.isoDate ? (
+                <div className="text-xs text-neutral-400" style={{display:"flex", gap:"8px", alignItems:"center"}}>
+                  {n.source && <span>{n.source}</span>}
+                  {n.isoDate && <span style={{opacity:.85}}> {fmt(n.isoDate)}</span>}
+                </div>
+              ) : <div className="text-xs text-neutral-500" style={{height:"16px"}} />}
+
+              <div className="news-title">{n.title || " "}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
