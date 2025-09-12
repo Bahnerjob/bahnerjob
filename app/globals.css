@@ -603,3 +603,8 @@ input[list]:focus {
 /* Kein horizontaler Scrollbalken im News-Bereich */
 .section .news-grid{ overflow-x: hidden; }
 /* ======================================================================== */
+/* NEWS CARD FIX */
+.news-rail { overflow: hidden; }
+.news-rail .card { overflow: hidden; text-overflow: ellipsis; }
+.news-rail a { text-decoration: none; }
+.news-rail a:hover { border-color: rgb(82,82,88); }

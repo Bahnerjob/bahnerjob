@@ -1,51 +1,38 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 
 type Item = { id: string; title: string; url: string; source?: string; published?: string };
 
 export default function HomeNews({ limit = 8 }: { limit?: number }) {
-  const [items, setItems] = useState<Item[]>([]);
-  const [failed, setFailed] = useState(false);
-
+  const [items, setItems] = useState<Item[] | null>(null);
   useEffect(() => {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 6000);
-    fetch("/api/railnews", { cache: "no-store", signal: ctrl.signal })
-      .then(r => r.ok ? r.json() : Promise.reject(new Error(String(r.status))))
-      .then((data: Item[]) => {
-        if (Array.isArray(data)) setItems(data.slice(0, limit));
-        else setItems([]);
-      })
-      .catch(() => setFailed(true))
-      .finally(() => clearTimeout(timer));
-    return () => { ctrl.abort(); clearTimeout(timer); };
+    let alive = true;
+    fetch("/api/railnews", { cache: "no-store" })
+      .then(r => r.json())
+      .then((data: Item[]) => { if (alive) setItems(Array.isArray(data) ? data.slice(0, limit) : []); })
+      .catch(() => { if (alive) setItems([]); });
+    return () => { alive = false; };
   }, [limit]);
 
-  // Fallback: bei Fehlern oder leerer Liste auf der Startseite NICHT crashen.
-  if (failed || items.length === 0) return null;
-
   return (
-    <section className="section p-5 md:p-6" aria-labelledby="home-news">
+    <section className="section p-5">
       <div className="flex items-center justify-between">
-        <h3 id="home-news" className="text-lg font-semibold">News</h3>
-        <Link href="/news" className="btn btn-ghost">Alle News</Link>
+        <h3 className="text-lg font-semibold">Aktuelle Bahn-News</h3>
+        <a href="/news" className="btn btn-ghost">Alle News</a>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map((n) => (
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 overflow-hidden">
+        {(items ?? Array.from({ length: limit })).map((it, i) => (
           <a
-            key={n.id}
-            href={n.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block rounded-xl border border-[var(--border)] bg-[var(--panel-2)] p-4 hover:border-neutral-600 focus:outline-none focus:ring-2 focus:ring-red-500/30"
+            key={it ? it.id : "s"+i}
+            href={it ? it.url : "#"}
+            target={it ? "_blank" : undefined}
+            rel={it ? "noopener noreferrer" : undefined}
+            className="block rounded-xl border border-[var(--border)] bg-[var(--panel-2)] p-4 hover:border-neutral-600 focus:outline-none focus:ring-2 focus:ring-red-500/30 leading-snug overflow-hidden"
           >
-            <div className="text-xs text-[var(--fg-muted)]">
-              {n.published ? new Date(n.published).toLocaleDateString("de-DE") : (n.source ?? "Quelle")}
-            </div>
-            <div className="mt-1 font-medium leading-snug">{n.title}</div>
+            <div className="text-sm text-[var(--fg-muted)]">{it?.source ?? "Lädt..."}</div>
+            <div className="mt-1 font-medium">{it?.title ?? ""}</div>
           </a>
         ))}
       </div>
