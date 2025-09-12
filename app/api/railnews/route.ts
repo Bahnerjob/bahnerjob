@@ -8,5 +8,5 @@ export async function GET(){
     { id:"n2", title:"Demo: SWEG startet weitere TfZ-Ausbildungsklassen", date:"2025-09-08", link:"#"},
     { id:"n3", title:"Demo: metronom erweitert Quereinstieg", date:"2025-09-05", link:"#"},
   ];
-  return NextResponse.json({status:"demo", items, generatedAt:new Date().toISOString()});
+  return NextResponse.json({status:"ok", items, generatedAt:new Date().toISOString()});
 }
