@@ -1,42 +1,41 @@
-"use client";
-import React from "react";
 import Link from "next/link";
+import { fetchRailNews } from "../../lib/railnews";
 
-type Item = { source: string; title: string; link: string; date?: string };
+export const revalidate = 900;
 
-export default function NewsPage() {
-  const [items, setItems] = React.useState<Item[] | null>(null);
-  const [err, setErr] = React.useState<string | null>(null);
+export const metadata = {
+  title: "Eisenbahn-News  Bahnerjob",
+  description: "Aktuelle Nachrichten aus dem deutschsprachigen Bahnsektor."
+};
 
-  React.useEffect(() => {
-    let alive = true;
-    fetch("/api/railnews", { cache: "no-store" })
-      .then(r => r.ok ? r.json() : Promise.reject(r.statusText))
-      .then(j => { if (alive) setItems(j.items as Item[]); })
-      .catch(e => { if (alive) setErr("News konnten nicht geladen werden."); });
-    return () => { alive = false; };
-  }, []);
+export default async function NewsPage(){
+  const items = await fetchRailNews(40);
 
   return (
-    <main className="page-wrap">
-      <header style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
-        <h1 className="h1">Eisenbahn-News</h1>
-        <Link className="btn" href="/">Zur Startseite</Link>
+    <main className="mx-auto max-w-4xl px-4 py-10 space-y-6">
+      <header>
+        <h1 className="text-2xl font-bold tracking-tight">Eisenbahn-News</h1>
+        <p className="text-neutral-400 mt-1">Aktuelle Meldungen aus Deutschland, Österreich und der Schweiz.</p>
       </header>
 
-      {err && <div className="muted" style={{marginTop:12}}>{err}</div>}
-      {!items && !err && <div className="muted" style={{marginTop:12}}>Lade News </div>}
+      <section className="grid gap-3">
+        {items.map(n => (
+          <a key={n.id} href={n.link} target="_blank" rel="noreferrer"
+             className="section p-4 hover:border-neutral-600">
+            <div className="text-xs text-neutral-400">{n.source}</div>
+            <div className="mt-1 font-semibold">{n.title}</div>
+          </a>
+        ))}
+        {!items.length && (
+          <div className="section p-6 text-neutral-400">
+            Gerade keine News verfügbar. Bitte später erneut versuchen.
+          </div>
+        )}
+      </section>
 
-      {items && (
-        <div style={{display:"grid", gap:"12px", marginTop:"16px"}}>
-          {items.map((n, i) => (
-            <a key={i} href={n.link} target="_blank" rel="noopener noreferrer" className="card-link">
-              <div className="muted" style={{ fontSize: 12 }}>{n.source}{n.date ? "  " + new Date(n.date).toLocaleDateString("de-DE") : ""}</div>
-              <div style={{ marginTop: 4, fontWeight: 700, lineHeight: 1.25 }}>{n.title}</div>
-            </a>
-          ))}
-        </div>
-      )}
+      <div className="text-sm text-neutral-500">
+        Quellen verwaltest du in <code>lib/railnews.ts</code> (Array <code>FEEDS</code>).
+      </div>
     </main>
   );
 }
