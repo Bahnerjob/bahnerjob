@@ -1,3 +1,4 @@
+import SelectDark from "../../components/SelectDark";
 "use client";
 
 import React from "react";
@@ -86,13 +87,13 @@ export default function NewJobPage() {
             </div>
             <div>
               <label className="muted" htmlFor="type">Beschäftigungsart</label>
-              <select id="type" value={form.type} onChange={up("type")} className="select select-dark">
+              <SelectDark id="type" value={form.type} onChange={up("type")} className="select select-dark">
                 <option value="">Bitte wählen </option>
                 <option>Vollzeit</option>
                 <option>Teilzeit</option>
                 <option>Ausbildung</option>
                 <option>Befristet</option>
-              </select>
+              </SelectDark>
             </div>
           </div>
 

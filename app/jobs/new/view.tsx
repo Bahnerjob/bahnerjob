@@ -1,3 +1,4 @@
+import SelectDark from "../../components/SelectDark";
 "use client";
 
 import { useMemo, useState } from "react";
@@ -179,7 +180,7 @@ export default function View() {
               <div className="form-grid-4">
                 <div className="field min-w-0">
                   <label className="label block">Land</label>
-                  <select className="select-dark" 
+                  <SelectDark className="select-dark" 
                     value={country}
                     onChange={(e) => setCountry(e.target.value as Country)}
                     className="select w-full"
@@ -189,7 +190,7 @@ export default function View() {
                     <option value="AT">Österreich</option>
                     <option value="CH">Schweiz</option>
                     <option value="INTL">Ausland (international)</option>
-                  </select>
+                  </SelectDark>
                 </div>
 
                 <div className="field min-w-0">

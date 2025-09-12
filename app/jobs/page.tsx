@@ -1,5 +1,7 @@
 import Link from "next/link";
+import SelectDark from "../../components/SelectDark";
 import JobsListClient, { type Job } from "../../components/JobsList.client";
+import SelectDark from "../../components/SelectDark";
 
 export const revalidate = 300;
 

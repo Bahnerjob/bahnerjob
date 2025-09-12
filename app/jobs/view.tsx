@@ -1,3 +1,4 @@
+import SelectDark from "../../components/SelectDark";
 "use client";
 
 import { useMemo } from "react";
@@ -97,12 +98,12 @@ export default function JobsView() {
           <div className="row-2">
             <div className="field">
               <label htmlFor="bl" className="label">Bundesland</label>
-              <select id="bl" name="bl" className="input select-dark" defaultValue={bl}>
+              <SelectDark id="bl" name="bl" className="input select-dark" defaultValue={bl}>
                 <option value="">Alle</option>
                 {BUNDESLAENDER.map((s) => (
                   <option key={s} value={s}>{s}</option>
                 ))}
-              </select>
+              </SelectDark>
             </div>
             <div className="field" style={{alignSelf:"end"}}>
               <button className="btn btn-accent" type="submit">Filtern</button>

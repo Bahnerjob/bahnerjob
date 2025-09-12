@@ -1,3 +1,4 @@
+import SelectDark from "./SelectDark";
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -39,19 +40,19 @@ export default function JobFilters() {
         onKeyDown={(e)=>{ if(e.key==="Enter") apply(); }}
         aria-label="Job-Suche"
       />
-      <select className="select select-dark" value={country} onChange={(e)=>setCountry(e.target.value)} aria-label="Land">
+      <SelectDark className="select select-dark" value={country} onChange={(e)=>setCountry(e.target.value)} aria-label="Land">
         <option value="">Alle Länder</option>
         <option value="DE">Deutschland</option>
         <option value="AT">Österreich</option>
         <option value="CH">Schweiz</option>
         <option value="INTL">Ausland</option>
-      </select>
-      <select className="select select-dark" value={pkg} onChange={(e)=>setPkg(e.target.value)} aria-label="Paket">
+      </SelectDark>
+      <SelectDark className="select select-dark" value={pkg} onChange={(e)=>setPkg(e.target.value)} aria-label="Paket">
         <option value="">Alle Pakete</option>
         <option value="boost">Boost</option>
         <option value="featured">Featured</option>
         <option value="basic">Basic</option>
-      </select>
+      </SelectDark>
       <div className="flex gap-2">
         <button onClick={apply} className="btn btn-accent rounded-lg px-3 py-2 font-semibold">Filtern</button>
         <button onClick={reset} className="btn rounded-lg px-3 py-2 border border-neutral-800">Zurücksetzen</button>
