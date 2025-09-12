@@ -249,3 +249,105 @@ select.select-dark option { background-color: rgb(23,23,24); color: rgba(235,235
   font-size: 14px !important;
 }
 /* ========================================================================== */
+
+/* === APP-ROOT: dunkle Dropdowns projektweit ================================= */
+.app-root {
+  color-scheme: dark;
+}
+
+/* Native <select> + Varianten */
+.app-root select:not(.allow-light),
+.app-root select.select-dark,
+.app-root .select,
+.app-root .input[type="search"],
+.app-root .input[type="text"],
+.app-root .input[type="email"],
+.app-root .input[type="number"],
+.app-root .input {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px !important;
+  padding: 10px 36px 10px 12px !important;
+  font-size: 14px !important;
+  line-height: 1.25 !important;
+  -webkit-appearance: none; appearance: none;
+}
+
+.app-root select:not(.allow-light),
+.app-root select.select-dark {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20' fill='none'><path d='M5 8l5 5 5-5' stroke='%23bfbfc4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px 12px;
+}
+.app-root select::-ms-expand { display:none; }
+.app-root select option {
+  background: rgb(23,23,24);
+  color: rgba(235,235,240,.95);
+}
+
+/* Fokus */
+.app-root select:focus,
+.app-root .select:focus,
+.app-root .input:focus {
+  outline: none !important;
+  border-color: rgb(72,72,78) !important;
+  box-shadow: 0 0 0 2px rgba(120,120,128,.15) !important;
+}
+
+/* HeadlessUI Combobox/Listbox (generisch) */
+.app-root [role="combobox"]:not(.allow-light),
+.app-root [data-headlessui-state]:not(.allow-light),
+.app-root .ui-listbox-button:not(.allow-light),
+.app-root button[aria-haspopup="listbox"]:not(.allow-light),
+.app-root [data-state][aria-haspopup="listbox"]:not(.allow-light) {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px !important;
+  padding: 10px 36px 10px 12px !important;
+  font-size: 14px !important;
+}
+
+/* react-select */
+.app-root .react-select__control {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px !important;
+  min-height: 42px;
+}
+.app-root .react-select__single-value,
+.app-root .react-select__input-container input { color: rgba(235,235,240,.95) !important; }
+.app-root .react-select__menu {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+}
+
+/* rc-select */
+.app-root .rc-select-selector {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px !important;
+  min-height: 42px;
+}
+.app-root .rc-select-dropdown {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+}
+
+/* Datalist (input[list]) */
+.app-root input[list]:not(.allow-light) {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px !important;
+  padding: 10px 12px !important;
+  font-size: 14px !important;
+}
+/* =========================================================================== */
