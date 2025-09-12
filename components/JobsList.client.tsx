@@ -63,7 +63,7 @@ export default function JobsListClient({ initial }: { initial: Job[] }) {
           }}
         />
         <div style={{display:"grid", gridTemplateColumns:"1fr 1fr", gap:"10px"}}>
-          <select
+          <SelectDark
             className="select-dark"
             value={region}
             onChange={e => setRegion(e.target.value)}
@@ -86,9 +86,9 @@ export default function JobsListClient({ initial }: { initial: Job[] }) {
             <option>Sachsen-Anhalt</option>
             <option>Schleswig-Holstein</option>
             <option>Thüringen</option>
-          </select>
+          </SelectDark>
 
-          <select
+          <SelectDark
             className="select-dark"
             value={type}
             onChange={e => setType(e.target.value)}
@@ -100,7 +100,7 @@ export default function JobsListClient({ initial }: { initial: Job[] }) {
             <option value="ausbildung">Ausbildung</option>
             <option value="werkstudent">Werkstudent</option>
             <option value="befristet">Befristet</option>
-          </select>
+          </SelectDark>
         </div>
       </div>
 
