@@ -26,9 +26,9 @@ a{ color: rgb(var(--text)); text-decoration: none; }
 a:hover{ color: rgb(var(--text) / .9); }
 
 /* Layout helpers (mittig) */
-.container-bj{ @apply mx-auto max-w-4xl px-4; }    /* bewusst schmal für mittig & ruhig */
-.section{ @apply py-14; }
-.centered{ @apply text-center; }
+.container-bj{ /* removed: @apply mx-auto max-w-4xl px-4; */ }    /* bewusst schmal für mittig & ruhig */
+.section{ /* removed: @apply py-14; */ }
+.centered{ /* removed: @apply text-center; */ }
 .divider{ height:1px; background: rgb(var(--divider) / .4); }
 
 /* Moderne Buttons  klar erkennbar */
@@ -65,8 +65,8 @@ a:hover{ color: rgb(var(--text) / .9); }
 }
 
 /* Typo Scales */
-.h1-bj{ @apply text-4xl sm:text-5xl font-semibold tracking-tight; letter-spacing:-.01em; }
-.h2-bj{ @apply text-2xl font-semibold; letter-spacing:-.01em; }
+.h1-bj{ /* removed: @apply text-4xl sm:text-5xl font-semibold tracking-tight; */ letter-spacing:-.01em; }
+.h2-bj{ /* removed: @apply text-2xl font-semibold; */ letter-spacing:-.01em; }
 .lead{ color: rgb(var(--text) / .9); }
 
 /* Header minimal */
@@ -425,4 +425,10 @@ html,body{ background: rgb(12,12,14); color: rgba(235,235,240,.92); }
 @media (max-width: 640px){
   .brand-wordmark{ font-size: 16px; }
   .nav-link{ display:none; } /* optional: nur CTA auf Mobile */
+}
+    
+/* container fallback (statt @apply max-w-4xl mx-auto px-4) */
+.container{
+  max-width:56rem; margin-left:auto; margin-right:auto;
+  padding-left:1rem; padding-right:1rem;
 }
