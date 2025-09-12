@@ -12,7 +12,7 @@ export default function PricingPage() {
       <section className="section p-6 sm:p-8">
         <div className="section-head">
           <h1 className="text-2xl font-extrabold tracking-tight">Pakete &amp; Preise</h1>
-          <span className="badge-accent">ohne Abo &middot; klare Laufzeit</span>
+          <span className="badge-accent"><span className="badge-accent">ohne Abo &middot; klare Laufzeit</span></span>
         </div>
 
         <div className="pricing-grid mt-4">
@@ -28,7 +28,7 @@ export default function PricingPage() {
               <li>Saubere Darstellung (mobil &amp; Desktop)</li>
               <li>&Auml;nderungen w&auml;hrend der Laufzeit m&ouml;glich</li>
             </ul>
-            <div className="mt-4 flex gap-8 items-center">
+            <div className="pricing-cta">
               <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Basic buchen</Link>
               <Link href="/jobs" className="link-like">Beispiele ansehen</Link>
             </div>
@@ -46,7 +46,7 @@ export default function PricingPage() {
               <li>Mehr Sichtbarkeit auf der Startseite</li>
               <li>Alle Vorteile von Basic inklusive</li>
             </ul>
-            <div className="mt-4 flex gap-8 items-center">
+            <div className="pricing-cta">
               <Link href="/jobs/new?pkg=featured" className="btn btn-primary">Featured buchen</Link>
               <Link href="/jobs" className="link-like">Beispiele ansehen</Link>
             </div>

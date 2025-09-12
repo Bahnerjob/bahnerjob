@@ -853,3 +853,41 @@ ul.benefits li{ margin-bottom:6px; }
   background: var(--panel-2); color:var(--fg-muted);
 }
 /* ====================================================================== */
+
+/* === PRICING POLISH ====================================================== */
+.pricing-grid{ display:grid; gap:14px; }
+@media (min-width:640px){ .pricing-grid{ grid-template-columns:repeat(3,1fr); } }
+
+.pricing-card{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  transition: border-color .15s ease, transform .06s ease;
+}
+.pricing-card:hover{ border-color: rgb(72,72,78); transform: translateY(-1px); }
+
+.pricing-title{ font-weight:800; letter-spacing:-0.01em; }
+
+.price{
+  display:flex; align-items:baseline; gap:8px; margin-top:8px;
+  font-weight:800; letter-spacing:-0.01em;
+}
+.price .amount{ font-size:30px; line-height:1; }
+.price .per{ font-size:12px; color: var(--fg-muted); }
+
+ul.benefits{ margin:12px 0 0; padding-left:18px; color: var(--fg-muted); }
+ul.benefits li{ margin-bottom:6px; }
+
+.badge-accent{
+  display:inline-block; font-size:11px; padding:4px 9px;
+  border-radius: 999px; border:1px solid var(--border);
+  background: var(--panel-2); color: var(--fg-muted);
+}
+
+.pricing-cta{ margin-top:14px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.pricing-note{ margin-top:12px; font-size:12px; color: var(--fg-muted); }
+
+/* Karten im mittleren Layout etwas luftiger */
+.section .section-head{ margin-bottom: 10px; }
+/* ======================================================================== */
