@@ -1,4 +1,4 @@
-"use client";
+
 import Link from "next/link";
 import SelectDark from "../../components/SelectDark";
 import JobsListClient, { type Job } from "../../components/JobsList.client";
