@@ -104,7 +104,7 @@ export default function HomePage() {
           <Link href="/news" className="btn btn-secondary">Alle News</Link>
         </div>
         <div className="container" style={{marginTop:"16px"}}>
-          <NewsRailClient />
+          <HomeNews limit={6} />
         </div>
       </section>
     </div>
