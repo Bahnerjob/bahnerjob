@@ -829,3 +829,27 @@ main h3 { font-weight: 700; letter-spacing:-0.01em; }
 .faq summary { cursor: pointer; font-weight:600; }
 .faq p { color: var(--fg-muted); margin-top:6px; }
 /* ========================================================================== */
+/* === PRICING CARDS ===================================================== */
+.pricing-grid{ display:grid; gap:12px; }
+@media (min-width:640px){ .pricing-grid{ grid-template-columns:repeat(3,1fr); } }
+.pricing-card{
+  background: var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px;
+}
+.pricing-title{ font-weight:800; letter-spacing:-0.01em; }
+.price{
+  display:flex; align-items:baseline; gap:6px;
+  margin-top:6px; font-weight:800; letter-spacing:-0.01em;
+}
+.price .amount{ font-size:28px; line-height:1; }
+.price .per{ font-size:12px; color:var(--fg-muted); }
+ul.benefits{ margin:10px 0 0; padding-left:18px; color:var(--fg-muted); }
+ul.benefits li{ margin-bottom:6px; }
+.badge-accent{
+  display:inline-block; font-size:11px; padding:3px 8px;
+  border-radius:999px; border:1px solid var(--border);
+  background: var(--panel-2); color:var(--fg-muted);
+}
+/* ====================================================================== */

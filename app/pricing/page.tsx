@@ -1,97 +1,69 @@
 import Link from "next/link";
 
 export const revalidate = 0;
-
 export const metadata = {
-  title: "Pakete & Preise  Bahnerjob",
-  description: "Klare Pakete für Stellenanzeigen im Bahnsektor: Basic, Featured, Boost. Schnell online, moderne Darstellung."
+  title: "Pakete & Preise Â· Bahnerjob",
+  description: "Transparente Pakete fÃ¼r Stellenanzeigen im Bahnsektor."
 };
 
 export default function PricingPage() {
   return (
     <main className="mx-auto container py-10 space-y-8">
-      {/* HERO */}
-      <section className="section" style={{padding:"18px 16px"}}>
+      <section className="section p-6 sm:p-8">
         <div className="section-head">
-          <h1 className="text-xl font-bold">Pakete & Preise</h1>
-          <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Anzeige erstellen</Link>
+          <h1 className="text-2xl font-extrabold tracking-tight">Pakete & Preise</h1>
+          <span className="badge-accent">ohne Abo Â· klare Laufzeit</span>
         </div>
-        <p className="text-[14px]" style={{color:"var(--fg-muted)"}}>
-          Wähle das Paket, das zu deiner Reichweite passt. Anzeigen sind schnell erstellt, klar formatiert und auf allen Geräten gut lesbar.
+
+        <div className="pricing-grid mt-4">
+          {/* BASIC */}
+          <article className="pricing-card">
+            <div className="pricing-title">Basic Listing</div>
+            <div className="price"><span className="amount">59,00 â‚¬</span><span className="per">/ Anzeige</span></div>
+            <ul className="benefits">
+              <li>Standardreichweite im Bahn-Umfeld</li>
+              <li>Saubere Darstellung (mobil & Desktop)</li>
+              <li>Ã„nderungen wÃ¤hrend der Laufzeit mÃ¶glich</li>
+            </ul>
+            <div className="mt-4 flex gap-8 items-center">
+              <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Basic buchen</Link>
+              <Link href="/jobs" className="link-like">Beispiele ansehen</Link>
+            </div>
+          </article>
+
+          {/* FEATURED */}
+          <article className="pricing-card" style={{borderColor:"rgb(82,82,88)"}}>
+            <div className="pricing-title">Featured Listing</div>
+            <div className="price"><span className="amount">149,00 â‚¬</span><span className="per">/ Anzeige</span></div>
+            <ul className="benefits">
+              <li>Hervorgehobene Kachel im Listing</li>
+              <li>Mehr Sichtbarkeit auf der Startseite</li>
+              <li>Alle Vorteile von Basic inklusive</li>
+            </ul>
+            <div className="mt-4 flex gap-8 items-center">
+              <Link href="/jobs/new?pkg=featured" className="btn btn-primary">Featured buchen</Link>
+              <Link href="/jobs" className="link-like">Beispiele ansehen</Link>
+            </div>
+          </article>
+
+          {/* BOOST */}
+          <article className="pricing-card">
+            <div className="pricing-title">Boost (Upgrade)</div>
+            <div className="price"><span className="amount">39,00 â‚¬</span><span className="per">/ Add-on</span></div>
+            <ul className="benefits">
+              <li>ZusÃ¤tzliche Platzierung/Push</li>
+              <li>StÃ¤rkere Aufmerksamkeit im Zeitraum</li>
+              <li>In Kombination mit Basic/Featured</li>
+            </ul>
+            <div className="mt-4">
+              <Link href="/jobs/new?pkg=boost" className="btn btn-secondary">Boost hinzufÃ¼gen</Link>
+            </div>
+          </article>
+        </div>
+
+        <p className="mt-6 text-sm text-[color:var(--fg-muted)]">
+          Preise inkl. USt., Abrechnung Â· sicher Ã¼ber Stripe.
         </p>
-      </section>
-
-      {/* PLANS */}
-      <section className="pricing-grid">
-        {/* Basic */}
-        <article className="pricing-card">
-          <div className="pricing-title">Basic</div>
-          <div className="price">€ 79</div>
-          <div className="price-meta">30 Tage Laufzeit</div>
-          <ul className="features">
-            <li><span className="dot" /> Standard-Listung im Job-Board</li>
-            <li><span className="dot" /> Mobile-optimierte Darstellung</li>
-            <li><span className="dot" /> Direkte Bewerbung beim Unternehmen</li>
-          </ul>
-          <div className="plan-cta">
-            <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Basic wählen</Link>
-            <Link href="/jobs" className="btn btn-secondary">Jobs ansehen</Link>
-          </div>
-        </article>
-
-        {/* Featured (Highlight) */}
-        <article className="pricing-card highlight">
-          <div className="pricing-title">Featured</div>
-          <div className="price">€ 129</div>
-          <div className="price-meta">30 Tage Laufzeit + Hervorhebung</div>
-          <ul className="features">
-            <li><span className="dot" /> Priorisierte Platzierung im Listing</li>
-            <li><span className="dot" /> Visuelle Hervorhebung (fällt stärker auf)</li>
-            <li><span className="dot" /> Alles aus Basic inklusive</li>
-          </ul>
-          <div className="plan-cta">
-            <Link href="/jobs/new?pkg=featured" className="btn btn-primary">Featured wählen</Link>
-            <Link href="/jobs/new?pkg=basic" className="btn btn-secondary">Lieber Basic?</Link>
-          </div>
-        </article>
-
-        {/* Boost */}
-        <article className="pricing-card">
-          <div className="pricing-title">Boost</div>
-          <div className="price">€ 199</div>
-          <div className="price-meta">45 Tage Laufzeit + Mehr Reichweite</div>
-          <ul className="features">
-            <li><span className="dot" /> Extra-Sichtbarkeit über den Zeitraum</li>
-            <li><span className="dot" /> Verlängerte Laufzeit</li>
-            <li><span className="dot" /> Alles aus Featured inklusive</li>
-          </ul>
-          <div className="plan-cta">
-            <Link href="/jobs/new?pkg=boost" className="btn btn-primary">Boost wählen</Link>
-            <Link href="/jobs/new?pkg=featured" className="btn btn-secondary">Oder Featured?</Link>
-          </div>
-        </article>
-      </section>
-
-      {/* FAQ */}
-      <section className="section" style={{padding:"16px"}}>
-        <h2 className="text-[16px] font-bold">Häufige Fragen</h2>
-        <div className="faq" style={{marginTop:"10px"}}>
-          <details>
-            <summary>Wie schnell ist eine Anzeige online?</summary>
-            <p>In wenigen Minuten. Inhalt eingeben, prüfen und veröffentlichen.</p>
-          </details>
-          <details>
-            <summary>Kann ich den Text später anpassen?</summary>
-            <p>Ja, du kannst Inhalte während der Laufzeit aktualisieren.</p>
-          </details>
-          <details>
-            <summary>Wie bezahle ich?</summary>
-            <p>Sicher und bequem  die Seite unterstützt moderne Zahlungsanbieter.</p>
-          </details>
-        </div>
-        <div style={{marginTop:"12px"}}>
-          <Link href="/jobs/new?pkg=basic" className="btn btn-primary">Jetzt Anzeige erstellen</Link>
-        </div>
       </section>
     </main>
   );
