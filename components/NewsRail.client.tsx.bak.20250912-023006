@@ -1,4 +1,5 @@
 "use client";
+
 import dynamic from "next/dynamic";
 
 // Wrapper lädt die bestehende Komponenten-Datei clientseitig.

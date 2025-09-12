@@ -1,5 +1,6 @@
-"use client";
 import SelectDark from "../../components/SelectDark";
+"use client";
+
 import { useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 

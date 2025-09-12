@@ -1,0 +1,251 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Design Tokens (neutral + rot) | KEIN Blau/Lila ===== */
+:root{
+  --bg: 10 10 11;         /* #0a0a0b */
+  --panel: 18 18 20;      /* #121214 */
+  --panel-soft: 24 24 28; /* #18181c */
+  --divider: 60 60 68;
+  --text: 235 235 240;
+  --muted: 158 158 168;
+  --accent: 220 38 38;    /* Rot */
+}
+
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{
+  background: rgb(var(--bg));
+  color: rgb(var(--text));
+  font-family: var(--font-inter, ui-sans-serif), system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+h1,h2,h3,h4{ font-family: var(--font-manrope, var(--font-inter)), system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+
+/* Links neutral (nicht blau/lila) */
+a{ color: rgb(var(--text)); text-decoration: none; }
+a:hover{ color: rgb(var(--text) / .9); }
+
+/* Layout helpers (mittig) */
+.container-bj{ @apply mx-auto max-w-4xl px-4; }    /* bewusst schmal für mittig & ruhig */
+.section{ @apply py-14; }
+.centered{ @apply text-center; }
+.divider{ height:1px; background: rgb(var(--divider) / .4); }
+
+/* Moderne Buttons  klar erkennbar */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  height:44px; min-width:44px; padding:0 16px;
+  font-weight:700; letter-spacing:.01em;
+  border-radius:14px; border:1px solid rgba(255,255,255,.08);
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease, filter .15s ease;
+}
+.btn:focus{ outline:2px solid rgba(var(--accent), .6); outline-offset:2px; }
+.btn-primary{
+  background: rgb(var(--accent)); color:#fff; border-color: rgb(var(--accent));
+  box-shadow: 0 8px 20px rgba(220,38,38,.25);
+}
+.btn-primary:hover{ filter:brightness(1.06); transform: translateY(-1px); }
+.btn-secondary{
+  background: rgba(255,255,255,.06); color: rgb(var(--text)); border-color: rgba(255,255,255,.12);
+}
+.btn-secondary:hover{ background: rgba(255,255,255,.1); transform: translateY(-1px); }
+
+/* Soft Panels  ohne harte Ränder */
+.panel-soft{
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)), rgb(var(--panel-soft));
+  border-radius:18px; padding:24px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.25);
+}
+
+/* Chips */
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 12px;border-radius:999px;font-size:12px;
+  background: rgba(255,255,255,.08); color: rgb(var(--text)/.9);
+}
+
+/* Typo Scales */
+.h1-bj{ @apply text-4xl sm:text-5xl font-semibold tracking-tight; letter-spacing:-.01em; }
+.h2-bj{ @apply text-2xl font-semibold; letter-spacing:-.01em; }
+.lead{ color: rgb(var(--text) / .9); }
+
+/* Header minimal */
+.site-header{
+  border-bottom:1px solid rgb(var(--divider)/.4);
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+  backdrop-filter: blur(6px);
+}
+
+/* Entfernt system-blaue Focus-Ringe */
+:focus-visible{ outline-color: rgb(var(--accent)); }
+
+/* (Hard fallback, falls irgendwas Styles killt) */
+body.bj-hard-dark{ background:#0a0a0b !important; color:#ebebf0 !important; }/* Einheitliches dunkles Select */
+.select-dark {
+  background-color: rgb(23, 23, 24);
+  border: 1px solid rgb(48, 48, 52);
+  color: rgba(235, 235, 240, 0.95);
+  border-radius: 0.5rem;
+  padding: 8px 12px;
+  font-size: 14px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.select-dark:focus {
+  outline: none;
+  border-color: rgb(99, 102, 241);
+}
+
+/* === unified dark select ======================================= */
+select.select-dark, .select-dark {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px;
+  padding: 10px 36px 10px 12px;
+  font-size: 14px;
+  line-height: 1.25;
+  color-scheme: dark; /* native Controls dunkel rendern */
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20' fill='none'><path d='M5 8l5 5 5-5' stroke='%23bfbfc4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px 12px;
+}
+select.select-dark:focus, .select-dark:focus {
+  outline: none;
+  border-color: rgb(72,72,78) !important;
+  box-shadow: 0 0 0 2px rgba(120,120,128,.15);
+}
+select.select-dark::-ms-expand { display:none; }
+select.select-dark option { background-color: rgb(23,23,24); color: rgba(235,235,240,.95); }
+/* =============================================================== */
+
+
+/* === FORCE DARK SELECT (global, robust) ================================== */
+:root select:not(.allow-light),
+:root select.select-dark {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px !important;
+  padding: 10px 36px 10px 12px !important; /* Platz für Chevron */
+  font-size: 14px !important;
+  line-height: 1.25 !important;
+  color-scheme: dark;
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20' fill='none'><path d='M5 8l5 5 5-5' stroke='%23bfbfc4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px 12px;
+}
+:root select:not(.allow-light):focus,
+:root select.select-dark:focus {
+  outline: none !important;
+  border-color: rgb(72,72,78) !important;
+  box-shadow: 0 0 0 2px rgba(120,120,128,.15) !important;
+}
+:root select::-ms-expand { display:none; }
+:root select option {
+  background-color: rgb(23,23,24);
+  color: rgba(235,235,240,.95);
+}
+/* ======================================================================== */
+
+/* === DROPDOWNS DARK THEME (native + libs) ================================= */
+/* Native <select> (Force) */
+:root select:not(.allow-light),
+:root select.select-dark {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px !important;
+  padding: 10px 36px 10px 12px !important;
+  font-size: 14px !important;
+  line-height: 1.25 !important;
+  color-scheme: dark;
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20' fill='none'><path d='M5 8l5 5 5-5' stroke='%23bfbfc4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px 12px;
+}
+:root select:not(.allow-light):focus,
+:root select.select-dark:focus {
+  outline: none !important;
+  border-color: rgb(72,72,78) !important;
+  box-shadow: 0 0 0 2px rgba(120,120,128,.15) !important;
+}
+:root select::-ms-expand { display:none; }
+:root select option { background-color: rgb(23,23,24); color: rgba(235,235,240,.95); }
+
+/* HeadlessUI (Listbox/Combobox)  generisch über Rollen/States */
+:root [role="combobox"]:not(.allow-light),
+:root [data-headlessui-state]:not(.allow-light),
+:root .ui-listbox-button:not(.allow-light) {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px !important;
+  padding: 10px 36px 10px 12px !important;
+  font-size: 14px !important;
+}
+
+/* Radix Select (Trigger ist meist ein Button mit aria-haspopup=listbox) */
+:root button[aria-haspopup="listbox"]:not(.allow-light),
+:root [data-state][aria-haspopup="listbox"]:not(.allow-light) {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px !important;
+  padding: 10px 36px 10px 12px !important;
+  font-size: 14px !important;
+}
+
+/* react-select */
+:root .react-select__control {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px !important;
+  min-height: 42px;
+}
+:root .react-select__single-value,
+:root .react-select__input-container input {
+  color: rgba(235,235,240,.95) !important;
+}
+:root .react-select__menu {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+}
+
+/* rc-select */
+:root .rc-select-selector {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px !important;
+  min-height: 42px;
+}
+:root .rc-select-dropdown {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+}
+
+/* Datalist (input[list]) */
+:root input[list]:not(.allow-light) {
+  background-color: rgb(23,23,24) !important;
+  border: 1px solid rgb(48,48,52) !important;
+  color: rgba(235,235,240,.95) !important;
+  border-radius: 10px !important;
+  padding: 10px 12px !important;
+  font-size: 14px !important;
+}
+/* ========================================================================== */

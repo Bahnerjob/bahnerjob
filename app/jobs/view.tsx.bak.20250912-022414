@@ -1,5 +1,5 @@
 "use client";
-import SelectDark from "../../components/SelectDark";
+
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -97,12 +97,12 @@ export default function JobsView() {
           <div className="row-2">
             <div className="field">
               <label htmlFor="bl" className="label">Bundesland</label>
-              <SelectDark id="bl" name="bl" className="input select-dark" defaultValue={bl}>
+              <select id="bl" name="bl" className="input select-dark" defaultValue={bl}>
                 <option value="">Alle</option>
                 {BUNDESLAENDER.map((s) => (
                   <option key={s} value={s}>{s}</option>
                 ))}
-              </SelectDark>
+              </select>
             </div>
             <div className="field" style={{alignSelf:"end"}}>
               <button className="btn btn-accent" type="submit">Filtern</button>
