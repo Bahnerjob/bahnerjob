@@ -1,41 +1,67 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 type Item = { id: string; title: string; url: string; source?: string; published?: string };
 
 export default function HomeNews({ limit = 8 }: { limit?: number }) {
   const [items, setItems] = useState<Item[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     let alive = true;
-    fetch("/api/railnews", { cache: "no-store" })
-      .then(r => r.json())
-      .then((data: Item[]) => { if (alive) setItems(Array.isArray(data) ? data.slice(0, limit) : []); })
-      .catch(() => { if (alive) setItems([]); });
+    (async () => {
+      try {
+        const res = await fetch("/api/railnews", { next: { revalidate: 900 } });
+        if (!res.ok) throw new Error(String(res.status));
+        const data: Item[] = await res.json();
+        if (alive) setItems(data.slice(0, limit));
+      } catch (e) {
+        if (alive) setError("no-news");
+      }
+    })();
     return () => { alive = false; };
   }, [limit]);
 
   return (
-    <section className="section p-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Aktuelle Bahn-News</h3>
-        <a href="/news" className="btn btn-ghost">Alle News</a>
+    <section className="section" aria-labelledby="home-news-title">
+      <div className="section-head">
+        <h3 id="home-news-title">News</h3>
+        <Link href="/news" className="btn btn-ghost" aria-label="Alle News ansehen">Alle News</Link>
       </div>
 
-      <div className="news-grid">
-        {(items ?? Array.from({ length: limit })).map((it, i) => (
-          <a
-            key={it ? it.id : "s"+i}
-            href={it ? it.url : "#"}
-            target={it ? "_blank" : undefined}
-            rel={it ? "noopener noreferrer" : undefined}
-            className="news-card"
-          >
-            <div className="text-sm text-[var(--fg-muted)]">{it?.source ?? "Lädt..."}</div>
-            <div className="mt-1 font-medium">{it?.title ?? ""}</div>
-          </a>
-        ))}
-      </div>
+      {!items && !error && (
+        <ul className="news-list" aria-busy="true" aria-live="polite">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <li className="news-item" key={i}>
+              <div className="news-link" style={{opacity:.5}}>
+                <span className="news-title">Lade News </span>
+                <span className="news-meta"> </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {error && (
+        <p className="text-neutral-400">Aktuell keine Meldungen verfügbar.</p>
+      )}
+
+      {items && (
+        <ul className="news-list">
+          {items.map((n) => (
+            <li className="news-item" key={n.id}>
+              <a className="news-link" href={n.url} target="_blank" rel="noopener noreferrer">
+                <span className="news-title">{n.title}</span>
+                <span className="news-meta">
+                  {n.source ?? "Quelle"}{n.published ? "  " + new Date(n.published).toLocaleDateString("de-DE") : ""}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }
