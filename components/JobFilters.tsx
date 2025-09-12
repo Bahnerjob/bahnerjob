@@ -1,5 +1,5 @@
-import SelectDark from "./SelectDark";
 "use client";
+import SelectDark from "./SelectDark";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
