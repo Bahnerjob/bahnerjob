@@ -607,17 +607,7 @@ input[list]:focus {
 .news-rail { overflow: hidden; }
 .news-rail .card { overflow: hidden; text-overflow: ellipsis; }
 .news-rail a { text-decoration: none; }
-.news-rail a:hover { border-color: rgb(82,82,88); }/* NEWS GRID */
-.news-grid{
-  display:grid;
-  gap:12px;
-  grid-template-columns:repeat(1,minmax(0,1fr));
-  overflow:hidden;
-}
-@media (min-width: 640px){ .news-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
-@media (min-width: 1024px){ .news-grid{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
-
-/* NEWS CARD  ruhiges Panel, keine harten Rahmen */
+.news-rail a:hover { border-color: rgb(82,82,88); }/* NEWS CARD  ruhiges Panel, keine harten Rahmen */
 .news-card{
   display:block;
   background: var(--panel-2);
@@ -650,5 +640,55 @@ input[list]:focus {
 }
 
 /* harte Scrollleisten verhindern, falls Inhalte breiter wären */
+.news-grid, .news-card{ scrollbar-width: none; }
+.news-grid::-webkit-scrollbar, .news-card::-webkit-scrollbar{ display:none; }
+/* NEWS GRID (stable, no overlap) */
+.news-grid{
+  display:grid;
+  gap:14px;
+  /* Füllt in Reihen, min 260px, sonst 1fr */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  align-items:stretch;
+  align-content:start;
+  overflow:hidden;
+  isolation:isolate; /* verhindert z-index Artefakte */
+}
+
+/* NEWS CARD  ruhiges Panel, volle Höhe, kein Translate-Hover */
+.news-card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  background: var(--panel-2);
+  color: var(--fg);
+  border-radius: 14px;
+  text-decoration:none;
+  border: 1px solid var(--border);
+  padding: 14px;
+  overflow:hidden;
+  word-break: break-word;
+  contain: layout paint; /* kapselt die Karte, verhindert Überschneidungen */
+  transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+}
+.news-card:hover{
+  border-color: rgb(72,72,78);
+  background: rgb(26,26,27);
+}
+.news-card:focus{ outline:none; box-shadow: 0 0 0 2px rgba(220,38,38,.25); }
+
+.news-card-source{
+  font-size:12px;
+  color: var(--fg-muted);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.news-card-title{
+  margin-top:6px;
+  font-weight:600;
+  line-height:1.35;
+  display:-webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow:hidden;
+}
+
+/* Scrollleisten konsequent aus */
 .news-grid, .news-card{ scrollbar-width: none; }
 .news-grid::-webkit-scrollbar, .news-card::-webkit-scrollbar{ display:none; }
