@@ -1,4 +1,4 @@
-import { getJobById } from "@/lib/jobs.sample";
+import { getJobById } from "@/lib/jobs";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
@@ -43,7 +43,7 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
         <div className="mt-1 text-neutral-400 text-sm">
           {metaLocation ? `${metaLocation}  ${metaCountry}` : metaCountry}
           <span className="mx-2"></span>
-          VerÃ¶ffentlicht: {posted}
+          Veröffentlicht: {posted}
           <span className="mx-2"></span>
           <span className={job.pkg === "boost" ? "badge badge-boost" : job.pkg === "featured" ? "badge badge-featured" : "badge badge-basic"}>
             {pkgLabel}
